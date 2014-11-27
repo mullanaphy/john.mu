@@ -1,0 +1,159 @@
+<?php
+    /**
+     * Phyneapple!
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to license@phyneapple.com so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\Phyneapple
+     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     *
+     * @var $this \PHY\View\Block
+     * @var $item \PHY\Model\Config
+     */
+?>
+<form action="<?= $_SERVER['REQUEST_URI'] ?>" class="form" method="post">
+    <?= $this->getXsrfIdField() ?>
+    <?= $this->child('message'); ?>
+    <div class="row">
+        <div class="columns small-6 large-6">
+            <div class="form-group">
+                <label for="config-key" class="control-label">Key</label>
+                <input id="config-key" class="form-control" name="config[key]" type="text"
+                       value="<?= $this->clean($item->key) ?>"/>
+            </div>
+        </div>
+        <div class="columns small-6 large-6">
+            <div class="form-group">
+                <label for="config-type" class="control-label">Type</label>
+                <select id="config-type" name="config[type]">
+                    <option value="variable">Variable</option>
+                    <option value="text">Text</option>
+                    <option value="date">Date</option>
+                    <option value="integer">Integer</option>
+                    <option value="decimal">Decimal</option>
+                    <option value="float">Float</option>
+                    <option value="boolean">Boolean</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="columns">
+            <div id="config-value-variable-holder"
+                 class="config-value-holder<?= $item->type !== 'variable' && $item->type
+                     ? ' hide'
+                     : '' ?>">
+                <label for="config-value-variable" class="control-label">Value</label>
+                <?php if ($item->type === 'variable' || !$item->type): ?>
+                    <input class="config-value" id="config-value-variable" name="config[value]" type="text"
+                           value="<?= $this->clean($item->value) ?> "/>
+                <?php else: ?>
+                    <input class="config-value" id="config-value-variable" type="text"/>
+                <?php endif ?>
+            </div>
+            <div id="config-value-text-holder" class="config-value-holder<?= $item->type !== 'text'
+                ? ' hide'
+                : '' ?>">
+                <label for="config-value-text" class="control-label">Value</label>
+                <?php if ($item->type === 'text'): ?>
+                    <textarea class="config-value" id="config-value-text" name="config[value]" rows="10"
+                              cols="30"><?= $this->clean($item->value) ?></textarea>
+                <?php else: ?>
+                    <textarea class="config-value" id="config-value-text" rows="10" cols="30"></textarea>
+                <?php endif ?>
+            </div>
+            <div id="config-value-date-holder" class="config-value-holder<?= $item->type !== 'date'
+                ? ' hide'
+                : '' ?>">
+                <label for="config-value-date" class="control-label">Value</label>
+                <?php if ($item->type === 'date'): ?>
+                    <input class="config-value" id="config-value-date" name="config[value]" type="datetime"
+                           value="<?= $this->clean($item->value) ?> "/>
+                <?php else: ?>
+                    <input class="config-value" id="config-value-date" type="datetime"/>
+                <?php endif ?>
+            </div>
+            <div id="config-value-integer-holder" class="config-value-holder<?= $item->type !== 'integer'
+                ? ' hide'
+                : '' ?>">
+                <label for="config-value-integer" class="control-label">Value</label>
+                <?php if ($item->type === 'integer'): ?>
+                    <input class="config-value" id="config-value-integer" name="config[value]" type="number"
+                           value="<?= (int)$item->value ?>"/>
+                <?php else: ?>
+                    <input class="config-value" id="config-value-integer" type="number"/>
+                <?php endif ?>
+            </div>
+            <div id="config-value-decimal-holder" class="config-value-holder<?= $item->type !== 'decimal'
+                ? ' hide'
+                : '' ?>">
+                <label for="config-value-decimal" class="control-label">Value</label>
+                <?php if ($item->type === 'decimal'): ?>
+                    <input class="config-value" id="config-value-decimal" name="config[value]" type="number"
+                           value="<?= (float)$item->value ?>"/>
+                <?php else: ?>
+                    <input class="config-value" id="config-value-decimal" type="number"/>
+                <?php endif ?>
+            </div>
+            <div id="config-value-float-holder" class="config-value-holder<?= $item->type !== 'float'
+                ? ' hide'
+                : '' ?>">
+                <label for="config-value-float" class="control-label">Value</label>
+                <?php if ($item->type === 'float'): ?>
+                    <input class="config-value" id="config-value-float" name="config[value]" type="number"
+                           value="<?= (float)$item->value ?>"/>
+                <?php else: ?>
+                    <input class="config-value" id="config-value-float" type="number"/>
+                <?php endif ?>
+            </div>
+            <div id="config-value-boolean-holder" class="config-value-holder<?= $item->type !== 'boolean'
+                ? ' hide'
+                : '' ?>">
+                <label for="config-value-boolean" class="control-label">Value</label>
+                <?php if ($item->type === 'boolean'): ?>
+                    <select class="config-value" id="config-value-boolean" name="config[value]">
+                        <option value="1"<?= $item->value
+                            ? ' selected="selected"'
+                            : '' ?>>True
+                        </option>
+                        <option value="0"<?= !$item->value
+                            ? ' selected="selected"'
+                            : '' ?>>False
+                        </option>
+                    </select>
+                <?php else: ?>
+                    <select class="config-value" id="config-value-boolean">
+                        <option value="1" selected="selected">True</option>
+                        <option value="0">False</option>
+                    </select>
+                <?php endif ?>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="form-group">
+        <button class="btn btn-primary">Save</button>
+    </div>
+    <script type="text/javascript">
+        !function($) {
+            $('#config-type').on('change', function() {
+                var type = $(this).val();
+                $('.config-value-holder').addClass('hide');
+                $('#config-value-' + type + '-holder').removeClass('hide');
+                $('.config-value').attr('name', '');
+                $('#config-value-' + type).attr('name', 'config[value]');
+            });
+        }(jQuery);
+    </script>
+</form>

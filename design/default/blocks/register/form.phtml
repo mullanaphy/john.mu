@@ -1,0 +1,46 @@
+<?php
+    /**
+     * Phyneapple!
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to license@phyneapple.com so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\Phyneapple
+     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     * 
+     * @var $this \PHY\View\Block
+     */
+?>
+<?php $request = $this->getRequest()?>
+<div class="register">
+    <h1>Please Register</h1>
+    <?=$this->child('login')?>
+    <form action="<?=$this->url('register')?>" method="post">
+        <?=$this->child('error')?>
+        <fieldset class="register-contact">
+            <dl class="register-contact-left">
+                <dt><label for="register-email">Email</label></dt>
+                <dd><input id="register-email" maxlength="255" name="email" placeholder="address@example.com" required="required" type="email"  value="<?=$this->clean($request->get('email', ''), ENT_QUOTES)?>" /></dd>
+            </dl>
+        </fieldset>
+        <fieldset class="register-password">
+            <dl class="register-password-left">
+                <dt><label for="register-password">Password</label></dt>
+                <dd><input id="register-password" name="password" required="required" type="password" /></dd>
+            </dl>
+        </fieldset>
+        <fieldset class="register-submit">
+            <input type="submit" value="Register" />
+        </fieldset>
+    </form>
+</div>

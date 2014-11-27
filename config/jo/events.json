@@ -1,0 +1,7 @@
+[
+    {
+        "on": "block/core/menu",
+        "class": "PHY/Event/Menu",
+        "method": "load"
+    }
+]

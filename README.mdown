@@ -1,0 +1,40 @@
+jo.mu
+================================================================================
+
+This is my personal website. All it does is basic blogging using markdown for
+making my posts pretty. Oh there's also a model for messages and I do plan on
+writing a cron script to look for messages that I haven't read yet within 24
+hours.
+
+I could have the messages go directly into my email address, yet I figured this
+way I can make sure the cron jerk is working and I won't get spam directly into
+my email.
+
+Requirements
+------------
+
+- PHP 5.4+
+- PHY\Phyneapple
+
+Submitting bugs and feature requests
+------------------------------------
+
+Please send bugs to me via
+[GitHub](https://github.com/mullanaphy/jo.mu/issues)
+
+Author
+------
+
+John Mullanaphy - <john@jo.mu> - <http://jo.mu/>
+That's it for now...
+
+License
+-------
+
+jo.mu is licensed under the Open Software License (OSL 3.0) -
+see the `LICENSE` file for details
+
+Acknowledgements
+----------------
+
+Nothing

@@ -1,0 +1,10 @@
+<div class="page-header">
+    <h1><?=
+            isset($title)
+                ? $this->clean($title)
+                : 'Maker of Things' ?></h1>
+</div>
+<?=
+    isset($bio)
+        ? $bio
+        : '<p>Seriously, I make things.</p>' ?>

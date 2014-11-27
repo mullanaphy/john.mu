@@ -1,0 +1,16 @@
+{
+    "default": {
+        "type": "mysqli",
+        "host": "localhost",
+        "username": "username",
+        "password": "password",
+        "table": "table"
+    },
+    "localhost": {
+        "type": "mysqli",
+        "host": "localhost",
+        "username": "username",
+        "password": "password",
+        "table": "table"
+    }
+}

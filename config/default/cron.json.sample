@@ -1,0 +1,9 @@
+[
+    {
+        "enabled": true,
+        "controller": "namespace/class",
+        "method": "method",
+        "parameters": [],
+        "expr": "* * * * * *"
+    }
+]

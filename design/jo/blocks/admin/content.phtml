@@ -1,0 +1,59 @@
+<h1>Hey <?= $user->name ?>!</h1>
+<p>Hope you're having a good day today. On the right side of this page is all the sections of this site you can edit. If
+    you end up having any problems, please contact John at <a href="mailto:john@jo.mu">john@jo.mu</a>.</p>
+<hr/>
+<div class="row">
+    <div class="columns small-4 large-4">
+        <h4>Settings:</h4>
+        <dl>
+            <dt>Email</dt>
+            <dd><?= $email ?></dd>
+        </dl>
+        <hr class="hidden-xs"/>
+        <a href="<?= $this->url('admin/config') ?>"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+    </div>
+    <div class="columns small-4 large-4">
+        <h4>Unread Messages:</h4>
+        <ul class="list-unstyled">
+            <?php if ($messages->count()): ?>
+                <?php foreach ($messages as $message): ?>
+                    <li>
+                        <dl>
+                            <dt><a
+                                    href="<?= $this->url('admin/message/id/' . $message->id()) ?>">From <?= $this->clean($message->name) ?>
+                                    <small>&lt;<?= $this->clean($message->email) ?>&gt;</small>
+                                </a>
+                            </dt>
+                            <dd><?= $this->clean($message->content) ?></dd>
+                        </dl>
+
+                    </li>
+                <?php endforeach ?>
+            <?php else: ?>
+                <li>No unread messages!</li>
+            <?php endif ?>
+        </ul>
+        <hr class="hidden-xs"/>
+        <a href="<?= $this->url('admin/message') ?>">Read</a>
+    </div>
+    <div class="columns small-4 large-4">
+        <h4>Blog:</h4>
+        <ul class="list-unstyled">
+            <?php if ($blog->count()): ?>
+                <?php foreach ($blog as $item): ?>
+                    <li><a href="<?= $this->url('admin/blog/id/' . $item->id()) ?>"><?= $item->title ?>
+                            <small>
+                                <time
+                                    datetime="<?= date('Y-m-d\TH:i:sa', strtotime($item->created)) ?>"><?= date('F j, Y', strtotime($item->created)) ?></time>
+                            </small>
+                        </a></li>
+                <?php endforeach ?>
+            <?php else: ?>
+                <li>No blog posts yet.</li>
+            <?php endif ?>
+        </ul>
+        <hr class="hidden-xs"/>
+        <a href="<?= $this->url('admin/blog/id/0') ?>"><i class="glyphicon glyphicon-plus-sign"></i> Post</a>
+    </div>
+</div>
+<hr class="visible-xs hidden-lg"/>

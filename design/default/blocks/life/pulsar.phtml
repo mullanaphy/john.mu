@@ -1,0 +1,227 @@
+<?php
+    /**
+     * Phyneapple!
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to license@phyneapple.com so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\Phyneapple
+     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     *
+     * @var $this \PHY\View\Block
+     */
+?>
+<?php
+    $width = 204;
+    $height = 204;
+?>
+<div class="land">
+    <div class="container">
+        <canvas id="canvas" height="<?= $height ?>" style="height:<?= $height ?>px;width:<?= $width ?>px;"
+                width="<?= $width ?>"></canvas>
+        <script type="text/javascript">
+            var pattern = values = [
+                {x: 2, y: 4, value: 1},
+                {x: 2, y: 5, value: 1},
+                {x: 3, y: 5, value: 1},
+                {x: 3, y: 6, value: 1},
+                {x: 4, y: 2, value: 1},
+                {x: 4, y: 5, value: 1},
+                {x: 4, y: 7, value: 1},
+                {x: 5, y: 2, value: 1},
+                {x: 5, y: 3, value: 1},
+                {x: 5, y: 4, value: 1},
+                {x: 5, y: 6, value: 1},
+                {x: 5, y: 7, value: 1},
+                {x: 6, y: 3, value: 1},
+                {x: 6, y: 5, value: 1},
+                {x: 6, y: 7, value: 1},
+                {x: 7, y: 4, value: 1},
+                {x: 7, y: 5, value: 1},
+                {x: 7, y: 6, value: 1},
+                {x: 2, y: 11, value: 1},
+                {x: 2, y: 12, value: 1},
+                {x: 3, y: 10, value: 1},
+                {x: 3, y: 11, value: 1},
+                {x: 4, y: 9, value: 1},
+                {x: 4, y: 11, value: 1},
+                {x: 4, y: 14, value: 1},
+                {x: 5, y: 9, value: 1},
+                {x: 5, y: 10, value: 1},
+                {x: 5, y: 12, value: 1},
+                {x: 5, y: 13, value: 1},
+                {x: 5, y: 14, value: 1},
+                {x: 6, y: 9, value: 1},
+                {x: 6, y: 11, value: 1},
+                {x: 6, y: 13, value: 1},
+                {x: 7, y: 10, value: 1},
+                {x: 7, y: 11, value: 1},
+                {x: 7, y: 12, value: 1},
+                {x: 14, y: 4, value: 1},
+                {x: 14, y: 5, value: 1},
+                {x: 13, y: 5, value: 1},
+                {x: 13, y: 6, value: 1},
+                {x: 12, y: 2, value: 1},
+                {x: 12, y: 5, value: 1},
+                {x: 12, y: 7, value: 1},
+                {x: 11, y: 2, value: 1},
+                {x: 11, y: 3, value: 1},
+                {x: 11, y: 4, value: 1},
+                {x: 11, y: 6, value: 1},
+                {x: 11, y: 7, value: 1},
+                {x: 10, y: 3, value: 1},
+                {x: 10, y: 5, value: 1},
+                {x: 10, y: 7, value: 1},
+                {x: 9, y: 4, value: 1},
+                {x: 9, y: 5, value: 1},
+                {x: 9, y: 6, value: 1},
+                {x: 14, y: 12, value: 1},
+                {x: 14, y: 11, value: 1},
+                {x: 13, y: 11, value: 1},
+                {x: 13, y: 10, value: 1},
+                {x: 12, y: 14, value: 1},
+                {x: 12, y: 11, value: 1},
+                {x: 12, y: 9, value: 1},
+                {x: 11, y: 14, value: 1},
+                {x: 11, y: 13, value: 1},
+                {x: 11, y: 12, value: 1},
+                {x: 11, y: 9, value: 1},
+                {x: 11, y: 10, value: 1},
+                {x: 10, y: 13, value: 1},
+                {x: 10, y: 11, value: 1},
+                {x: 10, y: 9, value: 1},
+                {x: 9, y: 12, value: 1},
+                {x: 9, y: 11, value: 1},
+                {x: 9, y: 10, value: 1}
+            ];
+            var canvas = document.getElementById('canvas'),
+                context2D = canvas.getContext('2d'),
+                tile = 12,
+                columns = canvas.width / tile,
+                rows = canvas.height / tile;
+        </script>
+        <script type="text/javascript">
+            function matrix(rows, columns, value) {
+                var matrix = [];
+                value = value || 0;
+                for (var row = 0; row < rows; ++row) {
+                    matrix[row] = [];
+                    for (var column = 0; column < columns; ++column) {
+                        matrix[row][column] = value;
+                    }
+                }
+                return matrix;
+            }
+            function arraySum(neighbors) {
+                var count = 0;
+                for (var i = 0; i < 8; ++i) {
+                    count += neighbors[i];
+                }
+                return count;
+            }
+        </script>
+        <script type="text/javascript">
+            !function () {
+                var stop = false,
+                    neighbors = function (x, y) {
+                        var previousRow,
+                            previousColumn,
+                            nextRow,
+                            nextColumn;
+
+                        if (x == 0) {
+                            previousRow = previous.length - 1;
+                            nextRow = x + 1;
+                        } else if (x >= previous.length - 1) {
+                            previousRow = x - 1;
+                            nextRow = 0;
+                        } else {
+                            previousRow = x - 1;
+                            nextRow = x + 1;
+                        }
+
+                        if (y == 0) {
+                            previousColumn = previous[0].length - 1;
+                            nextColumn = y + 1;
+                        } else if (y == previous[0].length) {
+                            previousColumn = y - 1;
+                            nextColumn = 0;
+                        } else {
+                            previousColumn = y - 1;
+                            nextColumn = y + 1;
+                        }
+
+                        return [
+                            previous[previousRow][previousColumn],
+                            previous[previousRow][y],
+                            previous[previousRow][nextColumn],
+                            previous[x][previousColumn],
+                            previous[x][nextColumn],
+                            previous[nextRow][previousColumn],
+                            previous[nextRow][y],
+                            previous[nextRow][nextColumn]
+                        ];
+                    },
+                    life = function () {
+                        if (stop) {
+                            return;
+                        }
+                        context2D.clearRect(0, 0, canvas.width, canvas.height);
+                        var newGrid = matrix(rows, columns, 0);
+                        for (var row = 0; row < rows; ++row) {
+                            for (var column = 0; column < columns; ++column) {
+                                var n = neighbors(row, column);
+                                var count = arraySum(n);
+                                if (count == 3 || previous[row][column] && count == 2) {
+                                    newGrid[row][column] = 1;
+                                }
+                                else {
+                                    newGrid[row][column] = 0;
+                                }
+                                if (previous[row][column]) {
+                                    context2D.fillStyle = '#fff';
+                                } else {
+                                    context2D.fillStyle = '#006400';
+                                }
+                                context2D.fillRect(row * tile, column * tile, tile, tile);
+                            }
+                        }
+                        previous = newGrid;
+                    },
+                    initPattern = function (matrix, values) {
+                        for (var i = 0, count = values.length; i < count; ++i) {
+                            matrix[values[i].x][values[i].y] = values[i].value;
+                        }
+                        return matrix;
+                    },
+                    previous = initPattern(matrix(rows, columns), pattern);
+
+                window.onload = function () {
+                    life();
+                    setInterval(life, 1000);
+                };
+                function canvasOnClickHandler() {
+                    stop = !stop;
+                }
+
+                canvas.addEventListener("click", canvasOnClickHandler, false);
+            }();
+        </script>
+    </div>
+    <div class="container">
+        <ul>
+            <li><a href="<?= $this->url('life/glider') ?>">Glider</a></li>
+            <li><strong>Pulsar</strong></li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+{
+  "name": "phy/briggs",
+  "description": "Personal blog.",
+  "keywords": [
+    "phyneapple",
+    "website",
+    "blog"
+  ],
+  "homepage": "http://jo.mu/",
+  "type": "blog",
+  "license": "The Open Software License v3.0",
+  "authors": [
+    {
+      "name": "John Mullanaphy",
+      "email": "john@jo.mu",
+      "homepage": "http://jo.mu/"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "phy/markup": "1.0.2",
+    "phy/variable": "1.0.2",
+    "michelf/php-markdown": "*",
+    "mailgun/mailgun-php": "1.7.1"
+  },
+  "autoload": {
+    "psr-0": {
+      "PHY": [
+        "src/",
+        "lib/"
+      ]
+    }
+  }
+}

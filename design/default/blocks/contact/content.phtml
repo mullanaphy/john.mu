@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Contact</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <?= $this->getLayout()->block('sidebar/location') ?>
+        </div>
+        <div class="col-sm-6">
+            <form action="<?= $this->url('contact') ?>" method="post" role="form">
+                <?= $this->child('contact/message') ?>
+                <div class="form-group">
+                    <label for="contact-name" class="control-label">Your Name</label>
+                    <input id="contact-name" class="form-control" name="email[name]" type="name"/>
+                </div>
+                <div class="form-group">
+                    <label for="contact-email" class="control-label">Your Email</label>
+                    <input id="contact-email" class="form-control" name="email[email]" type="email"/>
+                </div>
+                <div class="form-group">
+                    <label for="contact-message" class="control-label">Message</label>
+                    <textarea id="contact-message" class="form-control" name="email[message]" rows="5"
+                              cols="30"></textarea>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-danger">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

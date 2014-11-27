@@ -1,0 +1,50 @@
+<?php
+    /**
+     * Phyneapple!
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to license@phyneapple.com so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\Phyneapple
+     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     *
+     * @var $this \PHY\View\Block
+     * @var $Authorize \PHY\Model\Authorize
+     */
+?>
+<h1><a href="<?=$this->url('admin/authorize')?>">Manage ACL</a></h1>
+<?php if ($Authorize->exists()):?>
+        <h2>Editing: <?=$Authorize->request?></h2>
+    <?php endif;?>
+<form action="<?=$_SERVER['REQUEST_URI']?>" method="post">
+    <?=$this->child('message');?>
+    <fieldset>
+        <dl>
+            <dt>Request:</dt>
+            <dd><input<?php if ($Authorize->exists()) echo ' disabled="disabled"'?> name="request" type="text" value="<?=htmlspecialchars($Authorize->request, ENT_QUOTES, 'utf-8')?>" /></dd>
+        </dl>
+    </fieldset>
+    <fieldset>
+        <dl>
+            <dt>Allow:</dt>
+            <dd><textarea name="allow" rows="7" cols="30"><?=str_replace(' ', PHP_EOL, htmlspecialchars($Authorize->allow, ENT_QUOTES, 'UTF-8', false))?></textarea></dd>
+        </dl>
+        <dl>
+            <dt>Deny:</dt>
+            <dd><textarea name="deny" rows="7" cols="30"><?=str_replace(' ', PHP_EOL, htmlspecialchars($Authorize->deny, ENT_QUOTES, 'UTF-8', false))?></textarea></dd>
+        </dl>
+    </fieldset>
+    <fieldset class="submit">
+        <input type="submit" value="Save &raquo;" />
+    </fieldset>
+</form>

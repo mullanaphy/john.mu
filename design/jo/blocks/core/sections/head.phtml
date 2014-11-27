@@ -1,0 +1,50 @@
+<?php
+    /**
+     * Phyneapple!
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to license@phyneapple.com so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\Phyneapple
+     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     *
+     * @var $this \PHY\View\Block
+     * @var $js array
+     * @var $css array
+     * @var $xsrfId string
+     * @var $title string
+     * @see \PHY\View\Head
+     */
+?>
+<?php $tag = $this->tag()?>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="<?=isset($description)?$description:'A site that has tried out using Phyneapple'?>">
+<meta name="author" content="<?=isset($author)?$author:'John Mullanaphy <john@jo.mu>'?>">
+<title><?=isset($title)?$title:'Phyneapple!'?></title>
+<script src="<?= $this->url('jquery.min.js', 'js') ?>"></script>
+<script type="text/javascript">if(window.location.hash.toString().match('!')){var url=window.location.hash.toString().split('!');window.location=url[1];}</script>
+<link rel="shortcut icon" href="/favicon.ico" />
+<?php if(isset($xsrfId)):?><script type="text/javascript">!function(){window.xsrfId='<?=$xsrfId?>';}()</script><?php endif?>
+<?php
+    if(isset($js)):
+        foreach ($js as $file):
+            echo $tag->script->attributes($file);
+        endforeach;
+    endif;
+    if(isset($css)):
+        foreach ($css as $file):
+            echo $tag->link($file);
+        endforeach;
+    endif
+?>

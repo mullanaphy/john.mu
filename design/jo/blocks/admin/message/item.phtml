@@ -1,0 +1,59 @@
+<?php
+    /**
+     * Phyneapple!
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to license@phyneapple.com so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\Phyneapple
+     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     *
+     * @var $this \PHY\View\Block
+     * @var $item \PHY\Model\Blog
+     */
+?>
+<dl>
+    <dt>From:</dt>
+    <dd><?= $this->clean($item->name) ?> &lt;<a
+            href="mailto:<?= $this->clean($item->email) ?>"><?= $this->clean($item->email) ?></a>&gt;</dd>
+</dl>
+
+<dl>
+    <dt>Message:</dt>
+    <dd>
+        <pre><?= $this->clean($item->content) ?></pre>
+    </dd>
+</dl>
+<hr/>
+<form action="<?= $this->url('admin/reply') ?>" class="form" method="post">
+    <?= $this->getXsrfIdField() ?>
+    <?= $this->child('message'); ?>
+    <div class="form-group">
+        <label for="reply-from" class="control-label">From</label>
+        <input id="reply-from" class="form-control" name="reply[from]" type="text"
+               value="<?= isset($fields['from'])
+                   ? $this->clean($fields['from'])
+                   : '' ?>"/>
+    </div>
+    <div class="form-group">
+        <label for="blog-content" class="control-label">Reply</label>
+        <textarea class="form-control" id="blog-content" name="reply[content]" rows="20"
+                  cols="30"><?= isset($fields['content'])
+                ? $this->clean($fields['content'])
+                : '' ?></textarea>
+    </div>
+    <hr/>
+    <div class="form-group">
+        <button class="btn btn-primary">Send</button>
+    </div>
+</form>

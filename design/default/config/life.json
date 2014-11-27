@@ -1,0 +1,10 @@
+{
+    "content": {
+        "template": "life/content.phtml"
+    },
+    "head": {
+        "files": {
+            "js": ["alert.js"]
+        }
+    }
+}

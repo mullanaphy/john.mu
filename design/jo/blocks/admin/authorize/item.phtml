@@ -1,0 +1,47 @@
+<?php
+    /**
+     * Phyneapple!
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to license@phyneapple.com so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\Phyneapple
+     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     *
+     * @var $this \PHY\View\Block
+     * @var $item \PHY\Model\Authorize
+     */
+?>
+<form action="<?= $_SERVER['REQUEST_URI'] ?>" class="form" method="post">
+    <?= $this->getXsrfIdField() ?>
+    <?= $this->child('message'); ?>
+    <div class="form-group">
+        <label for="authorize-request" class="control-label">Request</label>
+        <input id="authorize-request" class="form-control" name="authorize[request]" type="text"
+               value="<?= $this->clean($item->request) ?>"/>
+    </div>
+    <div class="form-group">
+        <label for="authorize-allow" class="control-label">Allow</label>
+        <textarea class="form-control" id="authorize-deny" name="authorize[allow]" rows="7"
+                  cols="30"><?= str_replace(' ', PHP_EOL, $this->clean($item->allow)) ?></textarea>
+    </div>
+    <div class="form-group">
+        <label for="authorize-deny" class="control-label">Deny</label>
+        <textarea class="form-control" id="authorize-deny" name="authorize[deny]" rows="7"
+                  cols="30"><?= str_replace(' ', PHP_EOL, $this->clean($item->deny)) ?></textarea>
+    </div>
+    <hr/>
+    <div class="form-group">
+        <button class="btn btn-primary">Save</button>
+    </div>
+</form>

@@ -1,0 +1,1 @@
+;!function($){$.fn.viewportOffset=function(){var w=$(window);var o=$(this).offset();return{left:o.left-w.scrollLeft(),top:o.top-w.scrollTop()};};}(jQuery);

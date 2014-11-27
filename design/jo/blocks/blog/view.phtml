@@ -1,0 +1,7 @@
+<h1><?= $this->clean($item->title) ?>
+    <small>
+        <time
+            datetime="<?= date('Y-m-d\TH:i:sa', strtotime($item->created)) ?>"><?= date('F j, Y', strtotime($item->created)) ?></time>
+    </small>
+</h1>
+<?= $content ?>

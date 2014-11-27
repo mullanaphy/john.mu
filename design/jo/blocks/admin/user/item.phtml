@@ -1,0 +1,100 @@
+<?php
+    /**
+     * Phyneapple!
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to license@phyneapple.com so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\Phyneapple
+     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     *
+     * @var $this \PHY\View\Block
+     * @var $item \PHY\Model\User
+     */
+?>
+<form action="<?= $_SERVER['REQUEST_URI'] ?>" class="form" method="post">
+    <?= $this->child('message'); ?>
+    <div class="row">
+        <div class="columns small-6 large-6">
+            <div class="form-group">
+                <label for="user-name" class="control-label">Name</label>
+                <input id="user-name" class="form-control" name="user[name]" type="text"
+                       value="<?= $this->clean($item->name) ?>"/>
+            </div>
+        </div>
+        <div class="columns small-6 large-6">
+            <div class="form-group">
+                <label for="user-title" class="control-label">Permissions</label>
+                <select name="user[group]">
+                    <?php foreach ([
+                                       'regular' => 'Regular',
+                                       'admin' => 'Admin',
+                                       'super-admin' => 'Super Admin',
+                                   ] as $group => $label): ?>
+                        <option
+                            value="<?= $group ?>"<?php if ($item->group === $group): ?> selected="selected"<?php endif ?>><?= $label ?></option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="columns small-6 large-6">
+            <div class="form-group">
+                <label for="user-username" class="control-label">Username</label>
+                <input id="user-username" class="form-control" name="user[username]" type="text"
+                       value="<?= $this->clean($item->username) ?>"/>
+            </div>
+        </div>
+        <div class="columns small-6 large-6">
+            <div class="form-group">
+                <label for="user-email" class="control-label">Email</label>
+                <input id="user-email" class="form-control" name="user[email]" type="email"
+                       value="<?= $this->clean($item->email) ?>"/>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="form-group">
+        <label for="user-bio" class="control-label">Bio</label>
+        <textarea class="form-control" id="user-bio" name="user[bio]" rows="15"
+                  cols="30"><?= $this->clean($item->bio) ?></textarea>
+    </div>
+    <hr/>
+    <?php if ($item->name): ?>
+        <h4>Change Password<?php if ($item->exists()): ?>
+            <small>Filling these two fields will change <?= $this->clean($item->name) ?>'<?php if ($item->name[strlen($item->name) - 1] !== 's'): ?>s<?php endif ?><?php else: ?>this user's<?php
+                    endif ?> password.
+            </small>
+        </h4>
+    <?php endif ?>
+    <div class="row">
+        <div class="columns small-6 large-6">
+            <div class="form-group">
+                <label for="user-password" class="control-label">New Password</label>
+                <input id="user-password" class="form-control" name="user[password]" type="password"/>
+            </div>
+        </div>
+        <div class="columns small-6 large-6">
+            <div class="form-group">
+                <label for="user-confirm" class="control-label">Confirm New Password</label>
+                <input id="user-confirm" class="form-control" name="user[confirm]" type="password"/>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="form-group">
+        <button class="btn btn-primary">Save</button>
+    </div>
+</form>

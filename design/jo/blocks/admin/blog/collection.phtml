@@ -1,0 +1,71 @@
+<?php
+    /**
+     * Phyneapple!
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to license@phyneapple.com so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\Phyneapple
+     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     *
+     * @var $this \PHY\View\Block
+     * @var $collection \PHY\Model\Blog\Collection
+     */
+?>
+<?php $tag = $this->tag() ?>
+<?php $i = 0; ?>
+    <?= $this->child('message') ?>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Title</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (count($collection)): ?>
+            <?php foreach ($collection as $item): ?>
+                <tr class="blog-<?= $item->id() ?>">
+                    <td class="blog-<?= $item->id() ?>-created"><?=
+                            ($item->created !== '0000-00-00 00:00:00')
+                                ? $this->clean(date('Y-m-d', strtotime($item->created)))
+                                : '<i>N\A</i>' ?></td>
+                    <td class="blog-<?= $item->id() ?>-title"><?= $this->clean($item->title); ?></td>
+                    <td class="action"><?= $tag->helper()->url('Edit', '/admin/blog/id/' . $item->id()) ?></td>
+                    <td class="action">
+                        <?=
+                            $tag->helper()->url('Remove', '/admin/blog/id/' . $item->id(), [
+                                'class' => 'ajax',
+                                'data' => [
+                                    'method' => 'delete',
+                                    'confirm' => 'remove',
+                                    'message' => 'Are you sure you want to remove ' . $this->clean($item->title) . '?',
+                                    'type' => 'confirm',
+                                    'element' => '.blog-' . $item->id()
+                                ]
+                            ])?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="4">No articles have been posted yet. <a href="<?= $this->url('admin/blog/id/0') ?>"
+                                                                     class="btn btn-sm btn-primary">Add</a>
+                </td>
+            </tr>
+        <?php endif ?>
+        </tbody>
+    </table>
+    <?= $this->child('pagination') ?>

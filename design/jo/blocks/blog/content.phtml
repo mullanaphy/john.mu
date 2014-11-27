@@ -1,0 +1,19 @@
+<?php if ($collection->count()): ?>
+    <?php foreach ($collection as $item): ?>
+        <h1><a href="<?= $this->url('blog/' . $item->slug) ?>"><?= $this->clean($item->title) ?>
+                <small>
+                    <time
+                        datetime="<?= date('Y-m-d\TH:i:sa', strtotime($item->created)) ?>"><?= date('F j, Y', strtotime($item->created)) ?></time>
+                </small>
+            </a>
+        </h1>
+        <?= strip_tags(\Michelf\Markdown::defaultTransform($this->clean((new \PHY\Variable\Str(ucfirst($item->content)))->toShorten(512)))) ?>
+        <hr/>
+    <?php endforeach ?>
+    <?= $this->child('news/pagination') ?>
+<?php else: ?>
+    <h1>Enjoy my writings</h1>
+    <p>I'll mostly be writing about programming, comics, Brazilian jiu jitsu, and any other life events as I see
+        fit.</p>
+    <p>Right now there's nothing here since I'm still pretty darn lazy so give me a little time.</p>
+<?php endif ?>

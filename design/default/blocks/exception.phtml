@@ -1,0 +1,3 @@
+<?php if (isset($exception)): ?>
+<script type="text/javascript">/* <!CDATA[ */!function() {var console = window.console || {log: function() {}};console.log('Exception #<?=$exception->getCode()?> on <?=$exception->getFile()?>:<?=$exception->getLine()?>');console.log('<?=str_replace("'", "\'", $exception->getMessage())?>');}();/* ]]!> */</script>
+<?php endif;

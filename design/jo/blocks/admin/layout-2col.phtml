@@ -1,0 +1,86 @@
+<?php
+    /**
+     * Phyneapple!
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to license@phyneapple.com so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\Phyneapple
+     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     *
+     * @var $this \PHY\View\Block
+     */
+?>
+<!DOCTYPE html>
+<html>
+<head><?= $this->child('head'); ?></head>
+<body class="two-column">
+<?= $this->child('header') ?>
+<div class="container">
+    <?= $this->child('breadcrumb') ?>
+    <div class="row">
+        <div class="columns large-9 small-8 medium-9"><?= $this->child('content') ?></div>
+        <div class="columns large-3 small-8 medium-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">Manage:</div>
+                <div class="panel-body">
+                    <ul class="nav nav-divider">
+                        <?php $path = explode('/', $this->getLayout()->getController()->getRequest()->getUrl());
+                            if (count($path) > 2):
+                                $path = $path[2]; else:
+                                $path = false;
+                            endif ?>
+                        <?php if ($path === 'blog'): ?>
+                            <li><a href="<?= $this->url('admin/blog') ?>"><strong>Blog Posts</strong></a></li>
+                        <?php else: ?>
+                            <li><a href="<?= $this->url('admin/blog') ?>">Blog Posts</a></li>
+                        <?php endif ?>
+                        <?php if ($path === 'message'): ?>
+                            <li><a href="<?= $this->url('admin/message') ?>"><strong>Messages</strong></a></li>
+                        <?php else: ?>
+                            <li><a href="<?= $this->url('admin/message') ?>">Messages</a></li>
+                        <?php endif ?>
+                        <?php if ($path === 'user'): ?>
+                            <li><a href="<?= $this->url('admin/user') ?>"><strong>Users</strong></a></li>
+                        <?php else: ?>
+                            <li><a href="<?= $this->url('admin/user') ?>">Users</a></li>
+                        <?php endif ?>
+                        <?php if ($path === 'config'): ?>
+                            <li><a href="<?= $this->url('admin/config') ?>"><strong>Settings</strong></a></li>
+                        <?php else: ?>
+                            <li><a href="<?= $this->url('admin/config') ?>">Settings</a></li>
+                        <?php endif ?>
+                        <?php if ($path === 'authorize'): ?>
+                            <li><a href="<?= $this->url('admin/authorize') ?>"><strong>Access Control List</strong></a>
+                            </li>
+                        <?php else: ?>
+                            <li><a href="<?= $this->url('admin/authorize') ?>">Access Control List</a></li>
+                        <?php endif ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?= $this->child('footer') ?>
+    <script type="text/javascript" src="<?= $this->url('plugin/center.js', 'js') ?>"></script>
+    <script type="text/javascript" src="<?= $this->url('plugin/popup.js', 'js') ?>"></script>
+    <script type="text/javascript" src="<?= $this->url('plugin/deParam.js', 'js') ?>"></script>
+    <script type="text/javascript" src="<?= $this->url('ajax/settings.js', 'js') ?>"></script>
+    <script type="text/javascript" src="<?= $this->url('ajax/dispatcher.js', 'js') ?>"></script>
+    <script type="text/javascript" src="<?= $this->url('ajax/events.js', 'js') ?>"></script>
+    <script type="text/javascript" src="<?= $this->url('ajax/handler.js', 'js') ?>"></script>
+    <script type="text/javascript">!function($){$(function(){$(document).foundation()})}(jQuery);</script>
+</div>
+<?= $this->child('modal') ?>
+</body>
+</html>

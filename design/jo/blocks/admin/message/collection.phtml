@@ -1,0 +1,82 @@
+<?php
+    /**
+     * Phyneapple!
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to license@phyneapple.com so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\Phyneapple
+     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     *
+     * @var $this \PHY\View\Block
+     * @var $collection \PHY\Model\Blog\Collection
+     */
+?>
+<?php $tag = $this->tag() ?>
+<?php $i = 0; ?>
+<?= $this->child('message') ?>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>From</th>
+            <th>Email</th>
+            <th>Read</th>
+            <th>Replied</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (count($collection)): ?>
+            <?php foreach ($collection as $item): ?>
+                <tr class="message-<?= $item->id() ?>">
+                    <td class="message-<?= $item->id() ?>-created"><?=
+                            ($item->created !== '0000-00-00 00:00:00')
+                                ? $this->clean(date('Y-m-d', strtotime($item->created)))
+                                : '<i>N\A</i>' ?></td>
+                    <td class="message-<?= $item->id() ?>-name"><?= $this->clean($item->name); ?></td>
+                    <td><a href="mailto:<?= $this->clean($item->email); ?>"
+                           class="message-<?= $item->id() ?>-email"><?= $this->clean($item->email); ?></a></td>
+                    <td class="message-<?= $item->id() ?>-read"><?=
+                            ($item->read !== '0000-00-00 00:00:00')
+                                ? 'Yes'
+                                : '<b>NO</b>' ?></td>
+                    <td class="message-<?= $item->id() ?>-replied"><?=
+                            ($item->replied !== '0000-00-00 00:00:00')
+                                ? 'Yes'
+                                : '<b>NO</b>' ?></td>
+                    <td class="action"><?= $tag->helper()->url('Read', '/admin/message/id/' . $item->id()) ?></td>
+                    <td class="action">
+                        <?=
+                            $tag->helper()->url('Remove', '/admin/message/id/' . $item->id(), [
+                                'class' => 'ajax',
+                                'data' => [
+                                    'method' => 'delete',
+                                    'confirm' => 'remove',
+                                    'message' => 'Are you sure you want to this message from ' . $this->clean($item->name) . '?',
+                                    'type' => 'confirm',
+                                    'element' => '.message-' . $item->id()
+                                ]
+                            ]) ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="4">No messages have been sent yet.</td>
+            </tr>
+        <?php endif ?>
+        </tbody>
+    </table>
+<?= $this->child('pagination') ?>

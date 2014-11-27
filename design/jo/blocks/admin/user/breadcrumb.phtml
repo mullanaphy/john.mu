@@ -1,0 +1,9 @@
+<div class="row">
+    <div class="columns">
+        <h1><?php if (isset($item)): ?><a href="<?= $this->url('admin/user') ?>">
+                    Users</a> &raquo; <?php if ($item->exists()): ?>Editing <?= $this->clean($item->name) ?><?php else: ?>New User<?php endif ?><?php else: ?>Users
+            <a href="<?= $this->url('admin/user/id/0') ?>">
+                    <small><i class="glyphicon glyphicon-plus-sign"></i></small></a><?php endif ?>
+        </h1>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<?php
+    /**
+     * Phyneapple!
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to license@phyneapple.com so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\Phyneapple
+     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     *
+     * @var $this \PHY\View\Block
+     * @var $collection \PHY\Model\Config\Collection
+     */
+?>
+<?php $tag = $this->tag() ?>
+<?= $this->child('message') ?>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Type</th>
+            <th>Value</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (count($collection)): ?>
+            <?php foreach ($collection as $item): ?>
+                <tr class="config-<?= $item->id() ?>">
+                    <td class="config-<?= $item->id() ?>-key"><?= $this->clean($item->key); ?></td>
+                    <td class="config-<?= $item->id() ?>-type"><?= $this->clean($item->type); ?></td>
+                    <td class="config-<?= $item->id() ?>-value"><?= $this->clean($item->value); ?></td>
+                    <td class="action"><?= $tag->helper()->url('Edit', '/admin/config/id/' . $item->id()) ?></td>
+                    <td class="action">
+                        <?=
+                            $tag->helper()->url('Remove', '/admin/config/id/' . $item->id(), [
+                                'class' => 'ajax',
+                                'data' => [
+                                    'method' => 'delete',
+                                    'confirm' => 'remove',
+                                    'message' => 'Are you sure you want to remove ' . $this->clean($item->key) . '?',
+                                    'type' => 'confirm',
+                                    'element' => '.config-' . $item->id()
+                                ]
+                            ]) ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="4">No settings are configured yet. <a href="<?= $this->url('admin/config/id/0') ?>"
+                                                                   class="btn btn-sm btn-primary">Add</a>
+                </td>
+            </tr>
+        <?php endif ?>
+        </tbody>
+    </table>
+<?= $this->child('pagination') ?>

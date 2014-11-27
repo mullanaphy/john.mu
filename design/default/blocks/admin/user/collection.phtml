@@ -1,0 +1,70 @@
+<?php
+    /**
+     * Phyneapple!
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to license@phyneapple.com so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\Phyneapple
+     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     *
+     * @var $this \PHY\View\Block
+     * @var $collection \PHY\Model\User\Collection
+     */
+?>
+<?php $tag = $this->tag()?>
+<?php $i = 0;?>
+<?=$this->child('message')?>
+<h1>Manage Users</h1>
+<table class="data-table admin-users">
+    <colgroup>
+        <col style="width:50px;" />
+        <col />
+        <col style="width:100px;" />
+        <col style="width:100px;" />
+        <col style="width:100px;" />
+    </colgroup>
+    <thead><tr><th>ID</th><th>Name</th><th>Email</th><th></th><th></th></tr></thead>
+    <tbody>
+        <?php foreach ($collection as $User):?>
+                <tr class="<?=(++$i % 2)?'even':'odd'?>" id="user-collection-tr-<?=$i;?>">
+                    <td><?=$User->id?></td>
+                    <td><?=$User->name?></td>
+                    <td><?=$tag->helper()->url($User->email)?></td>
+                    <td class="action"><?=$tag->helper()->url('Edit', '/admin/user/id/'.$User->id)?></td>
+                    <td class="action">
+                        <?=$tag->helper()->url('Delete', [
+                            '/rest.php',
+                            'controller' => 'user',
+                            'id' => $User->id
+                            ], [
+                            'class' => 'ajax',
+                            'data' => [
+                                'method' => 'delete',
+                                'confirm' => 1,
+                                'message' => 'Are you sure you want to delete '.$User->name.'?',
+                                'type' => 'remove',
+                                'element' => '#user-collection-tr-'.$i
+                            ]
+                        ])?>
+                    </td>
+                </tr>
+            <?php endforeach?>
+    </tbody>
+</table>
+<?=$this->child('pagination')?>
+<div style="margin:10px 0">
+    <ul>
+        <li><a href="<?=$this->url('admin/user/id/0')?>">Add New User</a></li>
+    </ul>
+</div>

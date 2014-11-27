@@ -1,0 +1,72 @@
+{
+    "layout": {
+        "template": "core/layout-2col.phtml",
+        "children": {
+            "head": {
+                "title": "Aw yeah, it's Phyneapple time!",
+                "viewClass": "head",
+                "files": {
+                    "css": [
+                        "bootstrap.min.css",
+                        "core.css"
+                    ]
+                }
+            },
+            "header": {
+                "template": "core/sections/header.phtml",
+                "children": {
+                    "menu": {
+                        "viewClass": "header/menu",
+                        "links": {
+                            "about": {
+                                "title": "About",
+                                "url": "about",
+                                "children": {
+                                    "about/resume": {
+                                        "title": "R\u00e9sum\u00e9",
+                                        "url": "about/resume"
+                                    },
+                                    "about/friends": {
+                                        "title": "Friends",
+                                        "url": "about/friends"
+                                    }
+                                }
+                            },
+                            "life": {
+                                "title": "Conway's Game of Life",
+                                "url": "life",
+                                "children": {
+                                }
+                            },
+                            "contact": {
+                                "title": "Contact",
+                                "url": "contact",
+                                "children": {
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "footer": {
+                "viewClass": "footer",
+                "files": {
+                    "js": [
+                        "bootstrap.min.js"
+                    ]
+                }
+            },
+            "content": {
+                "viewClass": "parser"
+            },
+            "sidebar": {
+                "viewClass": "items",
+                "children": {
+                    "searchbox": {
+                        "viewClass": "header/searchbox"
+                    }
+                }
+            }
+        }
+    }
+}

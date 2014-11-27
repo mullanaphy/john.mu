@@ -1,0 +1,14 @@
+{
+    "content": {
+        "viewClass": "items",
+        "template": "generic/items.phtml",
+        "children": {
+            "error/message": {
+                "template": "generic/message.phtml"
+            },
+            "error/exception": {
+                "template": "exception.phtml"
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+<div class="row">
+    <div class="columns">
+        <h1><?php if (isset($item)): ?><a href="<?= $this->url('admin/message') ?>">
+                    Message</a> &raquo; Reading <?= $this->clean($item->name . "'" . (strtolower($item->name[strlen($item->name) - 1]) !== 's'
+                        ? 's'
+                        : '')) ?> Message<?php else: ?>Message<?php endif ?>
+        </h1>
+    </div>
+</div>

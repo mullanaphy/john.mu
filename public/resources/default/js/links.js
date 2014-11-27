@@ -1,0 +1,1 @@
+;!function($){$('a:not(.ajax)').live('click',function(event){event.preventDefault();if(!$(event.target).attr("href")){location.href=$(event.target).parent().attr("href");}else{location.href = $(event.target).attr("href");}return false;});}(jQuery);

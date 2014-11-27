@@ -1,0 +1,12 @@
+<?php if ($collection->count()): ?>
+    <?php foreach ($collection as $item): ?>
+        <h4><?= $this->clean($item->title) ?>
+            <small>
+                <time datetime="<?= $item->published ?>">days ago</time>
+            </small>
+        </h4>
+        <p><?= strip_tags(\Michelf\Markdown::defaultTransform($this->clean((new \PHY\Variable\Str(ucfirst($item->content)))->toShorten(128)))) ?></p>
+    <?php endforeach ?>
+<?php else: ?>
+    <p>No posts to share with the beautiful world yet. Please be patience.</p>
+<?php endif ?>
