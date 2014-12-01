@@ -1,4 +1,4 @@
-jo.mu
+[jo.mu](http://jo.mu/)
 ================================================================================
 
 This is my personal website. All it does is basic blogging using markdown for

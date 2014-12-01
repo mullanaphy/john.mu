@@ -74,6 +74,31 @@
         public function getHeaders();
 
         /**
+         * Set a single header.
+         *
+         * @param string $header
+         * @param string $value
+         * @return $this
+         */
+        public function setHeader($header, $value);
+
+        /**
+         * Get a single header if it exists.
+         *
+         * @param string $header
+         * @return string|null
+         */
+        public function getHeader($header);
+
+        /**
+         * Return true if a given header already exists.
+         *
+         * @param string $header
+         * @return boolean
+         */
+        public function hasHeader($header);
+
+        /**
          * Render our response body.
          */
         public function renderContent();
@@ -115,4 +140,12 @@
          * @return $this
          */
         public function setStatusCode($code = 200);
+
+        /**
+         * Compress our response.
+         *
+         * @param boolean $compress
+         * @return $this
+         */
+        public function setCompression($compress = true);
     }

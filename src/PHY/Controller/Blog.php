@@ -44,6 +44,9 @@
 
             $app = $this->getApp();
 
+            /* @var \PHY\Cache\ICache $cache */
+            $cache = $app->get('cache/rendered');
+
             /* @var \PHY\Database\IDatabase $database */
             $database = $app->get('database');
             $manager = $database->getManager();
@@ -54,15 +57,17 @@
             $visibility = $user->getVisibility();
             $visibility[] = '';
 
-            if ($action !== '__index') {
+            if ($action !== '__index' && $action !== 'page') {
                 $model = new Model;
                 $item = $manager->load(['slug' => $action], $model);
+
                 if (!$item->exists() || !in_array($item->visible, $visibility)) {
-                    return $this->redirect('/blog');
+                    return $this->redirect('/');
                 }
+
                 $content->setTemplate('blog/view.phtml');
                 $content->setVariable('item', $item);
-                $cache = $app->get('cache');
+
                 if (!$description = $cache->get('blog/' . $item->id() . '/description')) {
                     $description = strip_tags(Markdown::defaultTransform((new Str(ucfirst($item->content)))->toShorten(160)));
                     $cache->set('blog/' . $item->id() . '/description', $description, 86400 * 31);
@@ -82,23 +87,29 @@
                 /* @var \PHY\Model\User\Collection $collection */
                 $collection = $manager->getCollection('Blog');
                 $collection->where()->field('visible')->in($visibility);
-
                 $content->setVariable('collection', $collection);
 
-                $count = $collection->count();
+                if (!is_numeric($count = $cache->get('html/index/blog/count'))) {
+                    $count = $collection->count();
+                    $cache->set('html/index/blog/count', $count);
+                }
+
                 $request = $this->getRequest();
-                if ($count > $limit = $request->get('limit', 10)) {
+                if (($count > $limit = $request->get('limit', 10)) || $action === 'page') {
                     $pages = ceil($count / $limit);
+                    $pageId = 1;
+
                     if ($action === 'page') {
-                        $pageId = $action;
+                        $pageId = $request->get('__slug', 1);
                         if (!$pageId) {
                             $pageId = 1;
                         } else if ($pageId > $pages) {
-                            $pageId = $pages;
+                            if ($pageId > $pages) {
+                                return $this->redirect('/');
+                            }
                         }
-                    } else {
-                        $pageId = 1;
                     }
+
                     $offset = ($pageId * $limit) - $limit;
                     $collection->limit($offset, $limit);
                     $content->setChild('blog/pagination', [

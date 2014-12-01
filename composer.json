@@ -21,7 +21,8 @@
     "phy/markup": "1.0.2",
     "phy/variable": "1.0.2",
     "michelf/php-markdown": "*",
-    "mailgun/mailgun-php": "1.7.1"
+    "mailgun/mailgun-php": "1.7.1",
+    "matthiasmullie/minify": "1.3.8"
   },
   "autoload": {
     "psr-0": {

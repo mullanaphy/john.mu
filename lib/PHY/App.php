@@ -458,8 +458,12 @@
                 /* @var $cookieManager \PHY\Component\Cookie */
                 $cookieManager = $this->get('cookie');
                 $xsrfId = $cookieManager->get('xsrfId');
-                if ($request->getMethod() !== 'GET' && $xsrfId !== $request->get('xsrfId')) {
-                    throw new HttpException\Forbidden('XSRF ID does not match what was supplied. Sorry, but no dice.');
+                if ($request->getMethod() !== 'GET') {
+                    if ($xsrfId !== $request->get('xsrfId')) {
+                        throw new HttpException\Forbidden('XSRF ID does not match what was supplied. Sorry, but no dice.');
+                    } else {
+                        $cookieManager->set('xsrfId', (string)Str::random(16));
+                    }
                 } else if (!$xsrfId) {
                     $cookieManager->set('xsrfId', (string)Str::random(16));
                 }

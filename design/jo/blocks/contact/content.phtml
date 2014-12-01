@@ -1,6 +1,30 @@
+<?php
+    /**
+     * jo.mu
+     *
+     * LICENSE
+     *
+     * This source file is subject to the Open Software License (OSL 3.0)
+     * that is bundled with this package in the file LICENSE.txt.
+     * It is also available through the world-wide-web at this URL:
+     * http://opensource.org/licenses/osl-3.0.php
+     * If you did not receive a copy of the license and are unable to
+     * obtain it through the world-wide-web, please send an email
+     * to john@jo.mu so we can send you a copy immediately.
+     *
+     * @package PHY
+     * @category PHY\JO
+     * @copyright Copyright (c) 2014 John Mullanaphy (http://jo.mu/)
+     * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * @author John Mullanaphy <john@jo.mu>
+     *
+     * @var $this \PHY\View\Block
+     */
+?>
 <div class="row">
-    <div class="columns small-6">
+    <div class="columns medium-6">
         <h4>Contact Me</h4>
+
         <form action="<?= $this->url('contact') ?>" method="post" role="form">
             <?= $this->getXsrfIdField() ?>
             <?= $this->child('contact/message') ?>
@@ -30,14 +54,14 @@
             </div>
         </form>
     </div>
-    <div class="columns small-6">
+    <div class="columns medium-6">
         <h4>Around The Web</h4>
         <ul>
-            <li><a href="https://facebook.com/mullanaphy">facebook.com/mullanaphy</a></li>
-            <li><a href="https://twitter.com/kandypants3000">twitter.com/kandypants3000</a></li>
-            <li><a href="https://linkedin.com/mullanaphy" rel="nofollow">linkedin.com/mullanaphy</a></li>
-            <li><a href="https://behance.net/mullanaphy" rel="nofollow">behance.net/mullanaphy</a></li>
-            <li><a href="https://mullanaphy.deviantart.com" rel="nofollow">mullanaphy.deviantart.com</a></li>
+            <li><a href="https://facebook.com/mullanaphy" rel="nofollow">Facebook</a></li>
+            <li><a href="https://twitter.com/kandypants3000" rel="nofollow">Twitter</a></li>
+            <li><a href="https://www.linkedin.com/in/mullanaphy" rel="nofollow">LinkedIn</a></li>
+            <li><a href="https://www.behance.net/mullanaphy" rel="nofollow">Behance</a></li>
+            <li><a href="https://mullanaphy.deviantart.com" rel="nofollow">deviantART</a></li>
         </ul>
     </div>
 </div>

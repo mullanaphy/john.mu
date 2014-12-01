@@ -37,6 +37,7 @@
         protected $statusCode = 200;
         protected $statusCodes = [];
         protected $environmentals = [];
+        protected $compress = false;
         protected static $_defaultHeaders = [];
 
         /**
@@ -112,10 +113,43 @@
         /**
          * {@inheritDoc}
          */
+        public function setHeader($header, $value)
+        {
+            $this->headers[$header] = $value;
+            return $this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public function getHeader($header)
+        {
+            return array_key_exists($header, $this->headers)
+                ? $this->headers[$header]
+                : null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public function hasHeader($header)
+        {
+            return array_key_exists($header, $this->headers);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
         public function renderContent()
         {
             if ($this->hasContent()) {
+                if ($this->compress) {
+                    ob_start('ob_gzhandler');
+                }
                 echo implode('', $this->getContent());
+                if ($this->compress) {
+                    ob_flush();
+                }
             }
         }
 
@@ -159,6 +193,12 @@
         public function setStatusCode($code = 200)
         {
             $this->statusCode = $code;
+            return $this;
+        }
+
+        public function setCompression($compress = true)
+        {
+            $this->compress = $compress;
             return $this;
         }
 

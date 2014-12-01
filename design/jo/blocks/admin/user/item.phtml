@@ -1,6 +1,6 @@
 <?php
     /**
-     * Phyneapple!
+     * jo.mu
      *
      * LICENSE
      *
@@ -10,11 +10,11 @@
      * http://opensource.org/licenses/osl-3.0.php
      * If you did not receive a copy of the license and are unable to
      * obtain it through the world-wide-web, please send an email
-     * to license@phyneapple.com so we can send you a copy immediately.
+     * to john@jo.mu so we can send you a copy immediately.
      *
      * @package PHY
-     * @category PHY\Phyneapple
-     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @category PHY\JO
+     * @copyright Copyright (c) 2014 John Mullanaphy (http://jo.mu/)
      * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
      * @author John Mullanaphy <john@jo.mu>
      *
@@ -74,7 +74,8 @@
     <hr/>
     <?php if ($item->name): ?>
         <h4>Change Password<?php if ($item->exists()): ?>
-            <small>Filling these two fields will change <?= $this->clean($item->name) ?>'<?php if ($item->name[strlen($item->name) - 1] !== 's'): ?>s<?php endif ?><?php else: ?>this user's<?php
+            <small>Filling these two fields will change <?= $this->clean($item->name) ?>
+                '<?php if ($item->name[strlen($item->name) - 1] !== 's'): ?>s<?php endif ?><?php else: ?>this user's<?php
                     endif ?> password.
             </small>
         </h4>

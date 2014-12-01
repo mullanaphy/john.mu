@@ -2,15 +2,16 @@
 
     /**
      * jo.mu
+     *
      * LICENSE
+     *
      * This source file is subject to the Open Software License (OSL 3.0)
      * that is bundled with this package in the file LICENSE.txt.
      * It is also available through the world-wide-web at this URL:
      * http://opensource.org/licenses/osl-3.0.php
      * If you did not receive a copy of the license and are unable to
      * obtain it through the world-wide-web, please send an email
-     * to license@phyneapple.com so we can send you a copy immediately.
-
+     * to john@jo.mu so we can send you a copy immediately.
      */
 
     namespace PHY\Controller;
@@ -23,13 +24,9 @@
     use PHY\Http\Response\Xml as XmlResponse;
     use PHY\Model\Authorize;
     use PHY\Model\Blog;
-    use PHY\Model\Closing;
     use PHY\Model\Config as ConfigModel;
     use PHY\Model\Message;
-    use PHY\Model\Schedule;
-    use PHY\Model\Testimonial;
     use PHY\Model\User;
-    use PHY\Model\Image;
     use Michelf\Markdown;
     use PHY\Variable\Str;
     use PHY\View\Block;
@@ -38,7 +35,7 @@
      * My admin panel. Theoretically this should probably be broken up into smaller controllers but #yolo.
      *
      * @package PHY\Controller\Admin
-     * @category PHY\Phyneapple
+     * @category PHY\JO
      * @copyright Copyright (c) 2014 John Mullanaphy (http://jo.mu/)
      * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
      * @author John Mullanaphy <john@jo.mu>
@@ -625,160 +622,6 @@
         }
 
         /**
-         * GET /admin/schedule
-         */
-        public function schedule_get()
-        {
-            $app = $this->getApp();
-            $request = $this->getRequest();
-            $id = $request->get('id', false);
-            $layout = $this->getLayout();
-            $content = $layout->block('content');
-
-            /**
-             * @var \PHY\Database\IDatabase $database
-             */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-
-            if ($id !== false) {
-                if ($id) {
-                    $item = $manager->load($id, new Schedule);
-                } else {
-                    $item = new Schedule($request->get('schedule', []));
-                }
-                $content->setTemplate('admin/schedule/item.phtml');
-                $content->setVariable('item', $item);
-                $breadcrumb = $layout->block('breadcrumb');
-                $breadcrumb->setVariable('item', $item);
-            } else {
-                $pageId = (int)$request->get('pageId', 1);
-                if (!$pageId) {
-                    $pageId = 1;
-                }
-                $limit = (int)$request->get('limit', 20);
-                if (!$limit) {
-                    $limit = 20;
-                }
-
-                $collection = $manager->getCollection('Schedule');
-                $collection->limit((($pageId * $limit) - $limit), $limit);
-                $collection->order()->by('day')->by('start');
-
-                $content->setTemplate('admin/schedule/collection.phtml');
-                $content->setVariable('collection', $collection);
-                $content->setChild('pagination', [
-                    'viewClass' => 'pagination',
-                    'pageId' => $pageId,
-                    'limit' => $limit,
-                    'total' => $collection->count(),
-                    'url' => [
-                        $this->url('admin/schedule'),
-                        'limit' => $limit
-                    ]
-                ]);
-            }
-            if ($message = $app->get('session/admin/schedule/message')) {
-                $app->delete('session/admin/schedule/message');
-                $message['template'] = 'generic/message.phtml';
-                $content->setChild('message', $message);
-            }
-        }
-
-        /**
-         * POST /admin/schedule
-         */
-        public function schedule_post()
-        {
-            $app = $this->getApp();
-            $request = $this->getRequest();
-
-            /**
-             * @var \PHY\Database\IDatabase $database
-             */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-
-            $id = (int)$request->get('id', 0);
-            $data = $request->get('schedule', [
-                'day' => 0,
-                'start' => 0,
-                'end' => 0,
-                'type' => '',
-                'level' => '',
-                'title' => '',
-            ]);
-            if ($id) {
-                $item = $manager->load($id, new Schedule);
-                if (!$item->exists() || $item->deleted) {
-                    return $this->renderResponse('schedule', [
-                        'title' => 'Not Scheduled!',
-                        'type' => 'warning',
-                        'message' => 'No schedule found for id: ' . $id
-                    ]);
-                }
-            } else {
-                $item = new Schedule($data);
-            }
-            $data['end'] -= .5;
-            $item->set($data);
-            $manager->save($item);
-            return $this->renderResponse('schedule', [
-                'title' => 'Busy Busy!',
-                'type' => 'success',
-                'message' => 'Successfully updated: ' . $item->getClassName()
-            ]);
-        }
-
-        /**
-         * PUT /admin/schedule
-         */
-        public function schedule_put()
-        {
-            $this->schedule_post();
-        }
-
-        /**
-         * DELETE /admin/schedule/id/{id}
-         */
-        public function schedule_delete()
-        {
-            $app = $this->getApp();
-            $request = $this->getRequest();
-
-            /**
-             * @var \PHY\Database\IDatabase $database
-             */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-
-            $id = (int)$request->get('id', 0);
-            if ($id) {
-                $item = $manager->load($id, new Schedule);
-                if (!$item->exists() || $item->deleted) {
-                    return $this->renderResponse('schedule', [
-                        'title' => 'Blank Calendar...',
-                        'type' => 'warning',
-                        'message' => 'No schedule found for id: ' . $id
-                    ]);
-                }
-            } else {
-                return $this->renderResponse('schedule', [
-                    'title' => 'It\'s your day off.',
-                    'type' => 'warning',
-                    'message' => 'No schedule id provided.'
-                ]);
-            }
-            $className = $item->getClassName();
-            $manager->delete($item);
-            return $this->renderResponse('schedule', [
-                'title' => 'More time off!',
-                'type' => 'success',
-                'message' => 'Successfully removed: ' . $className
-            ]);
-        }
-
-        /**
          * GET /admin/message
          */
         public function message_get()
@@ -805,7 +648,7 @@
                     return $this->renderResponse('message', [
                         'title' => 'This message doesn\'t exists',
                         'type' => 'warning',
-                        'message' => 'No closing found for id: ' . $id
+                        'message' => 'No message found for id: ' . $id
                     ]);
                 }
 
@@ -857,59 +700,7 @@
         }
 
         /**
-         * POST /admin/closing
-         */
-        public function message_post()
-        {
-            $app = $this->getApp();
-            $request = $this->getRequest();
-
-            /**
-             * @var \PHY\Database\IDatabase $database
-             */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-
-            $id = (int)$request->get('id', 0);
-            $data = $request->get('closing', [
-                'date' => 0,
-                'title' => '',
-                'reason' => '',
-            ]);
-            if ($id) {
-                $item = $manager->load($id, new Message);
-                if (!$item->exists() || $item->deleted) {
-                    return $this->renderResponse('closing', [
-                        'title' => 'Nothing is closed?!',
-                        'type' => 'warning',
-                        'message' => 'No closing found for id: ' . $id
-                    ]);
-                }
-            } else {
-                $item = new Closing($data);
-            }
-
-            $data['date'] = $data['year'] . '-' . $data['month'] . '-' . $data['day'];
-            unset($data['year'], $data['month'], $data['day']);
-            $item->set($data);
-            $manager->save($item);
-            return $this->renderResponse('closing', [
-                'title' => 'Locked!',
-                'type' => 'success',
-                'message' => 'Successfully updated: ' . $item->date
-            ]);
-        }
-
-        /**
-         * PUT /admin/closing
-         */
-        public function message_put()
-        {
-            $this->message_post();
-        }
-
-        /**
-         * DELETE /admin/closing/id/{id}
+         * DELETE /admin/message/id/{id}
          */
         public function message_delete()
         {
@@ -924,33 +715,28 @@
 
             $id = (int)$request->get('id', 0);
             if ($id) {
-                $item = $manager->load($id, new Closing);
+                $item = $manager->load($id, new Message);
                 if (!$item->exists() || $item->deleted) {
-                    return $this->renderResponse('closing', [
+                    return $this->renderResponse('message', [
                         'title' => 'Not Closed.',
                         'type' => 'warning',
-                        'message' => 'No closing found for id: ' . $id
+                        'message' => 'No message found for id: ' . $id
                     ]);
                 }
             } else {
-                return $this->renderResponse('closing', [
+                return $this->renderResponse('message', [
                     'title' => 'You must work!',
                     'type' => 'warning',
-                    'message' => 'No closing id provided.'
+                    'message' => 'No message id provided.'
                 ]);
             }
             $date = $item->date;
             $manager->delete($item);
-            return $this->renderResponse('closing', [
+            return $this->renderResponse('message', [
                 'title' => 'Reopened!',
                 'type' => 'success',
                 'message' => 'Successfully removed: ' . $date
             ]);
-        }
-
-        public function reply_get()
-        {
-
         }
 
         public function reply_post()
@@ -1110,6 +896,8 @@
              * Lets render and cache our blog post so we don't have to do it on a page load.
              */
             $cache = $app->get('cache');
+            $cache->delete('html/index/blog');
+            $cache->delete('html/index/blog/count');
             $post = Markdown::defaultTransform($item->content);
             $cache->set('blog/' . $item->id() . '/rendered', $post, 86400 * 31);
             $description = strip_tags(Markdown::defaultTransform((new Str(ucfirst($item->content)))->toShorten(160)));
@@ -1168,6 +956,8 @@
              * We no longer need any rendered versions of our blog post.
              */
             $cache = $app->get('cache');
+            $cache->delete('html/index/blog');
+            $cache->delete('html/index/blog/count');
             $cache->delete('blog/' . $item->id() . '/rendered');
             $cache->delete('blog/' . $item->id() . '/description');
 
@@ -1175,323 +965,6 @@
                 'title' => 'No longer relevant?!',
                 'type' => 'success',
                 'message' => 'Successfully removed: ' . $title
-            ]);
-        }
-
-        /**
-         * GET /admin/testimonial
-         */
-        public function testimonial_get()
-        {
-            $app = $this->getApp();
-            $request = $this->getRequest();
-            $id = $request->get('id', false);
-            $layout = $this->getLayout();
-            $content = $layout->block('content');
-
-            /**
-             * @var \PHY\Database\IDatabase $database
-             */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-
-            if ($id !== false) {
-                if ($id) {
-                    $item = $manager->load($id, new Testimonial);
-                } else {
-                    $item = new Testimonial($request->get('testimonial', []));
-                }
-                $content->setTemplate('admin/testimonial/item.phtml');
-                $content->setVariable('item', $item);
-                $breadcrumb = $layout->block('breadcrumb');
-                $breadcrumb->setVariable('item', $item);
-            } else {
-                $pageId = (int)$request->get('pageId', 1);
-                if (!$pageId) {
-                    $pageId = 1;
-                }
-                $limit = (int)$request->get('limit', 20);
-                if (!$limit) {
-                    $limit = 20;
-                }
-
-                $collection = $manager->getCollection('Testimonial');
-                $collection->limit((($pageId * $limit) - $limit), $limit);
-                $collection->order()->by('title', 'asc');
-
-                $content->setTemplate('admin/testimonial/collection.phtml');
-                $content->setVariable('collection', $collection);
-                $content->setChild('pagination', [
-                    'viewClass' => 'pagination',
-                    'pageId' => $pageId,
-                    'limit' => $limit,
-                    'total' => $collection->count(),
-                    'url' => [
-                        $this->url('admin/blog'),
-                        'limit' => $limit
-                    ]
-                ]);
-            }
-            if ($message = $app->get('session/admin/testimonial/message')) {
-                $app->delete('session/admin/testimonial/message');
-                $message['template'] = 'generic/message.phtml';
-                $content->setChild('message', $message);
-            }
-        }
-
-        /**
-         * POST /admin/testimonial
-         */
-        public function testimonial_post()
-        {
-            $app = $this->getApp();
-            $request = $this->getRequest();
-
-            /**
-             * @var \PHY\Database\IDatabase $database
-             */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-
-            $id = (int)$request->get('id', 0);
-            $data = $request->get('testimonial', [
-                'date' => 0,
-                'title' => '',
-                'reason' => '',
-            ]);
-            if ($id) {
-                $item = $manager->load($id, new Testimonial);
-                if (!$item->exists() || $item->deleted) {
-                    return $this->renderResponse('testimonial', [
-                        'title' => 'Never said it.',
-                        'type' => 'warning',
-                        'message' => 'No testimonial found for id: ' . $id
-                    ]);
-                }
-            } else {
-                $item = new Testimonial($data);
-            }
-            $item->set($data);
-            $manager->save($item);
-            return $this->renderResponse('testimonial', [
-                'title' => 'Hurray!',
-                'type' => 'success',
-                'message' => 'Successfully updated: ' . $item->title
-            ]);
-        }
-
-        /**
-         * PUT /admin/testimonial
-         */
-        public function testimonial_put()
-        {
-            $this->testimonial_post();
-        }
-
-        /**
-         * DELETE /admin/testimonial/id/{id}
-         */
-        public function testimonial_delete()
-        {
-            $app = $this->getApp();
-            $request = $this->getRequest();
-
-            /**
-             * @var \PHY\Database\IDatabase $database
-             */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-
-            $id = (int)$request->get('id', 0);
-            if ($id) {
-                $item = $manager->load($id, new Testimonial);
-                if (!$item->exists() || $item->deleted) {
-                    return $this->renderResponse('testimonial', [
-                        'title' => 'Can\'t find it.',
-                        'type' => 'warning',
-                        'message' => 'No testimonial found for id: ' . $id
-                    ]);
-                }
-            } else {
-                return $this->renderResponse('testimonial', [
-                    'title' => 'You must work!',
-                    'type' => 'warning',
-                    'message' => 'No testimonial id provided.'
-                ]);
-            }
-            $title = $item->title;
-            $manager->delete($item);
-            return $this->renderResponse('testimonial', [
-                'title' => 'Redacted.',
-                'type' => 'success',
-                'message' => 'Successfully removed: ' . $title
-            ]);
-        }
-
-        /**
-         * GET /admin/image
-         */
-        public function image_get()
-        {
-            $app = $this->getApp();
-            $request = $this->getRequest();
-            $id = $request->get('id', false);
-            $layout = $this->getLayout();
-            $content = $layout->block('content');
-
-            /**
-             * @var \PHY\Database\IDatabase $database
-             */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-
-            if ($id !== false) {
-                if ($id) {
-                    $item = $manager->load($id, new Image);
-                } else {
-                    $item = new Image($request->get('image', []));
-                }
-                $content->setTemplate('admin/image/item.phtml');
-                $content->setVariable('item', $item);
-                $breadcrumb = $layout->block('breadcrumb');
-                $breadcrumb->setVariable('item', $item);
-            } else {
-                $pageId = (int)$request->get('pageId', 1);
-                if (!$pageId) {
-                    $pageId = 1;
-                }
-                $limit = (int)$request->get('limit', 20);
-                if (!$limit) {
-                    $limit = 20;
-                }
-
-                $collection = $manager->getCollection('Image');
-                $collection->limit((($pageId * $limit) - $limit), $limit);
-                $collection->order()->by('key');
-
-                $content->setTemplate('admin/image/collection.phtml');
-                $content->setVariable('collection', $collection);
-                $content->setChild('pagination', [
-                    'viewClass' => 'pagination',
-                    'pageId' => $pageId,
-                    'limit' => $limit,
-                    'total' => $collection->count(),
-                    'url' => [
-                        $this->url('admin/config'),
-                        'limit' => $limit
-                    ]
-                ]);
-            }
-            if ($message = $app->get('session/admin/image/message')) {
-                $app->delete('session/admin/image/message');
-                $message['template'] = 'generic/message.phtml';
-                $content->setChild('message', $message);
-            }
-        }
-
-        /**
-         * POST /admin/image
-         */
-        public function image_post()
-        {
-            $app = $this->getApp();
-            $request = $this->getRequest();
-
-            /**
-             * @var \PHY\Database\IDatabase $database
-             */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-
-            $id = (int)$request->get('id', 0);
-            $data = $request->get('image', [
-                'model' => '',
-                'model_id' => '',
-                'file' => ''
-            ]);
-            if ($id) {
-                $item = $manager->load($id, new Image);
-                if (!$item->exists() || $item->deleted) {
-                    return $this->renderResponse('image', [
-                        'title' => 'Image Not Found!',
-                        'type' => 'warning',
-                        'message' => 'No image found for id: ' . $id
-                    ]);
-                }
-            } else {
-                $item = new Image($data);
-            }
-            $item->set($data);
-
-            if (isset($_FILES, $_FILES['image'])) {
-                $filename = date('YmdHis') . '-' . $_FILES['image']['name'];
-                $item->set('file', $filename);
-                $directory = $app->getPublicDirectory() . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'uploaded' . DIRECTORY_SEPARATOR . 'image' . DIRECTORY_SEPARATOR;
-                $item->set('directory', $directory);
-                $file = $directory . DIRECTORY_SEPARATOR . $filename;
-                if (!is_writable($file)) {
-                    return $this->renderResponse('image', [
-                        'title' => 'No Bueno...',
-                        'type' => 'warning',
-                        'message' => 'Seems ' . $directory . ' is no writable...'
-                    ]);
-                }
-                move_uploaded_file($_FILES['image'], $file);
-            }
-
-            $manager->save($item);
-            return $this->renderResponse('image', [
-                'title' => 'Uploaded!',
-                'type' => 'success',
-                'message' => 'Successfully updated: ' . $item->key
-            ]);
-        }
-
-        /**
-         * PUT /admin/image
-         */
-        public function image_put()
-        {
-            $this->image_post();
-        }
-
-        /**
-         * DELETE /admin/image/id/{id}
-         */
-        public function image_delete()
-        {
-            $app = $this->getApp();
-            $request = $this->getRequest();
-
-            /**
-             * @var \PHY\Database\IDatabase $database
-             */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-
-            $id = (int)$request->get('id', 0);
-            if ($id) {
-                $item = $manager->load($id, new Image);
-                if (!$item->exists() || $item->deleted) {
-                    return $this->renderResponse('image', [
-                        'title' => 'Image never existed...',
-                        'type' => 'warning',
-                        'message' => 'No config found for id: ' . $id
-                    ]);
-                }
-            } else {
-                return $this->renderResponse('image', [
-                    'title' => 'Oh well.',
-                    'type' => 'warning',
-                    'message' => 'No image id provided.'
-                ]);
-            }
-            $file = $item->file;
-            $manager->delete($item);
-            return $this->renderResponse('image', [
-                'title' => 'Image go bye bye!',
-                'type' => 'success',
-                'message' => 'Successfully removed: ' . $file
             ]);
         }
 

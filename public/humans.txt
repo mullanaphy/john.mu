@@ -1,4 +1,8 @@
-/* Phyneapple! */
+/* Phyneapple! and jo.mu */
 Creator John Mullanaphy
 	john@jo.mu
 	http://jo.mu/
+
+/* Color theme */
+Creator Ethan Schoonover
+   http://ethanschoonover.com/solarized

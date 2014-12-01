@@ -1,6 +1,6 @@
 <?php
     /**
-     * Phyneapple!
+     * jo.mu
      *
      * LICENSE
      *
@@ -10,11 +10,11 @@
      * http://opensource.org/licenses/osl-3.0.php
      * If you did not receive a copy of the license and are unable to
      * obtain it through the world-wide-web, please send an email
-     * to license@phyneapple.com so we can send you a copy immediately.
+     * to john@jo.mu so we can send you a copy immediately.
      *
      * @package PHY
-     * @category PHY\Phyneapple
-     * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
+     * @category PHY\JO
+     * @copyright Copyright (c) 2014 John Mullanaphy (http://jo.mu/)
      * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
      * @author John Mullanaphy <john@jo.mu>
      *
@@ -24,7 +24,7 @@
 ?>
 <?php $tag = $this->tag() ?>
 <?php $i = 0; ?>
-    <?= $this->child('message') ?>
+<?= $this->child('message') ?>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -55,7 +55,7 @@
                                     'type' => 'confirm',
                                     'element' => '.blog-' . $item->id()
                                 ]
-                            ])?>
+                            ]) ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -68,4 +68,4 @@
         <?php endif ?>
         </tbody>
     </table>
-    <?= $this->child('pagination') ?>
+<?= $this->child('pagination') ?>
