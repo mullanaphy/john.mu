@@ -656,7 +656,6 @@
                     $read = date('Y-m-d H:i:s');
                     $item->set('read', $read);
                     $item->set('updated', $read);
-                    var_dump('saving!');
                     $manager->save($item);
                 }
 

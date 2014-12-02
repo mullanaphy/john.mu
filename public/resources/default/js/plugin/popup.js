@@ -7,7 +7,7 @@
 }(function($) {
   $.popup = function(options) {
     var modal = $('#modal');
-    $('.modal-content', modal).html(options.content);
+    modal.html(options.content);
     if (options.classname) {
       modal.addClass(options.classname);
       modal.on('hidden', function() {
@@ -15,7 +15,7 @@
         modal.off('hidden');
       });
     }
-    modal.modal();
+    modal.foundation('reveal', 'open');
   };
   $.popup.alert = function(options) {
     if (typeof options !== 'object') {
@@ -68,21 +68,15 @@
     }
 
     var title = $('<div class="modal-header"></div>')
-      .html(
-      $('<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>')
-        .text('×')
-    )
-      .append(
-      $('<h4 class="modal-title" id="modal-label"></h4>')
-        .html(options.title || 'Confirm'));
-    var content = $('<div class="modal-body"></div>')
-      .html(options.message || 'Odd, no content provided...');
+      .html($('<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>').text('×'))
+      .append($('<h4 class="modal-title" id="modal-label"></h4>').html(options.title || 'Confirm'));
+    var content = $('<div class="modal-body"></div>').html(options.message || 'Odd, no content provided...');
     var footer = $('<div class="modal-footer"></div>');
     footer.append(
       $('<a href="#" class="btn ' + (typeof options.okclassname !== 'undefined' ? options.okclassname : 'btn-primary') + '"></a>')
         .text(options.ok || 'Yes')
         .click(options.callback || function() {
-          $('modal').modal('hide');
+          $('modal').foundation('reveal', 'close');
           return false;
         }));
     footer.append(
@@ -90,6 +84,7 @@
         .text(options.cancel || 'No')
     );
     var html = title.add(content).add(footer);
+    console.log(html);
     $.popup({content: html});
   };
   $.popup.flash = function(response, type, jqXHR) {

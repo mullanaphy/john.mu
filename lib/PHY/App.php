@@ -462,11 +462,23 @@
                     if ($xsrfId !== $request->get('xsrfId')) {
                         throw new HttpException\Forbidden('XSRF ID does not match what was supplied. Sorry, but no dice.');
                     } else {
-                        $cookieManager->set('xsrfId', (string)Str::random(16));
+                        $accepts = explode(', ', $request->getEnvironmental('HTTP_ACCEPT', 'text/plain'));
+                        $ajax = false;
+                        $ajaxTypes = ['application/json', 'application/javascript', 'text/javascript'];
+                        foreach ($accepts as $accept) {
+                            if (in_array($accept, $ajaxTypes)) {
+                                $ajax = true;
+                                break;
+                            }
+                        }
+                        if (!$ajax) {
+                            $cookieManager->replace('xsrfId', (string)Str::random(16));
+                        }
                     }
                 } else if (!$xsrfId) {
                     $cookieManager->set('xsrfId', (string)Str::random(16));
                 }
+
                 $controller->setRequest($request);
 
                 $layout = new Layout;

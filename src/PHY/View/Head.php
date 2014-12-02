@@ -101,7 +101,7 @@
             }
             $event = new EventItem('block/core/head', [
                 'files' => $files,
-                'xsrfId' => false
+                'xsrfId' => $app->get('cookie')->get('xsrfId', false)
             ]);
             Event::dispatch($event);
             $files = $event->files;

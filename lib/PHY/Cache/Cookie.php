@@ -114,6 +114,7 @@
          */
         public function replace($node, $value, $expiration = 0, $flag = 0)
         {
+            unset($_COOKIE[$this->prefix . $node]);
             return setcookie($this->prefix . $node, $value, $expiration);
         }
 

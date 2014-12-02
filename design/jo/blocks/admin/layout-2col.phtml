@@ -72,6 +72,8 @@
         </div>
     </div>
     <?= $this->child('footer') ?>
+    <script type="text/javascript" src="<?= $this->url('jquery.min.js', 'js') ?>"></script>
+    <script type="text/javascript" src="<?= $this->url('foundation.min.js', 'js') ?>"></script>
     <script type="text/javascript" src="<?= $this->url('plugin/center.js', 'js') ?>"></script>
     <script type="text/javascript" src="<?= $this->url('plugin/popup.js', 'js') ?>"></script>
     <script type="text/javascript" src="<?= $this->url('plugin/deParam.js', 'js') ?>"></script>
@@ -79,7 +81,7 @@
     <script type="text/javascript" src="<?= $this->url('ajax/dispatcher.js', 'js') ?>"></script>
     <script type="text/javascript" src="<?= $this->url('ajax/events.js', 'js') ?>"></script>
     <script type="text/javascript" src="<?= $this->url('ajax/handler.js', 'js') ?>"></script>
-    <script type="text/javascript">!function($){$(function(){$(document).foundation()})}(jQuery);</script>
+    <script type="text/javascript">jQuery(function(){console.log($(document).foundation())});</script>
 </div>
 <?= $this->child('modal') ?>
 </body>
