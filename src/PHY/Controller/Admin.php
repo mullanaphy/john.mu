@@ -48,7 +48,6 @@
          */
         public function __construct(App $app = null)
         {
-            $app->setTheme('solarized');
             parent::__construct($app);
             /* @var \PHY\Model\IUser $user */
             $user = $app->getUser();
@@ -80,6 +79,10 @@
             $layout = $this->getLayout();
             $page = $layout->block('layout');
             $page->setTemplate('admin/layout-2col.phtml');
+            $head = $layout->block('head');
+            $files = $head->getVariable('files');
+            $files['css'][1] = 'foundation.min.css';
+            $head->setVariable('files', $files);
             $page->setChild('header', ['template' => 'admin/header.phtml']);
             $layout->block('modal')->setTemplate('admin/modal.phtml');
             $layout->buildBlocks('breadcrumb', [
@@ -894,13 +897,13 @@
             /*
              * Lets render and cache our blog post so we don't have to do it on a page load.
              */
-            $cache = $app->get('cache');
+            $cache = $app->get('cache/rendered');
             $cache->delete('html/index/blog');
             $cache->delete('html/index/blog/count');
             $post = Markdown::defaultTransform($item->content);
-            $cache->set('blog/' . $item->id() . '/rendered', $post, 86400 * 31);
+            $cache->replace('blog/' . $item->id() . '/rendered', $post, 86400 * 31);
             $description = strip_tags(Markdown::defaultTransform((new Str(ucfirst($item->content)))->toShorten(160)));
-            $cache->set('blog/' . $item->id() . '/description', $description, 86400 * 31);
+            $cache->replace('blog/' . $item->id() . '/description', $description, 86400 * 31);
 
             return $this->renderResponse('blog', [
                 'title' => 'Posted!',

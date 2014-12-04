@@ -60,9 +60,8 @@
             if (!$collection = $cache->get('html/index/blog')) {
                 $collection = $manager->getCollection('Blog');
                 $collection->where()->field('visible')->in($visibility);
-                $cache->set('html/index/blog', $collection);
+                $cache->set('html/index/blog', $collection->toArray());
             }
-            $collection->setManager($manager);
 
             if (!is_numeric($count = $cache->get('html/index/blog/count'))) {
                 $count = $collection->count();

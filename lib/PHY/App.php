@@ -52,6 +52,7 @@
         private $theme = '';
         private $classNamespaces = [];
         private $loaddedClassNamespaces = [];
+        private $xsrfId = '';
 
         /**
          * Return a value from the Registry if it exists.
@@ -435,6 +436,7 @@
                         $actionName = '__index';
                     }
                 }
+
                 $request->setControllerName($controllerName);
                 $request->setActionName($actionName);
 
@@ -457,9 +459,9 @@
                  */
                 /* @var $cookieManager \PHY\Component\Cookie */
                 $cookieManager = $this->get('cookie');
-                $xsrfId = $cookieManager->get('xsrfId');
+                $this->xsrfId = $cookieManager->get('xsrfId');
                 if ($request->getMethod() !== 'GET') {
-                    if ($xsrfId !== $request->get('xsrfId')) {
+                    if ($this->xsrfId !== $request->get('xsrfId')) {
                         throw new HttpException\Forbidden('XSRF ID does not match what was supplied. Sorry, but no dice.');
                     } else {
                         $accepts = explode(', ', $request->getEnvironmental('HTTP_ACCEPT', 'text/plain'));
@@ -472,12 +474,14 @@
                             }
                         }
                         if (!$ajax) {
-                            $cookieManager->replace('xsrfId', (string)Str::random(16));
+                            $this->xsrfId = Str::random(16)->get();
                         }
                     }
-                } else if (!$xsrfId) {
-                    $cookieManager->set('xsrfId', (string)Str::random(16));
                 }
+                if (!$this->xsrfId) {
+                    $this->xsrfId = Str::random(16)->get();
+                }
+                $cookieManager->set('xsrfId', $this->xsrfId);
 
                 $controller->setRequest($request);
 
@@ -630,4 +634,13 @@
             return $this->loaddedClassNamespaces[$className];
         }
 
+        /**
+         * Grab our current session's xsrfId.
+         *
+         * @return string
+         */
+        public function getXsrfId()
+        {
+            return $this->xsrfId;
+        }
     }

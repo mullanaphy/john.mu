@@ -46,6 +46,7 @@
 
             /* @var \PHY\Cache\ICache $cache */
             $cache = $app->get('cache/rendered');
+            $cache->flush();
 
             /* @var \PHY\Database\IDatabase $database */
             $database = $app->get('database');
@@ -60,7 +61,6 @@
             if ($action !== '__index' && $action !== 'page') {
                 $model = new Model;
                 $item = $manager->load(['slug' => $action], $model);
-
                 if (!$item->exists() || !in_array($item->visible, $visibility)) {
                     return $this->redirect('/');
                 }

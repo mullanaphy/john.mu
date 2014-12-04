@@ -33,31 +33,19 @@
         ];
 
         /**
-         * GET /m/css/{file}
-         */
-        public function css_get()
-        {
-            return $this->minify('css');
-        }
-
-        /**
-         * GET /m/js/{file}
-         */
-        public function js_get()
-        {
-            return $this->minify('js');
-        }
-
-        /**
          * This is where we'll actuall minify our sources.
          *
-         * @param string $type
+         * @param string $method
          * @return \PHY\Http\IResponse $response
-         * @ignore
          */
-        private function minify($type)
+        public function action($method = 'index')
         {
             /** @var \MatthiasMullie\Minify\Minify $minifier */
+            if (isset(self::$contentTypes[$method])) {
+                $type = $method;
+            } else {
+                $type = 'css';
+            }
             $app = $this->getApp();
             $request = $this->getRequest();
             $response = $this->getResponse();
@@ -114,7 +102,7 @@
             $ifNotModifiedSince = $request->getEnvironmental('HTTP_IF_NOT_MODIFIED_SINCE', false);
             $etagHeader = $request->getEnvironmental('HTTP_IF_NONE_MATCH', false);
 
-            if (strtotime($ifNotModifiedSince) === strtotime($lastModified) || $etagHeader === $etagFile) {
+            if (strtotime($ifNotModifiedSince) === $lastModified || $etagHeader === $etagFile) {
                 $response->setStatusCode(304);
                 return $response;
             }

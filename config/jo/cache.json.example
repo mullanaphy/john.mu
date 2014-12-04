@@ -1,0 +1,17 @@
+{
+  "default": {
+    "type": "disk"
+  },
+  "rendered": {
+    "type": "disk",
+    "prefix": "rendered_"
+  },
+  "resources": {
+    "type": "disk",
+    "prefix": "resources_"
+  },
+  "model": {
+    "type": "disk",
+    "prefix": "model_"
+  }
+}

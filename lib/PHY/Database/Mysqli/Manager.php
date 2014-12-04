@@ -179,6 +179,15 @@
                             } else if (is_array($source['cacheable']) && in_array($key, $source['cacheable'])) {
                                 $cacheKey = self::getCacheKey($source['name'], $loadBy[$key]);
                             }
+                        } else {
+                            ksort($loadBy);
+                            if (in_array(array_keys($loadBy), $source['cacheable'])) {
+                                $id = '';
+                                foreach ($loadBy as $k => $v) {
+                                    $id .= $k . '=' . $v;
+                                }
+                                $cacheKey = self::getCacheKey($source['name'], $id);
+                            }
                         }
                     }
                 }
@@ -265,11 +274,20 @@
             if ($data) {
                 $success = true;
                 $model->setInitialData($data);
-                if ($model->exists() && $cacheKey) {
+                if ($cacheKey) {
                     $cache->set(self::getCacheKey($source['name'], $model->id()), $model->toArray());
                     if (is_array($source['cacheable'])) {
                         foreach ($source['cacheable'] as $key) {
-                            $cache->set(self::getCacheKey($source['name'], $model->get($key)), $model->toArray());
+                            if (is_array($key)) {
+                                $id = '';
+                                foreach ($key as $k) {
+                                    $id .= $k . '=' . $model->get($k);
+                                }
+                                $cacheKey = self::getCacheKey($source['name'], $id);
+                            } else {
+                                $cacheKey = self::getCacheKey($source['name'], $model->get($key));
+                            }
+                            $cache->set($cacheKey, $model->toArray());
                         }
                     }
                 }
@@ -326,21 +344,26 @@
                 $db->autocommit(true);
                 $success = false;
             }
-            if ($success) {
-                if ($cacheable && $model->exists()) {
-                    $cache = $this->getCache();
-                    $cacheKey = self::getCacheKey($source['name'], $model->id());
-                    $cache->delete($cacheKey);
-                    if (is_array($source['cacheable'])) {
-                        foreach ($source['cacheable'] as $key) {
+            if ($success && $cacheable) {
+                $cache = $this->getCache();
+                $cacheKey = self::getCacheKey($source['name'], $model->id());
+                $cache->replace($cacheKey, $model->toArray());
+                if (is_array($source['cacheable'])) {
+                    foreach ($source['cacheable'] as $key) {
+                        if (is_array($key)) {
+                            $id = '';
+                            foreach ($key as $k) {
+                                $id .= $k . '=' . $model->get($k);
+                            }
+                            $cacheKey = self::getCacheKey($source['name'], $id);
+                        } else {
                             $cacheKey = self::getCacheKey($source['name'], $model->get($key));
-                            $cache->delete($cacheKey);
-                            $cache->set($cacheKey, $model->toArray());
                         }
+                        $cache->replace($cacheKey, $model->toArray());
                     }
                 }
             }
-            $model->postLoad($success);
+            $model->postUpdate($success);
             return $success;
         }
 
@@ -375,10 +398,23 @@
                 $db->autocommit(true);
                 $success = false;
             }
-            if ($success) {
-                if ($cacheable && $model->exists()) {
-                    $this->getCache()
-                        ->set(self::getCacheKey($source['name'], $model->id()), $model, $source['cacheable']);
+            if ($success && $cacheable) {
+                $cache = $this->getCache();
+                $cacheKey = self::getCacheKey($source['name'], $model->id());
+                $cache->delete($cacheKey);
+                if (is_array($source['cacheable'])) {
+                    foreach ($source['cacheable'] as $key) {
+                        if (is_array($key)) {
+                            $id = '';
+                            foreach ($key as $k) {
+                                $id .= $k . '=' . $model->get($k);
+                            }
+                            $cacheKey = self::getCacheKey($source['name'], $id);
+                        } else {
+                            $cacheKey = self::getCacheKey($source['name'], $model->get($key));
+                        }
+                        $cache->set($cacheKey, $model->toArray());
+                    }
                 }
             }
             $model->postInsert($success);
@@ -416,10 +452,23 @@
                 $db->autocommit(true);
                 $success = false;
             }
-            if ($success) {
-                if ($cacheable && $model->exists()) {
-                    $this->getCache()
-                        ->set(self::getCacheKey($source['name'], $model->id()), $model, $source['cacheable']);
+            if ($success && $cacheable) {
+                $cache = $this->getCache();
+                $cacheKey = self::getCacheKey($source['name'], $model->id());
+                $cache->delete($cacheKey);
+                if (is_array($source['cacheable'])) {
+                    foreach ($source['cacheable'] as $key) {
+                        if (is_array($key)) {
+                            $id = '';
+                            foreach ($key as $k) {
+                                $id .= $k . '=' . $model->get($k);
+                            }
+                            $cacheKey = self::getCacheKey($source['name'], $id);
+                        } else {
+                            $cacheKey = self::getCacheKey($source['name'], $model->get($key));
+                        }
+                        $cache->delete($cacheKey);
+                    }
                 }
             }
             $model->postDelete($success);
@@ -661,7 +710,7 @@
         }
 
         /**
-         * {@inheritDoc}
+         * {@inheritDolc}
          */
         public function clean($string)
         {

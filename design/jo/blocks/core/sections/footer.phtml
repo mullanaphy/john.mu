@@ -22,6 +22,12 @@
      * @var $app \PHY\App
      */
 ?>
+<div class="row">
+    <div class="columns text-right">
+        <small>Color scheme is <a href="http://ethanschoonover.com/solarized">Solarized</a> by Ethan Schoonover, use it.
+        </small>
+    </div>
+</div>
 <?php
     if (isset($js)):
         $tag = $this->tag();
@@ -30,4 +36,7 @@
         endforeach;
     endif
 ?>
-<script type="text/javascript">try{if(typeof console!=='undefined'&&typeof console.log!=='undefined')console.log('Generation: <?=$app->getDebugger()->profile()?>')}catch(e){}</script>
+<script type="text/javascript">try {
+        if (typeof console !== 'undefined' && typeof console.log !== 'undefined')console.log('Generation: <?=$app->getDebugger()->profile()?>')
+    } catch (e) {
+    }</script>

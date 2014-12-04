@@ -247,4 +247,17 @@
                 $this->getQuery()->get('limit')->limit($limit);
             }
         }
+
+        /**
+         * {@inheritDoc}
+         */
+        public function toArray()
+        {
+            $this->rewind();
+            $items = [];
+            foreach ($this as $item) {
+                $items[] = $item;
+            }
+            return $items;
+        }
     }

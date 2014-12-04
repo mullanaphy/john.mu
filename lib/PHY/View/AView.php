@@ -451,7 +451,7 @@
 
         public function getXsrfIdField()
         {
-            $xsrfId = $this->getLayout()->getController()->getApp()->get('cookie')->get('xsrfId');
+            $xsrfId = $this->getLayout()->getController()->getApp()->getXsrfId();
             return $this->getMarkupBuilder()->input([
                 'name' => 'xsrfId',
                 'type' => 'hidden',

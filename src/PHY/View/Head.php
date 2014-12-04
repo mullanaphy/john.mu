@@ -48,7 +48,6 @@
             $cache = $app->get('cache');
             $theme = $app->getTheme();
             $key = $theme . '/' . $class . '/block/core/head';
-
             if (!($files = $cache->get($key))) {
                 $_files = $this->getVariable('files');
                 $files = [

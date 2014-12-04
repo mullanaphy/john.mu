@@ -120,10 +120,6 @@
             if (!$authorize->isAllowed($app->getUser())) {
                 throw new Forbidden('You cannot access this page.');
             }
-            $authorize = Authorize::loadByRequest($check . '/' . $action, $manager);
-            if (!$authorize->isAllowed($app->getUser())) {
-                throw new Forbidden('You cannot access this page.');
-            }
 
             /* If everything is good, let's call the correct route. */
             $response = $this->$action();

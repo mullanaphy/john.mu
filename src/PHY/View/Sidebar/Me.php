@@ -36,15 +36,6 @@
          */
         public function structure()
         {
-            $app = $this->getLayout()->getController()->getApp();
-            /**
-             * @var \PHY\Database\IDatabase $database
-             */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-
-            $name = $manager->load(['key' => 'name'], new ConfigModel);
-            $this->setVariable('name', $name->value);
         }
 
     }

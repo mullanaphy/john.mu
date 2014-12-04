@@ -22,10 +22,12 @@
      * @var $item \PHY\Model\Blog
      */
 ?>
-<h1><?= $this->clean($item->title) ?>
-    <small>
+<h1 class="title"><?= $this->clean($item->title) ?>
+    <small class="right">
         <time
             datetime="<?= date('Y-m-d\TH:i:sa', strtotime($item->created)) ?>"><?= date('F j, Y', strtotime($item->created)) ?></time>
     </small>
 </h1>
 <?= $content ?>
+<hr/>
+<a href="<?= $this->url('') ?>">Home</a>

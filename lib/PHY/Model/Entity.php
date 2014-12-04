@@ -308,9 +308,9 @@
                 return [];
             }
             $changed = [];
-            $primary_key = $this->getPrimaryKey();
+            $primaryKey = $this->getPrimaryKey();
             foreach ($this->data as $key => $value) {
-                if ($key === $primary_key) {
+                if ($key === $primaryKey) {
                     continue;
                 } else if ($value !== $this->initial[$key]) {
                     $changed[$key] = $value;

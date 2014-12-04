@@ -32,7 +32,9 @@
     {
 
         protected static $_source = [
-            'cacheable' => true,
+            'cacheable' => [
+                ['request_method', 'request_url']
+            ],
             'schema' => [
                 'primary' => [
                     'table' => 'rewrite',
@@ -45,7 +47,11 @@
                         'created' => 'date',
                         'deleted' => 'boolean'
                     ],
-                    'id' => 'id'
+                    'id' => 'id',
+                    'local' => [
+                        'request' => 'UNIQUE INDEX (`request_method`, `request_url`)',
+                        'email' => 'unique'
+                    ]
                 ]
             ]
         ];

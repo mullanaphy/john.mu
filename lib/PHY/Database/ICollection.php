@@ -96,4 +96,11 @@
          * @return ICollection
          */
         public function limit($skip = 0, $limit = null);
+
+        /**
+         * Flatten our results into a nice handy array.
+         *
+         * @return array
+         */
+        public function toArray();
     }

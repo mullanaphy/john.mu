@@ -18,7 +18,7 @@ body {
     font-style: normal;
     line-height: 150%;
     margin: 0;
-    padding: 20px 0 0;
+    padding: 20px 0;
     position: relative;
 }
 
@@ -36,13 +36,13 @@ body {
 }
 
 a {
-    color: #cb4b16;
+    color: #b58900;
     text-decoration: none;
     line-height: inherit;
 }
 
 a:hover, a:focus {
-    color: #b58900;
+    color: #cb4b16;
 }
 
 a img {
@@ -1205,12 +1205,21 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
     font-size: 60%;
-    color: #aeb9bb;
+    color: inherit;
     line-height: 0;
 }
 
 h1 {
+    color: #e4e4e4;
     font-size: 2.125rem;
+}
+
+h1.title {
+    line-height: 1.4em;
+}
+
+.title small {
+    line-height: inherit;
 }
 
 h2 {

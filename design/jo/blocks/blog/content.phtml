@@ -25,14 +25,15 @@
 ?>
 <?php if ($count): ?>
     <?php foreach ($collection as $item): ?>
-        <h1><a href="<?= $this->url('blog/' . $item->slug) ?>"><?= $this->clean($item->title) ?>
-                <small>
+        <h1 class="title"><a href="<?= $this->url('blog/' . $item->slug) ?>"><?= $this->clean($item->title) ?>
+                <small class="right">
                     <time
                         datetime="<?= date('Y-m-d\TH:i:sa', strtotime($item->created)) ?>"><?= date('F j, Y', strtotime($item->created)) ?></time>
                 </small>
             </a>
         </h1>
-        <?= strip_tags(\Michelf\Markdown::defaultTransform($this->clean((new \PHY\Variable\Str(ucfirst($item->content)))->toShorten(512)))) ?>
+        <?= \Michelf\Markdown::defaultTransform($this->clean((new \PHY\Variable\Str(ucfirst($item->content)))->toShorten(1024))) ?>
+        <a href="<?= $this->url('blog/' . $item->slug) ?>">more</a>
         <hr/>
     <?php endforeach ?>
     <?= $this->child('news/pagination') ?>

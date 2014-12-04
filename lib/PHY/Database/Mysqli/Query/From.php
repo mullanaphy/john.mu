@@ -172,7 +172,6 @@
                     $this->string = ' FROM ';
                     $tables = $this->table;
                     $primary = array_shift($tables);
-
                     $this->string .= $this->clean($primary['table'], true) . ($this->alias
                             ? ' ' . $this->clean($this->alias, true)
                             : '');
