@@ -24,6 +24,7 @@
      */
 ?>
 <?php if ($count): ?>
+    <?php $i = 0; ?>
     <?php foreach ($collection as $item): ?>
         <h1 class="title"><a href="<?= $this->url('blog/' . $item->slug) ?>"><?= $this->clean($item->title) ?>
                 <small class="right">
@@ -34,7 +35,9 @@
         </h1>
         <?= \Michelf\Markdown::defaultTransform($this->clean((new \PHY\Variable\Str(ucfirst($item->content)))->toShorten(1024))) ?>
         <a href="<?= $this->url('blog/' . $item->slug) ?>">more</a>
-        <hr/>
+        <?php if (++$i < $count): ?>
+            <hr/>
+        <?php endif ?>
     <?php endforeach ?>
     <?= $this->child('news/pagination') ?>
 <?php else: ?>
