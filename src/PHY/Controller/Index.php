@@ -38,16 +38,16 @@
 
             $app = $this->getApp();
 
-            /* @var \PHY\Cache\ICache $cache */
+            /** @var \PHY\Cache\ICache $cache */
             $cache = $app->get('cache/rendered');
 
-            /* @var \PHY\Database\IDatabase $database */
+            /** @var \PHY\Database\IDatabase $database */
             $database = $app->get('database');
             $manager = $database->getManager();
 
             $limitConfig = $manager->load(['key' => 'limit'], new ConfigModel);
             $limit = $limitConfig->value
-                ?: 1;
+                ?: 5;
 
             $response = $this->getResponse();
             $request = $this->getRequest();
@@ -68,10 +68,12 @@
                 $head = $layout->block('head');
                 $content = $layout->block('content');
 
-                $head->setVariable('title', 'Blog');
-                $head->setVariable('description', 'Read some of the most recent news and tidbits from John Mullanaphy.');
+                $head->setVariable('title', 'Current happenings of John Mullanaphy' . ($pageId > 1
+                        ? ' (Page ' . $pageId . ')'
+                        : ''));
+                $head->setVariable('description', 'Recaps of my current life which usually involves nerdy hobbies.');
 
-                /* @var \PHY\Model\User\Collection $collection */
+                /** @var \PHY\Model\User\Collection $collection */
                 $cached = true;
                 $count = $cache->get($cacheKey . '-count');
                 if (!$collection = $cache->get($cacheKey . '-inner')) {

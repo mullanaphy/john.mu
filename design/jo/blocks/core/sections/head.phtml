@@ -23,18 +23,30 @@
      * @var $css array
      * @var $xsrfId string
      * @var $title string
+     * @var $author string
+     * @var $googleAuthor string
      * @see \PHY\View\Head
      */
 ?>
 <?php $tag = $this->tag()?>
+<?php if(!isset($title)) $title = 'Current happenings of John Mullanaphy'?>
+<?php if(!isset($description)) $description = 'Recaps of my current life which usually involves nerdy hobbies.'?>
 <meta charset="utf-8">
 <script type="text/javascript">if(window.location.hash.toString().match('!')){var url=window.location.hash.toString().split('!');window.location=url[1];}</script>
+<title><?=$this->clean($title)?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="<?=isset($description)?$description:'A site that has tried out using Phyneapple'?>">
-<meta name="author" content="<?=isset($author)?$author:'John Mullanaphy <john@jo.mu>'?>">
-<link href="http://jo.mu" hreflang="en-us" rel="alternate" title="CNN" type="text/html">
-<title><?=isset($title)?$title:'Phyneapple!'?></title>
-<link rel="shortcut icon" href="/favicon.ico" />
+<meta name="description" content="<?=$this->clean($description)?>">
+<meta name="author" content="<?=$this->clean(isset($author)?$author:'John Mullanaphy <john@jo.mu>')?>">
+<link rel="author" content="<?=$this->clean(isset($googleAuthor)?$googleAuthor:'https://plus.google.com/+JohnMullanaphy')?>">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta property="og:site_name" content="John Mullanaphy">
+<meta property="og:title" content="<?=$this->clean(isset($ogTitle)?$ogTitle:'Current happenings')?>">
+<meta property="og:type" content="<?=$this->clean(isset($ogType)?$ogType:'article')?>">
+<meta property="og:url" content="<?=$this->clean(isset($ogUrl)?$ogUrl:'http://jo.mu'.$_SERVER['REQUEST_URI'])?>">
+<meta property="og:image" content="<?=$this->clean(isset($ogImage)?$ogImage:'http://jo.mu.dev/resources/solarized/images/me.jpg')?>">
+<meta property="og:description" content="<?=$this->clean($description)?>">
+<meta property="article:author" content="https://www.facebook.com/mullanaphy">
+<link href="http://jo.mu" hreflang="en-us" rel="alternate" title="jo.mu" type="text/html">
 <?php if(isset($xsrfId)):?><script type="text/javascript">!function(){window.xsrfId='<?=$xsrfId?>';}()</script><?php endif?>
 <?php
     if(isset($js)):

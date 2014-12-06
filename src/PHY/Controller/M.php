@@ -33,7 +33,7 @@
         ];
 
         /**
-         * This is where we'll actuall minify our sources.
+         * This is where we'll actually minify our sources.
          *
          * @param string $method
          * @return \PHY\Http\IResponse $response
@@ -51,7 +51,7 @@
             $response = $this->getResponse();
             $response->setHeader('Content-Type', self::$contentTypes[$type]);
 
-            /* @var \PHY\Cache\ICache $cache */
+            /** @var \PHY\Cache\ICache $cache */
             $cache = $app->get('cache/resources');
 
             $path = explode('/m/' . $type . '/', $request->getUrl());

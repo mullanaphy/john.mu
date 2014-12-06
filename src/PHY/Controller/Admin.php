@@ -50,14 +50,14 @@
         public function __construct(App $app = null)
         {
             parent::__construct($app);
-            /* @var \PHY\Model\IUser $user */
+            /** @var \PHY\Model\IUser $user */
             $user = $app->getUser();
 
             if (!$user->exists()) {
                 $app->set('session/_redirect', '/admin');
                 $this->redirect('/login');
             } else {
-                /* @var \PHY\Database\IManager $manager */
+                /** @var \PHY\Database\IManager $manager */
                 $manager = $app->get('database')->getManager();
                 $authorize = Authorize::loadByRequest('controller/admin', $manager);
                 if (!$authorize->exists()) {
@@ -764,7 +764,7 @@
                     throw new ServerError('Umm, you\'re trying to reply to a deleted message nimrod...');
                 }
 
-                /* @var $mail \PHY\Mailer\IMailer */
+                /** @var $mail \PHY\Mailer\IMailer */
                 $mail = $app->get('mailer');
 
                 $mail->setTo([$fields['to']]);
@@ -910,6 +910,7 @@
                 }
                 $cache->delete('html/index/blog');
             }
+            $cache->delete('sitemap');
             $post = Markdown::defaultTransform($item->content);
             $cache->replace('blog/' . $item->id() . '/rendered', $post, 86400 * 31);
             $description = strip_tags(Markdown::defaultTransform((new Str(ucfirst($item->content)))->toShorten(160)));
@@ -1017,7 +1018,7 @@
             /*
              * We no longer need any rendered versions of our blog post.
              */
-            $cache = $app->get('cache');
+            $cache = $app->get('cache/rendered');
             $cachedVersions = $cache->get('html/index/blog');
             if ($cachedVersions) {
                 foreach ($cachedVersions as $cached) {
@@ -1027,6 +1028,7 @@
                 }
                 $cache->delete('html/index/blog');
             }
+            $cache->delete('sitemap');
             $cache->delete('blog/' . $item->id() . '/rendered');
             $cache->delete('blog/' . $item->id() . '/description');
 

@@ -50,7 +50,7 @@
             $visibility = $user->getVisibility();
             $visibility[] = '';
 
-            /* @var \PHY\Cache\ICache $cache */
+            /** @var \PHY\Cache\ICache $cache */
             $cache = $app->get('cache/rendered');
 
             $cacheKey = 'html/blog/' . $action . '/' . md5(implode(',', $visibility));
@@ -73,7 +73,13 @@
                     $description = strip_tags(Markdown::defaultTransform((new Str(ucfirst($item->content)))->toShorten(256)));
                     $cache->set('blog/' . $item->id() . '/description', $description, 86400 * 31);
                 }
+                $head->setVariable('title', $item->title . ' by John Mullanaphy');
                 $head->setVariable('description', $description);
+                $head->setVariable('ogTitle', $item->title);
+                $head->setVariable('ogUrl', 'http://jo.mu/blog/' . $item->slug);
+                if (is_file($app->getPublicDirectory() . DIRECTORY_SEPARATOR . 'media/blog/' . $item->slug . DIRECTORY_SEPARATOR . 'thumbnail.jpg')) {
+                    $head->setVariable('ogImage', 'http://jo.mu/media/blog/' . $item->slug . '/thumnail.jpg');
+                }
 
                 if (!$post = $cache->get('blog/' . $item->id() . '/rendered')) {
                     $post = Markdown::defaultTransform($item->content);
