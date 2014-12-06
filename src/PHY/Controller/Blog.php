@@ -78,7 +78,7 @@
                 $head->setVariable('ogTitle', $item->title);
                 $head->setVariable('ogUrl', 'http://jo.mu/blog/' . $item->slug);
                 if (is_file($app->getPublicDirectory() . DIRECTORY_SEPARATOR . 'media/blog/' . $item->slug . DIRECTORY_SEPARATOR . 'thumbnail.jpg')) {
-                    $head->setVariable('ogImage', 'http://jo.mu/media/blog/' . $item->slug . '/thumnail.jpg');
+                    $head->setVariable('ogImage', 'http://jo.mu/media/blog/' . $item->slug . '/thumbnail.jpg');
                 }
 
                 if (!$post = $cache->get('blog/' . $item->id() . '/rendered')) {
