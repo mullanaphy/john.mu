@@ -19,6 +19,7 @@
 
     use PHY\Event;
     use PHY\Event\Item as EventItem;
+    use PHY\Model\Config;
 
     /**
      * Footer block.
@@ -40,7 +41,6 @@
             $class = get_class($this->getLayout());
             $class = explode('\\', $class);
             $class = array_slice($class, 2)[0];
-            $live = false;
             $app = $this->getLayout()->getController()->getApp();
             $path = $app->getPath();
             try {
@@ -116,39 +116,11 @@
                         }
                     }
                 }
-                if ($live) {
-                    foreach ($merge as $type => $items) {
-                        $cached_file = 'resources' . DIRECTORY_SEPARATOR . 'cached' . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . md5(implode(array_keys($items)) . implode($items)) . '.' . $type;
-                        if (!is_file($cached_file)) {
-                            $fileContent = '';
-                            foreach ($items as $item => $time) {
-                                $FILE = fopen($item, 'r');
-                                $fileContent .= fread($FILE, filesize($item));
-                                fclose($FILE);
-                            }
-                            if (strlen($fileContent) > 0) {
-                                $FILE = fopen($cached_file, 'w');
-                                $minifier = $this->getClass('Minify\\' . strtoupper($type));
-                                if ($minifier) {
-                                    fwrite($FILE, $minifier::minify($fileContent));
-                                } else {
-                                    fwrite($FILE, $fileContent);
-                                }
-                                fclose($FILE);
-                            }
-                        }
+                foreach ($merge as $type => $items) {
+                    foreach ($items as $item => $time) {
                         $files[$type][] = array_merge($defaults[$type], [
-                            $defaults['key'][$type] => str_replace(DIRECTORY_SEPARATOR, '/', str_replace($_SERVER['DOCUMENT_ROOT'], '', $cached_file))
+                            $defaults['key'][$type] => str_replace(DIRECTORY_SEPARATOR, '/', str_replace($_SERVER['DOCUMENT_ROOT'], '', $item))
                         ]);
-                    }
-                    $cache->set($key, $files, time() + 3600);
-                } else {
-                    foreach ($merge as $type => $items) {
-                        foreach ($items as $item => $time) {
-                            $files[$type][] = array_merge($defaults[$type], [
-                                $defaults['key'][$type] => str_replace(DIRECTORY_SEPARATOR, '/', str_replace($_SERVER['DOCUMENT_ROOT'], '', $item))
-                            ]);
-                        }
                     }
                 }
             }
@@ -159,6 +131,14 @@
             Event::dispatch($event);
             $files = $event->files;
             $this->setTemplate('core/sections/footer.phtml')->setVariable('js', $files['js']);
+
+            /** @var \PHY\Database\IDatabase $database */
+            $database = $app->get('database');
+            $manager = $database->getManager();
+            $googleAnalytics = $manager->load(['key' => 'googleAnalytics'], new Config);
+            if ($googleAnalytics->value) {
+                $this->setVariable('googleAnalytics', $googleAnalytics->value);
+            }
         }
 
         /**
