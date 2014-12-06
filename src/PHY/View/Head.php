@@ -19,6 +19,7 @@
 
     use PHY\Event;
     use PHY\Event\Item as EventItem;
+    use PHY\Model\Config;
 
     /**
      * Head block.
@@ -125,6 +126,14 @@
                 ->setVariable('css', $files['css'])
                 ->setVariable('js', $files['js'])
                 ->setVariable('xsrfId', $event->xsrfId);
+
+            /** @var \PHY\Database\IDatabase $database */
+            $database = $app->get('database');
+            $manager = $database->getManager();
+            $googleAnalytics = $manager->load(['key' => 'googleAnalytics'], new Config);
+            if ($googleAnalytics->value) {
+                $this->setVariable('googleAnalytics', $googleAnalytics->value);
+            }
         }
 
         /**

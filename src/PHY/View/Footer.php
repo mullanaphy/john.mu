@@ -131,14 +131,6 @@
             Event::dispatch($event);
             $files = $event->files;
             $this->setTemplate('core/sections/footer.phtml')->setVariable('js', $files['js']);
-
-            /** @var \PHY\Database\IDatabase $database */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-            $googleAnalytics = $manager->load(['key' => 'googleAnalytics'], new Config);
-            if ($googleAnalytics->value) {
-                $this->setVariable('googleAnalytics', $googleAnalytics->value);
-            }
         }
 
         /**
