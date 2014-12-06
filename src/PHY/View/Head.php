@@ -37,19 +37,36 @@
          */
         public function structure()
         {
+            /** @var \PHY\Controller\IController $controller */
+            $controller = $this->getLayout()->getController();
+
+            /** @var \PHY\App $app */
+            $app = $controller->getApp();
+
+            /** @var \PHY\Cache\ICache $cache */
+            $cache = $app->get('cache');
+
             $class = get_class($this->getLayout());
             $class = explode('\\', $class);
             $class = array_slice($class, 2)[0];
-            $live = false;
-            $controller = $this->getLayout()->getController();
-            $app = $controller->getApp();
-            $request = $controller->getRequest();
-            $path = $app->getPath();
-            $cache = $app->get('cache');
+
             $theme = $app->getTheme();
-            $key = $theme . '/' . $class . '/block/core/head';
-            if (!($files = $cache->get($key))) {
-                $_files = $this->getVariable('files');
+            $_files = $this->getVariable('files');
+
+            $filesHash = [];
+            if (array_key_exists('css', $_files)) {
+                foreach ($_files['css'] as $file) {
+                    $filesHash[] = $file;
+                }
+            }
+            if (array_key_exists('js', $_files)) {
+                foreach ($_files['js'] as $file) {
+                    $filesHash[] = $file;
+                }
+            }
+            $filesHash = $theme . '/' . $class . '/block/core/head/' . md5(implode('', $filesHash));
+
+            if (!($files = $cache->get($filesHash))) {
                 $files = [
                     'css' => [],
                     'js' => []
@@ -96,11 +113,11 @@
                         ]);
                     }
                 }
-                $cache->set($theme . '/' . $class . '/block/core/head', $files);
+                $cache->set($filesHash, $files);
             }
             $event = new EventItem('block/core/head', [
                 'files' => $files,
-                'xsrfId' => $app->get('cookie')->get('xsrfId', false)
+                'xsrfId' => $app->getXsrfId()
             ]);
             Event::dispatch($event);
             $files = $event->files;

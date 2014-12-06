@@ -139,6 +139,12 @@ select {
     float: left;
 }
 
+.credits {
+    font-size: 60%;
+    line-height: 125%;
+    text-align: right;
+}
+
 [class*="column"] + [class*="column"]:last-child {
     float: right;
 }
@@ -155,6 +161,7 @@ select {
         padding-right: 0.9375em;
         float: left;
     }
+
 }
 
 @media only screen and (min-width: 40.063em) {
@@ -176,6 +183,10 @@ select {
 
     .medium-8 {
         width: 66.66667%;
+    }
+
+    .credits {
+        margin-top: 2em;
     }
 }
 
@@ -1070,7 +1081,6 @@ ul.pagination {
 
 ul.pagination li {
     height: 1.5rem;
-    color: #222222;
     font-size: 0.875rem;
     margin-left: 0.3125rem;
 }
@@ -1078,7 +1088,6 @@ ul.pagination li {
 ul.pagination li a, ul.pagination li button {
     display: block;
     padding: 0.0625rem 0.625rem 0.0625rem;
-    color: #999999;
     background: none;
     border-radius: 3px;
     font-weight: normal;
@@ -1090,27 +1099,18 @@ ul.pagination li a, ul.pagination li button {
 ul.pagination li:hover a,
 ul.pagination li a:focus, ul.pagination li:hover button,
 ul.pagination li button:focus {
-    background: #e6e6e6;
+    background: #e4e4e4;
 }
 
-ul.pagination li.unavailable a, ul.pagination li.unavailable button {
-    cursor: default;
-    color: #999999;
-}
-
-ul.pagination li.unavailable:hover a, ul.pagination li.unavailable a:focus, ul.pagination li.unavailable:hover button, ul.pagination li.unavailable button:focus {
-    background: transparent;
-}
-
-ul.pagination li.current a, ul.pagination li.current button {
-    background: #268bd2;
-    color: white;
+ul.pagination li.active a, ul.pagination li.active button {
+    background: #0087ff;
+    color: #ffffd7;
     font-weight: bold;
     cursor: default;
 }
 
-ul.pagination li.current a:hover, ul.pagination li.current a:focus, ul.pagination li.current button:hover, ul.pagination li.current button:focus {
-    background: #268bd2;
+ul.pagination lihr a:hover, ul.pagination li.active a:focus, ul.pagination li.active button:hover, ul.pagination li.active button:focus {
+    background: #0087ff;
 }
 
 ul.pagination li {
@@ -1249,7 +1249,7 @@ h6 {
 }
 
 hr {
-    border: solid #dddddd;
+    border: solid #e4e4e4;
     border-width: 1px 0 0;
     clear: both;
     margin: 1.25rem 0 1.1875rem;

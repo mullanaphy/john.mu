@@ -35,9 +35,6 @@
          */
         public function index_get()
         {
-            $layout = $this->getLayout();
-            $head = $layout->block('head');
-            $content = $layout->block('content');
 
             $app = $this->getApp();
 
@@ -48,41 +45,79 @@
             $database = $app->get('database');
             $manager = $database->getManager();
 
+            $limitConfig = $manager->load(['key' => 'limit'], new ConfigModel);
+            $limit = $limitConfig->value
+                ?: 1;
+
+            $response = $this->getResponse();
             $request = $this->getRequest();
+
             $user = $app->getUser();
             $visibility = $user->getVisibility();
             $visibility[] = '';
 
-            $head->setVariable('title', 'Blog');
-            $head->setVariable('description', 'Read some of the most recent news and tidbits from John Mullanaphy.');
-
-            /* @var \PHY\Model\User\Collection $collection */
-            if (!$collection = $cache->get('html/index/blog')) {
-                $collection = $manager->getCollection('Blog');
-                $collection->where()->field('visible')->in($visibility);
-                $cache->set('html/index/blog', $collection->toArray());
-            }
-
-            if (!is_numeric($count = $cache->get('html/index/blog/count'))) {
-                $count = $collection->count();
-                $cache->set('html/index/blog/count', $count);
-            }
-            $content->setVariable('collection', $collection);
-            $content->setVariable('count', $count);
-            $content->setTemplate('blog/content.phtml');
-
-            if ($count > $limit = $request->get('limit', 10)) {
+            $actionName = $request->getActionName();
+            $pageId = (int)$actionName;
+            if (!$pageId) {
                 $pageId = 1;
-                $offset = ($pageId * $limit) - $limit;
-                $collection->limit($offset, $limit);
-                $content->setChild('blog/pagination', [
-                    'viewClass' => 'pagination',
-                    'limit' => $limit,
-                    'total' => $count,
-                    'pageId' => $pageId,
-                    'url' => '/blog/page/[%i]'
-                ]);
             }
+            $cacheKey = 'html/index/blog/' . implode(',', $visibility) . '-' . $limit . '-' . $pageId;
+
+            if (!$cachedPage = $cache->get($cacheKey)) {
+                $layout = $this->getLayout();
+                $head = $layout->block('head');
+                $content = $layout->block('content');
+
+                $head->setVariable('title', 'Blog');
+                $head->setVariable('description', 'Read some of the most recent news and tidbits from John Mullanaphy.');
+
+                /* @var \PHY\Model\User\Collection $collection */
+                $cached = true;
+                $count = $cache->get($cacheKey . '-count');
+                if (!$collection = $cache->get($cacheKey . '-inner')) {
+                    $cached = false;
+                    $collection = $manager->getCollection('Blog');
+                    $collection->where()->field('visible')->in($visibility);
+                    $collection->order()->by('created')->direction('desc');
+                    if (!is_numeric($count)) {
+                        $count = $collection->count();
+                    }
+                }
+
+                $content->setVariable('collection', $collection);
+                $content->setVariable('count', $count);
+                $content->setTemplate('blog/content.phtml');
+
+                if ($count > $limit) {
+                    $offset = ($pageId * $limit) - $limit;
+                    if ($offset >= $count) {
+                        return $this->redirect('/');
+                    }
+                    if (!$cached) {
+                        $collection->limit($offset, $limit);
+                        $cachedVersions = $cache->get('html/index/blog');
+                        if (!$cachedVersions) {
+                            $cachedVersions = [];
+                        }
+                        $cachedVersions[] = $cacheKey;
+                        $cache->replace('html/index/blog', $cachedVersions);
+                        $cache->set($cacheKey . '-inner', $collection->toArray());
+                        $cache->set($cacheKey . '-count', $count);
+                    }
+                    $content->setChild('blog/pagination', [
+                        'viewClass' => 'pagination',
+                        'limit' => $limit,
+                        'total' => $count,
+                        'pageId' => $pageId,
+                        'url' => '/page/[%i]'
+                    ]);
+                }
+
+                $cachedPage = $layout->render();
+                $cache->set($cacheKey, $cachedPage);
+            }
+            $response->setContent([$cachedPage]);
+            return $response;
         }
 
     }

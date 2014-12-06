@@ -43,24 +43,25 @@
             $content = $layout->block('content');
 
             $app = $this->getApp();
-
-            /* @var \PHY\Cache\ICache $cache */
-            $cache = $app->get('cache/rendered');
-            $cache->flush();
-
-            /* @var \PHY\Database\IDatabase $database */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-
             $request = $this->getRequest();
             $action = $request->getActionName();
+
             $user = $app->getUser();
             $visibility = $user->getVisibility();
             $visibility[] = '';
 
-            if ($action !== '__index' && $action !== 'page') {
-                $model = new Model;
-                $item = $manager->load(['slug' => $action], $model);
+            /* @var \PHY\Cache\ICache $cache */
+            $cache = $app->get('cache/rendered');
+
+            $cacheKey = 'html/blog/' . $action . '/' . md5(implode(',', $visibility));
+            if (!$cached = $cache->get($cacheKey)) {
+
+                /** @var \PHY\Database\IDatabase $database */
+                $database = $app->get('database');
+                $manager = $database->getManager();
+
+                /** @var Model $item */
+                $item = $manager->load(['slug' => $action], new Model);
                 if (!$item->exists() || !in_array($item->visible, $visibility)) {
                     return $this->redirect('/');
                 }
@@ -69,7 +70,7 @@
                 $content->setVariable('item', $item);
 
                 if (!$description = $cache->get('blog/' . $item->id() . '/description')) {
-                    $description = strip_tags(Markdown::defaultTransform((new Str(ucfirst($item->content)))->toShorten(160)));
+                    $description = strip_tags(Markdown::defaultTransform((new Str(ucfirst($item->content)))->toShorten(256)));
                     $cache->set('blog/' . $item->id() . '/description', $description, 86400 * 31);
                 }
                 $head->setVariable('description', $description);
@@ -80,47 +81,22 @@
                 }
 
                 $content->setVariable('content', $post);
-            } else {
-                $head->setVariable('title', 'Blog');
-                $head->setVariable('description', 'Come enjoy the mediocre writings, discussions, and any thoughts that I\'ve unfortunately shared with the world.');
 
-                /* @var \PHY\Model\User\Collection $collection */
-                $collection = $manager->getCollection('Blog');
-                $collection->where()->field('visible')->in($visibility);
-                $content->setVariable('collection', $collection);
-
-                if (!is_numeric($count = $cache->get('html/index/blog/count'))) {
-                    $count = $collection->count();
-                    $cache->set('html/index/blog/count', $count);
+                /** @var Model\Relation $relation */
+                $relation = $manager->load(['slug' => $item->slug], new Model\Relation);
+                if ($relation->previous) {
+                    $content->setVariable('previous', $relation->previous);
+                }
+                if ($relation->next) {
+                    $content->setVariable('next', $relation->next);
                 }
 
-                $request = $this->getRequest();
-                if (($count > $limit = $request->get('limit', 10)) || $action === 'page') {
-                    $pages = ceil($count / $limit);
-                    $pageId = 1;
-
-                    if ($action === 'page') {
-                        $pageId = $request->get('__slug', 1);
-                        if (!$pageId) {
-                            $pageId = 1;
-                        } else if ($pageId > $pages) {
-                            if ($pageId > $pages) {
-                                return $this->redirect('/');
-                            }
-                        }
-                    }
-
-                    $offset = ($pageId * $limit) - $limit;
-                    $collection->limit($offset, $limit);
-                    $content->setChild('blog/pagination', [
-                        'viewClass' => 'pagination',
-                        'limit' => $limit,
-                        'total' => $count,
-                        'pageId' => $pageId,
-                        'url' => '/blog/page/[%i]'
-                    ]);
-                }
+                $cached = $layout->render();
+                $cache->set($cacheKey, $cached);
             }
+            $response = $this->getResponse();
+            $response->setContent([$cached]);
+            return $response;
         }
 
     }

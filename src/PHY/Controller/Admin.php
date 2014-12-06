@@ -24,6 +24,7 @@
     use PHY\Http\Response\Xml as XmlResponse;
     use PHY\Model\Authorize;
     use PHY\Model\Blog;
+    use PHY\Model\Blog\Relation as BlogRelation;
     use PHY\Model\Config as ConfigModel;
     use PHY\Model\Message;
     use PHY\Model\User;
@@ -115,11 +116,11 @@
             $collection = $manager->getCollection('Message');
             $collection->limit(3);
             $collection->where()->field('read')->is('0000-00-00 00:00:00');
-            $collection->order()->by('created', 'desc');
+            $collection->order()->by('created')->direction('desc');
             $content->setVariable('messages', $collection);
 
             $collection = $manager->getCollection('Blog');
-            $collection->order()->by('created', 'desc');
+            $collection->order()->by('created')->direction('desc');
             $collection->limit(3);
             $content->setVariable('blog', $collection);
         }
@@ -679,7 +680,7 @@
 
                 $collection = $manager->getCollection('Message');
                 $collection->limit((($pageId * $limit) - $limit), $limit);
-                $collection->order()->by('created', 'desc');
+                $collection->order()->by('created')->direction('desc');
 
                 $content->setTemplate('admin/message/collection.phtml');
                 $content->setVariable('collection', $collection);
@@ -834,7 +835,7 @@
 
                 $collection = $manager->getCollection('Blog');
                 $collection->limit((($pageId * $limit) - $limit), $limit);
-                $collection->order()->by('updated', 'desc');
+                $collection->order()->by('updated')->direction('desc');
 
                 $content->setTemplate('admin/blog/collection.phtml');
                 $content->setVariable('collection', $collection);
@@ -898,12 +899,33 @@
              * Lets render and cache our blog post so we don't have to do it on a page load.
              */
             $cache = $app->get('cache/rendered');
-            $cache->delete('html/index/blog');
-            $cache->delete('html/index/blog/count');
+            $cachedVersions = $cache->get('html/index/blog');
+            if ($cachedVersions) {
+                foreach ($cachedVersions as $cached) {
+                    $cache->delete($cached);
+                    $cache->delete($cached . '-inner');
+                    $cache->delete($cached . '-count');
+                }
+                $cache->delete('html/index/blog');
+            }
             $post = Markdown::defaultTransform($item->content);
             $cache->replace('blog/' . $item->id() . '/rendered', $post, 86400 * 31);
             $description = strip_tags(Markdown::defaultTransform((new Str(ucfirst($item->content)))->toShorten(160)));
             $cache->replace('blog/' . $item->id() . '/description', $description, 86400 * 31);
+
+            if (!$id) {
+                $previous = $manager->load(['next' => ''], new BlogRelation);
+                if ($previous->exists()) {
+                    $previous->next = $item->slug;
+                }
+                $manager->save($previous);
+                $new = new BlogRelation([
+                    'slug' => $item->slug,
+                    'previous' => $previous->slug,
+                    'next' => ''
+                ]);
+                $manager->save($new);
+            }
 
             return $this->renderResponse('blog', [
                 'title' => 'Posted!',
@@ -952,14 +974,57 @@
                 ]);
             }
             $title = $item->title;
+            $slug = $item->slug;
             $manager->delete($item);
+
+            /** @var BlogRelation $relation */
+            $relation = $manager->load(['slug' => $slug], new BlogRelation);
+
+            /** @var BlogRelation $previous */
+            if ($relation->previous !== '') {
+                $previous = $manager->load(['slug' => $relation->previous], new BlogRelation);
+            } else {
+                $previous = new BlogRelation;
+            }
+
+            /** @var BlogRelation $next */
+            if ($relation->next !== '') {
+                $next = $manager->load(['slug' => $relation->next], new BlogRelation);
+            } else {
+                $next = new BlogRelation;
+            }
+
+            if ($next->exists() && $previous->exists()) {
+                $previous->next = $next->slug;
+                $next->previous = $previous->slug;
+                $manager->save($next);
+                $manager->save($previous);
+            } else if ($next->exists()) {
+                $next->previous = '';
+                $manager->save($next);
+            } else if ($previous->exists()) {
+                $previous->next = '';
+                $manager->save($previous);
+            }
+
+            $manager->delete($relation);
+            if ($next) {
+                $manager->save($next);
+            }
 
             /*
              * We no longer need any rendered versions of our blog post.
              */
             $cache = $app->get('cache');
-            $cache->delete('html/index/blog');
-            $cache->delete('html/index/blog/count');
+            $cachedVersions = $cache->get('html/index/blog');
+            if ($cachedVersions) {
+                foreach ($cachedVersions as $cached) {
+                    $cache->delete($cached);
+                    $cache->delete($cached . '-inner');
+                    $cache->delete($cached . '-count');
+                }
+                $cache->delete('html/index/blog');
+            }
             $cache->delete('blog/' . $item->id() . '/rendered');
             $cache->delete('blog/' . $item->id() . '/description');
 
@@ -967,6 +1032,55 @@
                 'title' => 'No longer relevant?!',
                 'type' => 'success',
                 'message' => 'Successfully removed: ' . $title
+            ]);
+        }
+
+        /**
+         * GET /admin/relations
+         */
+        public function relations_get()
+        {
+            $app = $this->getApp();
+            $request = $this->getRequest();
+
+            /**
+             * @var \PHY\Database\IDatabase $database
+             */
+            $database = $app->get('database');
+
+            /** @var \PHY\Database\IManager $manager */
+            $manager = $database->getManager();
+
+            /*
+             * First let's delete EVERYTHING from blog_relation
+             */
+            $manager->dropTable(new BlogRelation);
+
+            $collection = $manager->getCollection('Blog');
+            $collection->order()->by('created')->direction('asc');
+
+            $previous = '';
+            $current = null;
+            foreach ($collection as $item) {
+                if ($current !== null) {
+                    $current->next = $item->slug;
+                    $manager->save($current);
+                }
+                $current = new BlogRelation([
+                    'slug' => $item->slug
+                ]);
+                $current->previous = $previous;
+                $previous = $item->slug;
+            }
+            if ($current !== null) {
+                $current->next = '';
+                $manager->save($current);
+            }
+
+            return $this->renderResponse('index', [
+                'title' => 'Aw Yiss',
+                'type' => 'success',
+                'message' => 'Successfully rebuilt relations',
             ]);
         }
 

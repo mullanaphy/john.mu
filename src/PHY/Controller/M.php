@@ -61,7 +61,6 @@
             $generated = $app->getRootDirectory() . 'var' . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'minified_' . md5($path);
             $content = $cache->get($path);
             if (!is_file($generated) || md5($content) !== file_get_contents($generated)) {
-                $cache->delete($path);
                 $class = '\MatthiasMullie\Minify\\' . strtoupper($type);
                 $files = explode(',', $path);
                 $file = $app->getPublicDirectory() . $this->url(array_shift($files), $type);

@@ -30,4 +30,12 @@
 </h1>
 <?= $content ?>
 <hr/>
-<a href="<?= $this->url('') ?>">Home</a>
+<ul class="pagination">
+    <li><a href="<?= $this->url('') ?>">Home</a></li>
+    <?php if (isset($previous)): ?>
+        <li><a href="<?= $this->url('blog/' . $previous) ?>">Previous</a></li>
+    <?php endif; ?>
+    <?php if (isset($next)): ?>
+        <li><a href="<?= $this->url('blog/' . $next) ?>">Next</a></li>
+    <?php endif; ?>
+</ul>

@@ -132,4 +132,26 @@
          * @return string
          */
         public function clean($string);
+
+        /**
+         * @param string $model
+         * @return ICollection
+         */
+        public function getCollection($model);
+
+        /**
+         * Empty all tables associated with a model.
+         *
+         * @param IEntity $model
+         * @return boolean
+         */
+        public function emptyTable(IEntity $model);
+
+        /**
+         * Drop all tables associated with a model.
+         *
+         * @param IEntity $model
+         * @return boolean
+         */
+        public function dropTable(IEntity $model);
     }

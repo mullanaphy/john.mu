@@ -496,7 +496,6 @@
          */
         private static function createTable(IEntity $model, IDatabase $database, ICache $cache)
         {
-            $cache->delete('mysqli/tables');
             if (self::$_tables === null) {
                 self::$_tables = $cache->get('mysqli/tables');
                 if (!is_array(self::$_tables)) {
@@ -620,6 +619,68 @@
             }
 
             return true;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public function emptyTable(IEntity $model)
+        {
+            $database = $this->getDatabase();
+            $databaseName = self::getDatabaseName($database);
+            $source = $model->getSource();
+            $primary = $source['schema']['primary'];
+            unset($source['schema']['primary']);
+            try {
+                if ($source['schema']) {
+                    foreach ($source['schema'] as $table) {
+                        $database->query("TRUNCATE TABLE IF EXISTS `" . $databaseName . "`.`" . $table['table'] . ";");
+                        self::$_tables[$table['table']] = false;
+                    }
+                }
+                $database->query("TRUNCATE TABLE IF EXISTS `" . $databaseName . "`.`" . $primary['table'] . ";");
+                $database->commit();
+                $database->autocommit(true);
+                $success = true;
+            } catch (\Exception $e) {
+                $database->rollback();
+                $database->autocommit(true);
+                $success = false;
+            }
+            return $success;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public function dropTable(IEntity $model)
+        {
+            $database = $this->getDatabase();
+            $databaseName = self::getDatabaseName($database);
+            $source = $model->getSource();
+            $primary = $source['schema']['primary'];
+            unset($source['schema']['primary']);
+            try {
+                if ($source['schema']) {
+                    foreach ($source['schema'] as $table) {
+                        $database->query("DROP TABLE IF EXISTS `" . $databaseName . "`.`" . $table['table'] . ";");
+                        unset(self::$_tables[$table['table']]);
+                    }
+                }
+                $database->query("DROP TABLE IF EXISTS `" . $databaseName . "`.`" . $primary['table'] . ";");
+                unset(self::$_tables[$primary['table']]);
+                $database->commit();
+                $database->autocommit(true);
+                $success = true;
+            } catch (\Exception $e) {
+                $database->rollback();
+                $database->autocommit(true);
+                $success = false;
+            }
+            $cache = $this->getCache();
+            $cache->delete('mysqli/tables');
+            $cache->set('mysqli/tables', self::$_tables, Int::YEAR);
+            return $success;
         }
 
         /**

@@ -34,12 +34,12 @@
             </a>
         </h1>
         <?= \Michelf\Markdown::defaultTransform($this->clean((new \PHY\Variable\Str(ucfirst($item->content)))->toShorten(1024))) ?>
-        <a href="<?= $this->url('blog/' . $item->slug) ?>">more</a>
+        <p><a href="<?= $this->url('blog/' . $item->slug) ?>">more</a></p>
         <?php if (++$i < $count): ?>
             <hr/>
         <?php endif ?>
     <?php endforeach ?>
-    <?= $this->child('news/pagination') ?>
+    <?= $this->child('blog/pagination') ?>
 <?php else: ?>
     <h1>Enjoy my writings</h1>
     <p>I'll mostly be writing about programming, comics, Brazilian jiu jitsu, and any other life events as I see

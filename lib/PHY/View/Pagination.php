@@ -100,28 +100,20 @@
                 $attributes = $this->getVariable('attributes', []);
                 $start = 1;
                 $end = $pages;
+                $helper = $tag->helper();
                 if ($start > 1) {
-                    $pagination->append($tag->li($tag->helper()->url('&laquo;', $url($start - 1), $attributes)));
-                } else {
-                    $pagination->append($tag->li($tag->span('&laquo;'), [
-                        'class' => 'disabled'
-                    ]));
+                    $pagination->append($tag->li($helper->url('&laquo;', $url($start - 1), $attributes)));
                 }
                 for ($i = $start; $i <= $end; ++$i) {
-                    $page = $tag->helper()->url($i, $url($i), $attributes);
+                    $page = $helper->url($i, $url($i), $attributes);
                     $li = $tag->li($page);
                     if ($i === $id) {
                         $li->class('active');
-                        $page->append($tag->span(' (current)', ['class' => 'sr-only']));
                     }
                     $pagination->append($li);
                 }
                 if ($end < $pages) {
-                    $pagination->append($tag->li($tag->helper()->url('&raquo;', $url($end + 1), $attributes)));
-                } else {
-                    $pagination->append($tag->li($tag->span('&raquo;'), [
-                        'class' => 'disabled'
-                    ]));
+                    $pagination->append($tag->li($helper->url('&raquo;', $url($end + 1), $attributes)));
                 }
                 $this->setTemplate('pagination.phtml')->setVariable('pagination', $pagination);
             }
