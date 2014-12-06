@@ -548,6 +548,7 @@
             $data = $request->get('config', [
                 'key' => '',
                 'value' => '',
+                'type' => 'variable',
             ]);
             if ($id) {
                 $item = $manager->load($id, new ConfigModel);
@@ -564,6 +565,7 @@
 
             $item->set($data);
             $manager->save($item);
+
             return $this->renderResponse('config', [
                 'title' => 'Configured!',
                 'type' => 'success',

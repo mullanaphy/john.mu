@@ -48,7 +48,6 @@
             $cache = $app->get('cache');
             $theme = $app->getTheme();
             $key = $theme . '/' . $class . '/block/core/head';
-            $cache->delete($key);
             if (!($files = $cache->get($key))) {
                 $documentRoot = $request->getEnvironmental('DOCUMENT_ROOT');
                 $_files = $this->getVariable('files');

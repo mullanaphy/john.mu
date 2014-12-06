@@ -23,7 +23,10 @@
 ?>
 <!DOCTYPE html>
 <html>
-<head><?= $this->child('head'); ?></head>
+<head>
+    <?= $this->child('head'); ?>
+    <script type="text/javascript" src="<?= $this->url('jquery.min.js', 'js') ?>"></script>
+</head>
 <body class="two-column">
 <?= $this->child('header') ?>
 <div class="container">
@@ -37,7 +40,8 @@
                     <ul class="nav nav-divider">
                         <?php $path = explode('/', $this->getLayout()->getController()->getRequest()->getUrl());
                             if (count($path) > 2):
-                                $path = $path[2]; else:
+                                $path = $path[2];
+                            else:
                                 $path = false;
                             endif ?>
                         <?php if ($path === 'blog'): ?>
@@ -72,7 +76,6 @@
         </div>
     </div>
     <?= $this->child('footer') ?>
-    <script type="text/javascript" src="<?= $this->url('jquery.min.js', 'js') ?>"></script>
     <script type="text/javascript" src="<?= $this->url('foundation.min.js', 'js') ?>"></script>
     <script type="text/javascript" src="<?= $this->url('plugin/center.js', 'js') ?>"></script>
     <script type="text/javascript" src="<?= $this->url('plugin/popup.js', 'js') ?>"></script>
@@ -81,7 +84,9 @@
     <script type="text/javascript" src="<?= $this->url('ajax/dispatcher.js', 'js') ?>"></script>
     <script type="text/javascript" src="<?= $this->url('ajax/events.js', 'js') ?>"></script>
     <script type="text/javascript" src="<?= $this->url('ajax/handler.js', 'js') ?>"></script>
-    <script type="text/javascript">jQuery(function(){console.log($(document).foundation())});</script>
+    <script type="text/javascript">jQuery(function() {
+            console.log($(document).foundation())
+        });</script>
 </div>
 <?= $this->child('modal') ?>
 </body>

@@ -37,13 +37,10 @@
             <div class="form-group">
                 <label for="config-type" class="control-label">Type</label>
                 <select id="config-type" name="config[type]">
-                    <option value="variable">Variable</option>
-                    <option value="text">Text</option>
-                    <option value="date">Date</option>
-                    <option value="integer">Integer</option>
-                    <option value="decimal">Decimal</option>
-                    <option value="float">Float</option>
-                    <option value="boolean">Boolean</option>
+                    <?php foreach (['variable', 'text', 'date', 'integer', 'decimal', 'float', 'boolean'] as $type): ?>
+                        <option
+                            value="<?= $type ?>"<?php if ($type === $item->type): ?> selected="selected"<?php endif ?>><?= ucfirst($type) ?></option>
+                    <?php endforeach ?>
                 </select>
             </div>
         </div>
@@ -57,7 +54,7 @@
                 <label for="config-value-variable" class="control-label">Value</label>
                 <?php if ($item->type === 'variable' || !$item->type): ?>
                     <input class="config-value" id="config-value-variable" name="config[value]" type="text"
-                           value="<?= $this->clean($item->value) ?> "/>
+                           value="<?= $this->clean($item->value) ?>"/>
                 <?php else: ?>
                     <input class="config-value" id="config-value-variable" type="text"/>
                 <?php endif ?>
@@ -79,7 +76,7 @@
                 <label for="config-value-date" class="control-label">Value</label>
                 <?php if ($item->type === 'date'): ?>
                     <input class="config-value" id="config-value-date" name="config[value]" type="datetime"
-                           value="<?= $this->clean($item->value) ?> "/>
+                           value="<?= $this->clean($item->value) ?>"/>
                 <?php else: ?>
                     <input class="config-value" id="config-value-date" type="datetime"/>
                 <?php endif ?>
