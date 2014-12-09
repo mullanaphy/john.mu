@@ -10,6 +10,10 @@ I could have the messages go directly into my email address, yet I figured this
 way I can make sure the cron jerk is working and I won't get spam directly into
 my email.
 
+Please note, the source code is completely free to use while any and all actual
+content on the site is not based on this license. This license gives you free
+use of the source code only.
+
 Requirements
 ------------
 
@@ -31,7 +35,7 @@ That's it for now...
 License
 -------
 
-jo.mu is licensed under the Open Software License (OSL 3.0) -
+jo.mu's source code is licensed under the Open Software License (OSL 3.0) -
 see the `LICENSE` file for details
 
 Acknowledgements
