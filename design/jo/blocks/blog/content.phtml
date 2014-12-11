@@ -26,18 +26,18 @@
 <?php if ($count): ?>
     <?php $i = 0; ?>
     <?php foreach ($collection as $item): ?>
-        <h1 class="title"><a href="<?= $this->url('blog/' . $item->slug) ?>"><?= $this->clean($item->title) ?>
-                <small class="right">
-                    <time
-                        datetime="<?= date('Y-m-d\TH:i:sa', strtotime($item->created)) ?>"><?= date('F j, Y', strtotime($item->created)) ?></time>
-                </small>
-            </a>
+        <h1 class="title"><a
+                href="<?= $this->url('blog/' . $item->slug) ?>"><?= $this->clean($item->title) ?></a>
         </h1>
+        <h5>
+            <time
+                datetime="<?= date('Y-m-d\TH:i:sa', strtotime($item->created)) ?>"><?= date('F j, Y', strtotime($item->created)) ?></time>
+        </h5>
         <?= \Michelf\Markdown::defaultTransform($this->clean((new \PHY\Variable\Str(ucfirst($item->content)))->toShorten(1024))) ?>
-        <p><a href="<?= $this->url('blog/' . $item->slug) ?>">more</a></p>
+        <a href="<?= $this->url('blog/' . $item->slug) ?>">Full Post</a>
         <?php if (++$i < $count): ?>
-            <hr/>
-        <?php endif ?>
+            <hr class="clear"/>
+        <?php endif; ?>
     <?php endforeach ?>
     <?= $this->child('blog/pagination') ?>
 <?php else: ?>

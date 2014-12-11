@@ -901,20 +901,11 @@
              * Lets render and cache our blog post so we don't have to do it on a page load.
              */
             $cache = $app->get('cache/rendered');
-            $cachedVersions = $cache->get('html/index/blog');
-            if ($cachedVersions) {
-                foreach ($cachedVersions as $cached) {
-                    $cache->delete($cached);
-                    $cache->delete($cached . '-inner');
-                    $cache->delete($cached . '-count');
-                }
-                $cache->delete('html/index/blog');
-            }
-            $cache->delete('sitemap');
+            $cache->flush();
             $post = Markdown::defaultTransform($item->content);
-            $cache->replace('blog/' . $item->id() . '/rendered', $post, 86400 * 31);
+            $cache->set('blog/' . $item->id() . '/rendered', $post, 86400 * 31);
             $description = strip_tags(Markdown::defaultTransform((new Str(ucfirst($item->content)))->toShorten(160)));
-            $cache->replace('blog/' . $item->id() . '/description', $description, 86400 * 31);
+            $cache->set('blog/' . $item->id() . '/description', $description, 86400 * 31);
 
             if (!$id) {
                 $previous = $manager->load(['next' => ''], new BlogRelation);

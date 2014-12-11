@@ -22,12 +22,11 @@
      * @var $item \PHY\Model\Blog
      */
 ?>
-<h1 class="title"><?= $this->clean($item->title) ?>
-    <small class="right">
-        <time
-            datetime="<?= date('Y-m-d\TH:i:sa', strtotime($item->created)) ?>"><?= date('F j, Y', strtotime($item->created)) ?></time>
-    </small>
-</h1>
+<h1 class="title"><?= $this->clean($item->title) ?></h1>
+<h5>
+    <time
+        datetime="<?= date('Y-m-d\TH:i:sa', strtotime($item->created)) ?>"><?= date('F j, Y', strtotime($item->created)) ?></time>
+</h5>
 <?= $content ?>
 <hr/>
 <ul class="pagination">
