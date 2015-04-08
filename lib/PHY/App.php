@@ -458,7 +458,7 @@
                  * Let's do some XSRF stuffs.
                  */
                 /* @var $cookieManager \PHY\Component\Cookie */
-/*                $cookieManager = $this->get('cookie');
+                $cookieManager = $this->get('cookie');
                 $this->xsrfId = $cookieManager->get('xsrfId');
                 if ($request->getMethod() !== 'GET') {
                     if ($this->xsrfId !== $request->get('xsrfId')) {
@@ -481,7 +481,7 @@
                 if (!$this->xsrfId) {
                     $this->xsrfId = Str::random(16)->get();
                 }
-                $cookieManager->set('xsrfId', $this->xsrfId); */
+                $cookieManager->set('xsrfId', $this->xsrfId);
 
                 $controller->setRequest($request);
 

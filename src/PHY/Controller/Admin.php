@@ -62,7 +62,7 @@
                 $authorize = Authorize::loadByRequest('controller/admin', $manager);
                 if (!$authorize->exists()) {
                     $authorize->request = 'controller/admin';
-                    $authorize->allow = 'user admin super-admin';
+                    $authorize->allow = 'admin super-admin';
                     $authorize->deny = 'all';
                     $manager->save($authorize);
                 }
