@@ -69,21 +69,21 @@ article {
 
 #header h1 {
     float: left;
-    font-size: 3em;
+    font-size: 3.5em;
     font-weight: bold;
     text-transform: uppercase;
 }
 
 #header h2,
 #header h3 {
-    font-size: .9em;
+    font-size: 0.9em;
     font-weight: normal;
 }
 
 #header h4,
 #header h5,
 #header h6 {
-    float: left;
+    text-align: right;
 }
 
 #header a {
