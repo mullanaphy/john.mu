@@ -380,11 +380,11 @@
                 set_error_handler(function ($number, $message, $file, $line) {
                     throw new \ErrorException($message, $number, $number, $file, $line);
                 });
-                $manager = $this->get('database/default.manager');
+                //$manager = $this->get('database/default.manager');
                 /* @var \PHY\Model\Rewrite $rewrite */
-                $rewrite = $manager->getModel('rewrite');
-                $manager->load($rewrite::loadByRequest($request), $rewrite);
-                if ($rewrite->exists()) {
+                //$rewrite = $manager->getModel('rewrite');
+                //$manager->load($rewrite::loadByRequest($request), $rewrite);
+                if (false && $rewrite->exists()) {
                     if ($rewrite->isRedirect()) {
                         $response = new Response($request->getEnvironmentals(), $this->get('config/status_code'));
                         $response->redirect($rewrite->destination, $rewrite->redirect);
@@ -439,7 +439,6 @@
 
                 $request->setControllerName($controllerName);
                 $request->setActionName($actionName);
-
                 /* @var \PHY\Controller\IController $controller */
                 $_ = $this->getClass('Controller\\' . ucfirst($controllerClass));
                 if ($_) {

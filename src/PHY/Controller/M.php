@@ -81,7 +81,7 @@
                 $content = $minifier->minify();
                 $cache->set($path, $content);
                 if (file_exists($generated)) {
-                    unlink($generated);
+//                    unlink($generated);
                 } else {
                     touch($generated);
                 }

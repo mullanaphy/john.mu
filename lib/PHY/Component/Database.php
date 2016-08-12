@@ -17,7 +17,7 @@
 
     namespace PHY\Component;
 
-    use PHY\Database\Exception;
+    use PHY\Database\Exception as BaseException;
     use PHY\Database\IDatabase;
     use PHY\Event;
     use PHY\Event\Item as EventItem;
@@ -67,11 +67,11 @@
                 if ($event->config && array_key_exists('type', $event->config)) {
                     $database = $app->getClass('Database\\' . ucfirst($event->config['type']));
                     if (!$database) {
-                        throw new Exception('Component "database" could not find a usable class.');
+                        throw new BaseException('Component "database" could not find a usable class.');
                     }
                     $database = new $database($event->config, $app);
                     if (!($database instanceof IDatabase)) {
-                        throw new Exception('Database object must use \PHY\Database\IDatabase.');
+                        throw new BaseException('Database object must use \PHY\Database\IDatabase.');
                     }
                 }
                 if ($database) {
@@ -82,7 +82,7 @@
                     ]));
                 } else {
                     if (!$graceful) {
-                        throw new Exception('Component "database/' . $value . '" is undefined.');
+                        throw new BaseException('Component "database/' . $value . '" is undefined.');
                     }
                 }
             }

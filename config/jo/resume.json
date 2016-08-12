@@ -1,0 +1,85 @@
+{
+  "settings": {
+    "name": "John Mullanaphy",
+    "url": [
+      {
+        "key": "email",
+        "label": "john@jo.mu",
+        "url": "mailto:john@jo.mu"
+      },
+      {
+        "key": "url",
+        "label": "jo.mu",
+        "url": "http://jo.mu/"
+      },
+      {
+        "key": "github",
+        "label": "github.com/mullanaphy",
+        "url": "https://github.com/mullanaphy"
+      }
+    ]
+  },
+  "experience": [
+    {
+      "company": "Forensiq, LLC",
+      "title": "Senior Developer",
+      "date": "January 2013 to Present",
+      "url": "forensiq.com",
+      "description": [
+        "Work primarily with all of our outward facing code base. Focusing on our client interface along with writing our pixel code to work cross browser (back to IE6)."
+      ]
+    },
+    {
+      "company": "Connor Communications, LLC",
+      "title": "Project Manager, Senior Developer",
+      "date": "April 2011 to December 2012",
+      "url": "connorcom.com",
+      "description": [
+        [
+          "Project Manager",
+          "Working with customers directly to manage expectations and handle any issues while also delegating objectives to fellow developers."
+        ],
+        [
+          "Senior Developer",
+          "Created web based solutions of various sizes. From small Facebook page tabs and email blasts to full fledged Magento shopping carts.",
+          "The back end of projects are done on Linux/Debian servers using nginx, PHP5.4+, MySQL, and an in-house MVC framework for custom projects.",
+          "Front end consists of HTML5/CSS with jQuery for interactions."
+        ]
+      ]
+    },
+    {
+      "company": "Lafango, LLC",
+      "title": "Developer",
+      "date": "August 2008 to April 2011",
+      "url": "lafango.com",
+      "description": [
+        "Developed both the back and front end frameworks used by the rest of the development team at Lafango. Also developed different systems of the site.",
+        "Also developed the way AJAX works from front to back. Back end generates JSON in PHP via REST calls while the front end parsing was built using jQuery (previously Prototype)."
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "title": "Buzz Words",
+      "items": [
+        "Lua",
+        "Node",
+        "PHP",
+        "perl",
+        "Backbone",
+        "MongoDB",
+        "Redis",
+        "Aerospike",
+        "MySQL"
+      ]
+    },
+    {
+      "title": "Other",
+      "items": [
+        "Teaching chess",
+        "Problem solving",
+        "Debugging"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,259 @@
+body, html {
+    background: #fdf6e3;
+    color: #333;
+    font-family: 'Open Sans', Verdana, Geneva, sans-serif;
+    width: 100%;
+}
+
+.one-column {
+    margin: 0 auto;
+    width: 900px;
+}
+
+@media screen {
+    header {
+        font-size: 1.2em;
+    }
+
+    article {
+        font-size: 1.3em;
+        line-height: 130%;
+    }
+}
+
+article {
+    background: #eee8d5;
+    border-radius: 1em;
+    margin: 1em 0;
+    padding: 1em;
+}
+
+#footer ul {
+    margin: 0;
+    padding: 0;
+}
+
+#footer li {
+    margin: 0 5px 0 0;
+    padding: 0;
+    display: inline;
+}
+
+.holder {
+    margin: 0 auto;
+}
+
+#header {
+    background: #073642;
+    color: #fdf6e3;
+    display: block;
+    width: 100% !important;
+    padding: 1em 0;
+    margin-bottom: 1em;
+}
+
+#header hgroup {
+    display: block;
+    float: right;
+    line-height: 130%;
+}
+
+#header:after,
+#header hgroup:after {
+    clear: both;
+    content: '.';
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+#header h1 {
+    float: left;
+    font-size: 3em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#header h2,
+#header h3 {
+    font-size: .9em;
+    font-weight: normal;
+}
+
+#header h4,
+#header h5,
+#header h6 {
+    float: left;
+}
+
+#header a {
+    color: #859900;
+    display: block;
+    font-size: .75em;
+    margin: 0 .7em 0 0;
+    font-family: Tahoma, 'Open Sans', Verdana, Geneva, sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#header a:active,
+#header a:hover {
+    color: #b58900;
+}
+
+#footer .holder {
+    border-top: solid 1em #e5e5a1;
+    margin-top: 1.5em;
+    padding-top: 1.5em;
+}
+
+#cover {
+    display: none;
+}
+
+#main {
+    font-size: 18px;
+    line-height: 1.45em;
+}
+
+#main h2 {
+    font-size: 1.25em;
+    font-weight: bold;
+    margin-bottom: .5em;
+    padding-bottom: .5em;
+    text-transform: uppercase;
+}
+
+a {
+    color: #2aa198;
+}
+
+a:visited {
+    color: #d33682;
+}
+
+a:active, a:hover {
+    color: #cb4b16;
+}
+
+button {
+    background: #cb4b16;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px 10px;
+    width: auto;
+}
+
+button:active,
+button:hover {
+    background: #2aa198;
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px), (max-width: 480px) {
+    body {
+        font-size: 11px;
+    }
+
+    .holder {
+        width: 100%;
+    }
+
+    #header {
+        text-align: center;
+    }
+
+    #header h1 {
+        font-size: 2.75em;
+        float: none !important;
+        width: 100%;
+    }
+
+    #header hgroup {
+        float: none;
+    }
+
+    #header h2,
+    #header h3 {
+        font-size: .9em;
+        font-weight: normal;
+    }
+
+    #header h3,
+    #header h4,
+    #header h5,
+    #header h6,
+    #header h3 a,
+    #header h4 a,
+    #header h5 a,
+    #header h6 a {
+        display: inline !important;
+        float: none;
+        font-size: .9em;
+    }
+
+    article {
+        border-radius: 0 !important;
+    }
+
+    #main {
+        font-size: 9px;
+    }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+    body {
+        font-size: 12pt;
+    }
+
+    .holder {
+        width: 100%;
+    }
+
+    #header h1 {
+        font-size: 2.75em;
+    }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen, print and (min-width: 768px) {
+    .holder {
+        width: 768px;
+    }
+
+    .container {
+        margin-bottom: 2em;
+    }
+
+    dt,
+    p,
+    ul {
+        margin: 0 3em;
+    }
+
+    dd {
+        margin: 0 6em;
+    }
+
+    li {
+        margin: 0 0 .25em;
+    }
+
+    ul {
+        list-style-type: square;
+    }
+
+    ul ul {
+        margin: .25em 3em 0;
+    }
+
+    ul dt {
+        margin: 0;
+    }
+
+    ul dd {
+        margin: 0 3em;
+    }
+}

@@ -115,11 +115,11 @@
             $check = trim(strtolower(str_replace([__NAMESPACE__, '\\'], ['', '/'], get_class($this))), '/');
 
             /* @var \PHY\Database\IManager $manager */
-            $manager = $app->get('database')->getManager();
+            /*$manager = $app->get('database')->getManager();
             $authorize = Authorize::loadByRequest($check . '/' . $action, $manager);
             if (!$authorize->isAllowed($app->getUser())) {
                 throw new Forbidden('You cannot access this page.');
-            }
+            }*/
 
             /* If everything is good, let's call the correct route. */
             $response = $this->$action();

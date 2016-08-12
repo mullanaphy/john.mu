@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>John Mullanaphy's Resume</title>
+    <link
+        href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,700,800,600"
+        rel="stylesheet" type="text/css"/>
+    <link href="<?= $this->url('reset.css', 'css') ?>" rel="stylesheet" type="text/css"/>
+    <link href="<?= $this->url('resume.css', 'css') ?>" rel="stylesheet" type="text/css"/>
+    <link href="<?= $this->url('resume/print.css', 'css') ?>" rel="stylesheet" type="text/css" media="print"/>
+</head>
+<body class="one-column">
+<div id="container">
+    <?php $tag = $this->tag() ?>
+    <header id="header">
+        <div class="holder">
+            <h1><?= $this->clean($resume['settings']['name']) ?></h1>
+            <hgroup>
+                <?php if (array_key_exists('url', $resume['settings'])): ?>
+                    <?php if (is_array($resume['settings']['url'])): ?>
+                        <?php foreach ($resume['settings']['url'] as $url): ?>
+                            <?php if (is_array($url)): ?>
+                                <h4 class="<?= $url['key'] ?>"><?= $tag->helper()
+                                        ->url($url['label'], $url['url']) ?></h4>
+                            <?php else: ?>
+                                <h4><?= $tag->helper()->url($url, $url) ?></h4>
+                            <?php endif ?>
+                        <?php endforeach ?>
+                    <?php else: ?>
+                        <h4><?= $tag->helper()->url($resume['settings']['url'], $resume['settings']['url']) ?></h4>
+                    <?php endif ?>
+                <?php endif ?>
+            </hgroup>
+        </div>
+    </header>
+    <?php
+        $list = function ($data, $tag) {
+            $ul = $tag->ul;
+            foreach ($data as $row) {
+                $li = $tag->li;
+                $items = $tag->ul;
+                $li->append($tag->h3($row['title']));
+                foreach ($row['items'] as $item) {
+                    if (is_string($item)) {
+                        $items->append($tag->li($item));
+                    } else {
+                        $items->append($tag->li([
+                            $tag->h3($item['title']),
+                            $tag->unordered($item['items']),
+                        ]));
+                    }
+                }
+                $li->append($items);
+                $ul->append($li);
+            }
+            return $ul;
+        }
+    ?>
+    <article class="skills">
+        <header><h2>Skills</h2></header>
+        <div class="content">
+            <?= $list($resume['skills'], $tag) ?>
+        </div>
+    </article>
+    <article class="experience">
+        <header><h2>Experience</h2></header>
+        <ul class="content">
+            <?php foreach ($resume['experience'] as $row): ?>
+                <li>
+                    <h3><?= $this->clean($row['company']) ?></h3>
+                    <h4><?= $this->clean($row['date']) ?></h4>
+                    <h6><?= $tag->helper()->url($row['url'], $row['url']) ?></h6>
+                    <h5><?= $this->clean($row['title']) ?></h5>
+                    <ul>
+                        <?php foreach ($row['description'] as $r): ?>
+                            <?php if (is_array($r)): ?>
+                                <li>
+                                    <dl>
+                                        <dt><?= $r[0] ?></dt>
+                                        <dd><?= $r[1] ?></dd>
+                                    </dl>
+                                </li>
+                            <?php else: ?>
+                                <li><?= $this->clean($r) ?></li>
+                            <?php endif ?>
+                        <?php endforeach ?>
+                    </ul>
+                </li>
+            <?php endforeach ?>
+        </ul>
+    </article>
+</div>
+</body>
+</html>

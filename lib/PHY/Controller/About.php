@@ -10,7 +10,6 @@
      * If you did not receive a copy of the license and are unable to
      * obtain it through the world-wide-web, please send an email
      * to license@phyneapple.com so we can send you a copy immediately.
-
      */
 
     namespace PHY\Controller;
@@ -37,7 +36,6 @@
             $layout = $this->getLayout();
             $head = $layout->block('head');
             $head->setVariable('title', 'About');
-
             $manager = $this->getApp()->get('database')->getManager();
             $bio = $manager->load(['key' => 'bio'], new ConfigModel);
             $content = $layout->block('content');
@@ -49,9 +47,14 @@
          */
         public function resume_get()
         {
+            $config = $this->getApp()->get('config/resume');
             $layout = $this->getLayout();
-            $config = $layout->config('about/resume');
-            $layout->setConfig($config);
+            $layout->buildBlocks('content', $config);
+
+            $body = $layout->block('layout');
+            $body->setTemplate('resume/content.phtml');
+            $body->setVariable('resume', $config);
+
         }
 
     }

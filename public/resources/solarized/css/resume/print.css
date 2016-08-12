@@ -1,0 +1,145 @@
+* {
+	background:#fff;
+	border:0;
+	font-family:arial, helvetica, sans-serif !important;
+	color:#000;
+	line-height:1.25em;
+	margin:0;
+	padding:0;
+}
+h1 {
+	width:50% !important;
+}
+body,html {
+	background:#fff;
+	color:#000;
+	font-size:12pt;
+}
+a {
+	color:#000 !important;
+	font-weight:bold !important;
+	text-decoration:none !important;
+}
+#header {
+	background:#fff;
+	margin-bottom:0;
+	padding-bottom:0;
+}
+#cover {
+	display:block;
+	page-break-after:always;
+}
+.holder {
+	width:auto !important;
+}
+.holder {
+	margin:0 auto;
+}
+#header a {
+	font-size:inherit !important;
+	font-weight:normal !important;
+}
+#footer .wrapper {
+	border-top:solid .1em #000;
+	margin-top:.75em;
+	padding-top:.75em;
+}
+#footer button {
+	display:none;
+}
+
+article {
+	background:#fff !important;
+	padding:0 !important;
+}
+article h2 {
+	border-bottom:solid .1em #000;
+}
+
+dt,
+p,
+.experience ul {
+	margin:0 0 0 1em !important;
+}
+dd {
+	margin:0 0 0 3em !important;
+}
+
+li{
+	margin:0 0 !important;
+}
+ul {
+	list-style-type:none !important;
+}
+ul dt {
+	margin:0 !important;
+}
+ul dd {
+	margin:0 1em !important;
+}
+.skills ul ul {
+	display:inline !important;
+	margin:0 !important;
+}
+.skills ul {
+	margin:0 0 0 2em !important;
+}
+.skills ul > li > h3 {
+	display:inline !important;
+	margin-left:-1em !important;
+}
+.skills ul ul,
+.skills ul ul li {
+	display:inline !important;
+	font-size:.9em !important;
+	margin:0 !important;
+}
+.skills ul ul h3 {
+	display:inline !important;
+	font-size:1em !important;
+	margin:0 !important;
+}
+.skills ul h3 {
+	font-size:.9em !important;
+	font-weight:bold !important;
+}
+.skills ul ul h3 {
+	font-weight:normal !important;
+}
+.skills ul ul li:first-child:before {
+	content:': ';
+	display:inline;
+}
+.skills ul ul ul li:first-child:before {
+	content:' (';
+	display:inline;
+}
+.skills ul ul ul li {
+	font-style:italic !important;
+}
+.skills ul ul ul:after {
+	content:')';
+	display:inline;
+}
+.skills ul ul li:before {
+	content:', ';
+	display:inline;
+}
+.experience h6 {
+	float:right;
+}
+.experience ul ul {
+	border-top:solid .1em #000;
+	margin:.25em 0 0 !important;
+	padding:.25em 1em;
+}
+.experience ul li {
+	font-size:.9em;
+	line-height:130%;
+	padding:.9em 0 0;
+}
+.experience dl {
+}
+#main .experience h2 {
+	margin-bottom:0;
+}

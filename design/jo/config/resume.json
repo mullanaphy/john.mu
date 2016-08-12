@@ -1,0 +1,41 @@
+{
+  "layout": {
+    "template": "core/layout-col.phtml",
+    "children": {
+      "head": {
+        "title": "John Mullanaphy",
+        "viewClass": "head",
+        "files": {
+          "css": [
+            "normalize.css",
+            "core.css"
+          ]
+        }
+      },
+      "sidebar": {
+        "viewClass": "items",
+        "children": {
+          "sidebar/me": {
+            "template": "sidebar/me.phtml",
+            "viewClass": "sidebar/me"
+          }
+        }
+      },
+      "footer": {
+        "viewClass": "footer",
+        "copyright": "&copy; John Mullanaphy 2014",
+        "files": {
+          "js": [
+            "vendor/modernizr.js"
+          ]
+        }
+      },
+      "content": {
+        "viewClass": "parser"
+      },
+      "modal": {
+        "template": "generic/modal.phtml"
+      }
+    }
+  }
+}
