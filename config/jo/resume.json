@@ -10,7 +10,7 @@
       {
         "key": "url",
         "label": "jo.mu",
-        "url": "http://jo.mu/"
+        "url": "https://jo.mu/"
       },
       {
         "key": "github",
@@ -20,6 +20,15 @@
     ]
   },
   "experience": [
+    {
+      "company": "Impact Radius, Forensiq",
+      "title": "Team Lead Software Engineer",
+      "date": "January 2013 to Present",
+      "url": "impactradius.com",
+      "description": [
+        "Continuing with the Forensiq product with extra responsibilities."
+      ]
+    },
     {
       "company": "Forensiq, LLC",
       "title": "Senior Developer",
@@ -46,16 +55,6 @@
           "Front end consists of HTML5/CSS with jQuery for interactions."
         ]
       ]
-    },
-    {
-      "company": "Lafango, LLC",
-      "title": "Developer",
-      "date": "August 2008 to April 2011",
-      "url": "lafango.com",
-      "description": [
-        "Developed both the back and front end frameworks used by the rest of the development team at Lafango. Also developed different systems of the site.",
-        "Also developed the way AJAX works from front to back. Back end generates JSON in PHP via REST calls while the front end parsing was built using jQuery (previously Prototype)."
-      ]
     }
   ],
   "skills": [
@@ -63,7 +62,7 @@
       "title": "Buzz Words",
       "items": [
         "Lua",
-        "Node",
+        "NodeJS",
         "PHP",
         "perl",
         "Backbone",
