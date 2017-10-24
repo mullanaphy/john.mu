@@ -145,6 +145,11 @@ select {
     text-align: right;
 }
 
+.credits ul,
+.credits li {
+    font-size: inherit;
+}
+
 [class*="column"] + [class*="column"]:last-child {
     float: right;
 }
