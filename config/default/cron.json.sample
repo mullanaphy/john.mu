@@ -1,9 +1,9 @@
 [
-    {
-        "enabled": true,
-        "controller": "namespace/class",
-        "method": "method",
-        "parameters": [],
-        "expr": "* * * * * *"
-    }
+  {
+    "enabled": true,
+    "controller": "namespace/class",
+    "method": "method",
+    "parameters": [],
+    "expr": "* * * * * *"
+  }
 ]

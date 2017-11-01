@@ -1,7 +1,7 @@
 [
-    {
-        "on": "block/core/menu",
-        "class": "PHY/Test",
-        "method": "test"
-    }
+  {
+    "on": "block/core/menu",
+    "class": "PHY/Test",
+    "method": "test"
+  }
 ]

@@ -1,9 +1,9 @@
 {
-    "default": {
-        "type": "mysqli",
-        "host": "localhost",
-        "username": "johnnyDatabaseMan",
-        "password": "johnnyDatabasePassword",
-        "table": "johnnyDatabaseTable"
-    }
+  "default": {
+    "type": "mysqli",
+    "host": "localhost",
+    "username": "johnnyDatabaseMan",
+    "password": "johnnyDatabasePassword",
+    "table": "johnnyDatabaseTable"
+  }
 }

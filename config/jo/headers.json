@@ -1,0 +1,9 @@
+{
+  "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+  "Content-Security-Policy": "default-src 'self'; script-src 'unsafe-inline' 'self' platform.instagram.com www.google-analytics.com platform.twitter.com cdn.syndication.twimg.com; style-src 'unsafe-inline' 'self' fonts.googleapis.com platform.twitter.com; img-src 'self' data: www.gravatar.com www.google-analytics.com www.instagram.com twitter.com fusiontables.googleusercontent.com fusiontables.google.com www.google.com www.youtube.com syndication.twitter.com platform.twitter.com stats.g.doubleclick.net; frame-src www.instagram.com twitter.com fusiontables.googleusercontent.com fusiontables.google.com www.google.com www.youtube.com syndication.twitter.com platform.twitter.com; connect-src 'self' syndication.twitter.com; font-src 'self' cdnjs.cloudflare.com fonts.gstatic.com fonts.googleapis.com; form-action 'self' syndication.twitter.com; upgrade-insecure-requests;",
+  "X-Frame-Options": "SAMEORIGIN",
+  "X-XSS-Protection": "1; mode=block",
+  "Server": "Kane Mosaic Punch",
+  "X-Content-Type-Options": "nosniff",
+  "Referrer-Policy": "no-referrer-when-downgrade"
+}

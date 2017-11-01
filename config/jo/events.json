@@ -1,7 +1,12 @@
 [
-    {
-        "on": "block/core/menu",
-        "class": "PHY/Event/Menu",
-        "method": "load"
-    }
+  {
+    "on": "block/core/menu",
+    "class": "PHY/Event/Menu",
+    "method": "load"
+  },
+  {
+    "on": "controller/response/after",
+    "class": "PHY/Event/DefaultHeaders",
+    "method": "set"
+  }
 ]
