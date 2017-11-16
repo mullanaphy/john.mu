@@ -59,8 +59,7 @@
          * Add an event to trigger list.
          *
          * @param string $event
-         * @param IDispatcher $dispatcher
-         * @return bool
+         * @param IDispatcher $dispatcher\
          * @throws Exception
          */
         public static function on($event, IDispatcher $dispatcher)
@@ -79,7 +78,6 @@
          *
          * @param string $event
          * @param IDispatcher $dispatcher
-         * @return bool
          * @throws Exception
          */
         public static function off($event, IDispatcher $dispatcher = null)
@@ -103,7 +101,6 @@
                     }
                 }
             }
-            self::$_events[$event][] = $dispatcher;
         }
 
         /**
