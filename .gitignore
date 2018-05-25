@@ -1,5 +1,8 @@
-config/database.json
-config/cache.json
+config/*/database.json
+config/*/cache.json
 var
 vendor
 .idea
+composer.phar
+public/media
+private
