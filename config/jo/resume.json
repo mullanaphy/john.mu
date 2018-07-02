@@ -21,10 +21,19 @@
   },
   "experience": [
     {
-      "company": "Impact Radius, Forensiq",
+      "company": "Forensiq by Impact",
+      "title": "Principal Software Engineer",
+      "date": "June 2018 to Present",
+      "url": "impact.com",
+      "description": [
+        "Continuing with the Forensiq product with extra responsibilities."
+      ]
+    },
+    {
+      "company": "Forensiq by Impact",
       "title": "Team Lead Software Engineer",
-      "date": "January 2013 to Present",
-      "url": "impactradius.com",
+      "date": "January 2013 to June 2018",
+      "url": "impact.com",
       "description": [
         "Continuing with the Forensiq product with extra responsibilities."
       ]
@@ -36,24 +45,6 @@
       "url": "forensiq.com",
       "description": [
         "Work primarily with all of our outward facing code base. Focusing on our client interface along with writing our pixel code to work cross browser (back to IE6)."
-      ]
-    },
-    {
-      "company": "Connor Communications, LLC",
-      "title": "Project Manager, Senior Developer",
-      "date": "April 2011 to December 2012",
-      "url": "connorcom.com",
-      "description": [
-        [
-          "Project Manager",
-          "Working with customers directly to manage expectations and handle any issues while also delegating objectives to fellow developers."
-        ],
-        [
-          "Senior Developer",
-          "Created web based solutions of various sizes. From small Facebook page tabs and email blasts to full fledged Magento shopping carts.",
-          "The back end of projects are done on Linux/Debian servers using nginx, PHP5.4+, MySQL, and an in-house MVC framework for custom projects.",
-          "Front end consists of HTML5/CSS with jQuery for interactions."
-        ]
       ]
     }
   ],
