@@ -7,7 +7,6 @@
         "viewClass": "head",
         "files": {
           "css": [
-            "normalize.css",
             "core.css"
           ]
         }

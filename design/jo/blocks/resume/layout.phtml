@@ -23,7 +23,7 @@
                                 <h4 class="<?= $url['key'] ?>"><?= $tag->helper()
                                         ->url($url['label'], $url['url']) ?></h4>
                             <?php else: ?>
-                                <h4><?= $tag->helper()->url($url, $url) ?></h4>
+                                <h4><?= $tag->helper()->url($url, 'http://' . $url) ?></h4>
                             <?php endif ?>
                         <?php endforeach ?>
                     <?php else: ?>

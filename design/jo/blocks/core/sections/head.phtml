@@ -42,11 +42,10 @@
 <meta property="og:site_name" content="John Mullanaphy">
 <meta property="og:title" content="<?=$this->clean(isset($ogTitle)?$ogTitle:'Current happenings')?>">
 <meta property="og:type" content="<?=$this->clean(isset($ogType)?$ogType:'article')?>">
-<meta property="og:url" content="<?=$this->clean(isset($ogUrl)?$ogUrl:'http://jo.mu'.$_SERVER['REQUEST_URI'])?>">
-<meta property="og:image" content="<?=$this->clean(isset($ogImage)?$ogImage:'http://jo.mu/resources/solarized/images/me.jpg')?>">
+<meta property="og:url" content="<?=$this->clean(isset($ogUrl)?$ogUrl:'https://jo.mu'.$_SERVER['REQUEST_URI'])?>">
+<meta property="og:image" content="<?=$this->clean(isset($ogImage)?$ogImage:'https://jo.mu/resources/solarized/images/me.jpg')?>">
 <meta property="og:description" content="<?=$this->clean($description)?>">
 <meta property="article:author" content="https://www.facebook.com/mullanaphy">
-<!--script src="https://widget.battleforthenet.com/widget.js" async></script-->
 <?php if(isset($xsrfId)):?><script type="text/javascript">!function(){window.xsrfId='<?=$xsrfId?>';}()</script><?php endif?>
 <?php
     if(isset($js)):

@@ -70,6 +70,7 @@
                         'js' => 'src'
                     ]
                 ];
+                $root = $app->getPublicDirectory();
                 foreach (array_keys($_files) as $type) {
                     foreach ($_files[$type] as $file) {
                         if (is_array($file) || is_object($file)) {
@@ -101,17 +102,11 @@
                                 if (strpos($sourceFile, '?') !== false) {
                                     $sourceFile = explode('?', $sourceFile)[0];
                                 }
-                                $source = false;
-                                foreach ($path->getPaths('public' . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . $theme . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $sourceFile), 'public' . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $sourceFile)) as $_source) {
-                                    if (is_file($_source)) {
-                                        $source = $_source;
-                                        break;
-                                    }
-                                }
-                                if (!$source) {
+                                $source = $this->url($sourceFile, $type);
+                                if (!is_readable($root . DIRECTORY_SEPARATOR . $source)) {
                                     continue;
                                 }
-                                $merge[$type][$source] = filemtime($source);
+                                $merge[$type]['/m/' . $type . '/' . $sourceFile] = filemtime($root . DIRECTORY_SEPARATOR . $source);
                             }
                         }
                     }
@@ -119,7 +114,7 @@
                 foreach ($merge as $type => $items) {
                     foreach ($items as $item => $time) {
                         $files[$type][] = array_merge($defaults[$type], [
-                            $defaults['key'][$type] => str_replace(DIRECTORY_SEPARATOR, '/', str_replace($_SERVER['DOCUMENT_ROOT'], '', $item))
+                            $defaults['key'][$type] => $item
                         ]);
                     }
                 }
