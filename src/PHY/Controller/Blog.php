@@ -1,7 +1,7 @@
 <?php
 
     /**
-     * jo.mu
+     * john.mu
      *
      * LICENSE
      *
@@ -26,9 +26,9 @@
      *
      * @package PHY\Controller\Blog
      * @category PHY\Phyneapple
-     * @copyright Copyright (c) 2014 John Mullanaphy (http://jo.mu/)
+     * @copyright Copyright (c) 2014 John Mullanaphy (https://john.mu/)
      * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-     * @author John Mullanaphy <john@jo.mu>
+     * @author John Mullanaphy <hi@john.mu>
      */
     class Blog extends AController
     {
@@ -76,9 +76,9 @@
                 $head->setVariable('title', $item->title . ' by John Mullanaphy');
                 $head->setVariable('description', $description);
                 $head->setVariable('ogTitle', $item->title);
-                $head->setVariable('ogUrl', 'https://jo.mu/blog/' . $item->slug);
+                $head->setVariable('ogUrl', 'https://john.mu/blog/' . $item->slug);
                 if (is_file($app->getPublicDirectory() . DIRECTORY_SEPARATOR . 'media/blog/' . $item->slug . DIRECTORY_SEPARATOR . 'thumbnail.jpg')) {
-                    $head->setVariable('ogImage', 'http://jo.mu/media/blog/' . $item->slug . '/thumbnail.jpg');
+                    $head->setVariable('ogImage', 'https://john.mu/media/blog/' . $item->slug . '/thumbnail.jpg');
                 }
 
                 if (!$post = $cache->get('blog/' . $item->id() . '/rendered')) {

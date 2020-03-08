@@ -6,14 +6,14 @@
     "website",
     "blog"
   ],
-  "homepage": "http://jo.mu/",
+  "homepage": "https://john.mu/",
   "type": "blog",
   "license": "The Open Software License v3.0",
   "authors": [
     {
       "name": "John Mullanaphy",
-      "email": "john@jo.mu",
-      "homepage": "http://jo.mu/"
+      "email": "hi@john.mu",
+      "homepage": "https://john.mu/"
     }
   ],
   "require": {

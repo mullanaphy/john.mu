@@ -1,4 +1,4 @@
-[jo.mu](http://jo.mu/)
+[john.mu](https://john.mu/)
 ================================================================================
 
 This is my personal website. All it does is basic blogging using markdown for
@@ -24,18 +24,18 @@ Submitting bugs and feature requests
 ------------------------------------
 
 Please send bugs to me via
-[GitHub](https://github.com/mullanaphy/jo.mu/issues)
+[GitHub](https://github.com/mullanaphy/john.mu/issues)
 
 Author
 ------
 
-John Mullanaphy - <john@jo.mu> - <http://jo.mu/>
+John Mullanaphy - <hi@john.mu> - <https://john.mu/>
 That's it for now...
 
 License
 -------
 
-jo.mu's source code is licensed under the Open Software License (OSL 3.0) -
+john.mu's source code is licensed under the Open Software License (OSL 3.0) -
 see the `LICENSE` file for details
 
 Acknowledgements

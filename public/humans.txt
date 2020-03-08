@@ -1,19 +1,19 @@
-/* TEAM */
-Creator: John Mullanaphy
-Contact: john@jo.mu
-Twitter: @KandyCodes
-Location: Central Jersey
+Team:
+  Creator: John Mullanaphy
+    Contact: hi@john.mu
+    Twitter: @YourBoyKandy
+    Location: Central Jersey
 
-/* THANKS */
-Portrait Artist: Billy Hong
-Site: https://www.immortalchoke.com/
-Twitter: @ImmortalChoke
+Thanks:
+  Portrait Artist: Billy Hong
+    Site: https://www.immortalchoke.com/
+    Twitter: @ImmortalChoke
 
-Color Scheme: Ethan Schoonover
-Site: http://ethanschoonover.com/solarized
-Twitter: @EthanSchoonover
+  Color Scheme: Ethan Schoonover
+    Site: http://ethanschoonover.com/solarized
+    Twitter: @EthanSchoonover
 
-/* SITE */
-Standards: HTML5, CSS3
-Components: Foundation, Modernizr
-Software: IntelliJ
+Site:
+  Standards: HTML5, CSS3
+  Components: Foundation, Modernizr
+  Software: IntelliJ

@@ -22,9 +22,9 @@
      *
      * @package PHY\Controller\Resume
      * @category PHY\JO
-     * @copyright Copyright (c) 2014 John Mullanaphy (http://jo.mu/)
+     * @copyright Copyright (c) 2014 John Mullanaphy (https://john.mu/)
      * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-     * @author John Mullanaphy <john@jo.mu>
+     * @author John Mullanaphy <hi@john.mu>
      */
     class Resume extends AController
     {

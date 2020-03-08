@@ -4,13 +4,13 @@
     "url": [
       {
         "key": "email",
-        "label": "john@jo.mu",
-        "url": "mailto:john@jo.mu"
+        "label": "hi@john.mu",
+        "url": "mailto:hi@john.mu"
       },
       {
         "key": "url",
-        "label": "jo.mu",
-        "url": "https://jo.mu/"
+        "label": "john.mu",
+        "url": "https://john.mu/"
       },
       {
         "key": "github",

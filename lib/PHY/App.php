@@ -35,7 +35,7 @@
      * @category PHY\Phyneapple
      * @copyright Copyright (c) 2013 Phyneapple! (http://www.phyneapple.com/)
      * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-     * @author John Mullanaphy <john@jo.mu>
+     * @author John Mullanaphy <hi@john.mu>
      * @todo Make this make sense. Try and break up what should be global and what should be in the registry class.
      */
     class App

@@ -263,8 +263,8 @@
             "authors": [
                 {
                     "name": "John Mullanaphy",
-                    "email": "john@jo.mu",
-                    "homepage": "http://jo.mu/"
+                    "email": "hi@john.mu",
+                    "homepage": "https://john.mu/"
                 }
             ],
             "description": "Dynamic HTML builder, nothing super worth while. It does supports default HTML3, HTML4, HTML5, and XHTML tags.",
@@ -306,8 +306,8 @@
             "authors": [
                 {
                     "name": "John Mullanaphy",
-                    "email": "john@jo.mu",
-                    "homepage": "http://jo.mu/"
+                    "email": "hi@john.mu",
+                    "homepage": "https://john.mu/"
                 }
             ],
             "description": "Just a side project after getting tired of hearing people grip out parameter orders and other such nots with build in variables.",
