@@ -1621,6 +1621,14 @@ p aside {
     font-style: italic;
 }
 
+pre {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5em;
+    font-family: Consolas, "Liberation Mono", Courier, monospace;
+    margin-bottom: 1.25rem;
+    padding: 1rem;
+}
+
 /* Default header styles */
 h1, h2, h3, h4, h5, h6 {
     font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
@@ -1709,12 +1717,10 @@ small {
 code {
     font-family: Consolas, "Liberation Mono", Courier, monospace;
     font-weight: normal;
-    color: #333333;
-    background-color: #f7c6b2;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #f2aa8c;
-    padding: 0.125rem 0.3125rem 0.0625rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 0;
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.3125rem;
 }
 
 /* Lists */
