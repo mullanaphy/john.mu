@@ -59,6 +59,7 @@
             $success = false;
             $error = 'Something seems to have gone astray.';
             try {
+                throw new ServerError('Not accepting messages at this time. Please just hit me up on Twitter.');
 
                 $app = $this->getLayout()->getController()->getApp();
                 /**
