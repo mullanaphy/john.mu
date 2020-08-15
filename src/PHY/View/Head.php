@@ -33,6 +33,8 @@
     class Head extends AView
     {
 
+        const GOOGLE_ANALYTICS_KEY = 'block/core/head/googleAnalytics';
+
         /**
          * {@inheritDoc}
          */
@@ -70,21 +72,21 @@
             if (!($files = $cache->get($filesHash))) {
                 $files = [
                     'css' => [],
-                    'js' => []
+                    'js' => [],
                 ];
 
                 $defaults = [
                     'css' => [
                         'rel' => 'stylesheet',
-                        'type' => 'text/css'
+                        'type' => 'text/css',
                     ],
                     'js' => [
-                        'type' => 'text/javascript'
+                        'type' => 'text/javascript',
                     ],
                     'key' => [
                         'css' => 'href',
-                        'js' => 'src'
-                    ]
+                        'js' => 'src',
+                    ],
                 ];
                 $merge = [];
                 $root = $app->getPublicDirectory();
@@ -92,7 +94,7 @@
                     foreach ($_files[$type] as $file) {
                         if (substr($file, 0, 4) === 'http' || substr($file, 0, 2) === '//') {
                             $files[$type][] = array_merge($defaults[$type], [
-                                $defaults['key'][$type] => $file
+                                $defaults['key'][$type] => $file,
                             ]);
                         } else {
                             $sourceFile = $file;
@@ -110,7 +112,7 @@
                 foreach ($merge as $type => $items) {
                     foreach ($items as $item => $time) {
                         $files[$type][] = array_merge($defaults[$type], [
-                            $defaults['key'][$type] => $item
+                            $defaults['key'][$type] => $item,
                         ]);
                     }
                 }
@@ -118,7 +120,7 @@
             }
             $event = new EventItem('block/core/head', [
                 'files' => $files,
-                'xsrfId' => $app->getXsrfId()
+                'xsrfId' => $app->getXsrfId(),
             ]);
             Event::dispatch($event);
             $files = $event->files;
@@ -128,11 +130,21 @@
                 ->setVariable('xsrfId', $event->xsrfId);
 
             /** @var \PHY\Database\IDatabase $database */
-            $database = $app->get('database');
-            $manager = $database->getManager();
-            $googleAnalytics = $manager->load(['key' => 'googleAnalytics'], new Config);
-            if ($googleAnalytics->value) {
-                $this->setVariable('googleAnalytics', $googleAnalytics->value);
+            $googleAnalytics = $cache->get(self::GOOGLE_ANALYTICS_KEY);
+            if (!$googleAnalytics) {
+                $database = $app->get('database');
+                $manager = $database->getManager();
+                /** @var \PHY\Model\Config $googleAnalytics */
+                $googleAnalytics = $manager->load(['key' => 'googleAnalytics'], new Config)->value;
+                $cache->set(self::GOOGLE_ANALYTICS_KEY, $googleAnalytics, 3600);
+            }
+
+            if ($googleAnalytics) {
+                $event = new EventItem(self::GOOGLE_ANALYTICS_KEY, [
+                    'value' => $googleAnalytics->value,
+                ]);
+                Event::dispatch($event);
+                $this->setVariable('googleAnalytics', $event->value);
             }
         }
 

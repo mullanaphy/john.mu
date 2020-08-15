@@ -16,8 +16,9 @@
 
     namespace PHY\Controller;
 
+    use Michelf\Markdown;
     use PHY\App;
-    use PHY\Component\Mailer;
+    use PHY\Event;
     use PHY\Http\Exception\Forbidden;
     use PHY\Http\Exception\ServerError;
     use PHY\Http\Response\Json as JsonResponse;
@@ -28,9 +29,9 @@
     use PHY\Model\Config as ConfigModel;
     use PHY\Model\Message;
     use PHY\Model\User;
-    use Michelf\Markdown;
     use PHY\Variable\Str;
     use PHY\View\Block;
+    use PHY\View\Head;
 
     /**
      * My admin panel. Theoretically this should probably be broken up into smaller controllers but #yolo.
@@ -77,6 +78,13 @@
          */
         public function action($action = 'index')
         {
+            try {
+                Event::on(Head::GOOGLE_ANALYTICS_KEY, new Event\Dispatcher(function ($event) {
+                    $event->value = null;
+                    return $event;
+                }));
+            } catch (\Exception $e) {
+            }
             $layout = $this->getLayout();
             $page = $layout->block('layout');
             $page->setTemplate('admin/layout-2col.phtml');
@@ -89,7 +97,7 @@
             $layout->buildBlocks('breadcrumb', [
                 'template' => 'admin/' . ($action !== 'index'
                         ? $action . '/'
-                        : '') . 'breadcrumb.phtml'
+                        : '') . 'breadcrumb.phtml',
             ]);
             $layout->block('layout')->setChild('breadcrumb', null);
 
@@ -176,8 +184,8 @@
                     'total' => $collection->count(),
                     'url' => [
                         $this->url('admin/authorize'),
-                        'limit' => $limit
-                    ]
+                        'limit' => $limit,
+                    ],
                 ]);
             }
             if ($message = $app->get('session/admin/authorize/message')) {
@@ -205,7 +213,7 @@
             $data = $request->get('authorize', [
                 'request' => '',
                 'deny' => '',
-                'allow' => ''
+                'allow' => '',
             ]);
             if ($id) {
                 $item = $manager->load($id, new Authorize);
@@ -213,7 +221,7 @@
                     return $this->renderResponse('authorize', [
                         'title' => 'Hmmm',
                         'type' => 'warning',
-                        'message' => 'No ACL found for id: ' . $id
+                        'message' => 'No ACL found for id: ' . $id,
                     ]);
                 }
             } else {
@@ -228,7 +236,7 @@
             return $this->renderResponse('authorize', [
                 'title' => 'Yeah boy!',
                 'type' => 'success',
-                'message' => 'Successfully updated: ' . $item->request
+                'message' => 'Successfully updated: ' . $item->request,
             ]);
         }
 
@@ -261,14 +269,14 @@
                     return $this->renderResponse('authorize', [
                         'title' => 'Oh man...',
                         'type' => 'warning',
-                        'message' => 'No ACL found for id: ' . $id
+                        'message' => 'No ACL found for id: ' . $id,
                     ]);
                 }
             } else {
                 return $this->renderResponse('authorize', [
                     'title' => 'Well?',
                     'type' => 'warning',
-                    'message' => 'No ACL id provided.'
+                    'message' => 'No ACL id provided.',
                 ]);
             }
             $requestName = $item->request;
@@ -276,7 +284,7 @@
             return $this->renderResponse('authorize', [
                 'title' => 'Ok.',
                 'type' => 'success',
-                'message' => 'Successfully removed: ' . $requestName
+                'message' => 'Successfully removed: ' . $requestName,
             ]);
         }
 
@@ -331,8 +339,8 @@
                     'total' => $collection->count(),
                     'url' => [
                         $this->url('admin/user'),
-                        'limit' => $limit
-                    ]
+                        'limit' => $limit,
+                    ],
                 ]);
             }
             if ($message = $app->get('session/admin/user/message')) {
@@ -364,7 +372,7 @@
                 'title' => '',
                 'bio' => '',
                 'phone' => '',
-                'email' => ''
+                'email' => '',
             ]);
             try {
                 $datetime = date('Y-m-d H:i:s');
@@ -374,7 +382,7 @@
                         $app->set('session/admin/user/message', [
                             'title' => 'Seriously?',
                             'type' => 'warning',
-                            'message' => 'No user found for id: ' . $id
+                            'message' => 'No user found for id: ' . $id,
                         ]);
                         return $this->redirect('/admin/user');
                     }
@@ -410,13 +418,13 @@
                 return $this->renderResponse('user', [
                     'title' => 'Great Success!',
                     'type' => 'success',
-                    'message' => 'Successfully updated: ' . $item->name
+                    'message' => 'Successfully updated: ' . $item->name,
                 ]);
             } catch (\Exception $e) {
                 return $this->renderResponse('user', [
                     'title' => 'Slight error.',
                     'type' => 'warning',
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ]);
             }
         }
@@ -450,14 +458,14 @@
                     return $this->renderResponse('user', [
                         'title' => 'Fiddlesticks...',
                         'type' => 'warning',
-                        'message' => 'No user found for id: ' . $id
+                        'message' => 'No user found for id: ' . $id,
                     ]);
                 }
             } else {
                 return $this->renderResponse('user', [
                     'title' => 'Cannot be found.',
                     'type' => 'warning',
-                    'message' => 'No user id provided.'
+                    'message' => 'No user id provided.',
                 ]);
             }
             $name = $item->name;
@@ -465,7 +473,7 @@
             return $this->renderResponse('user', [
                 'title' => 'Bye Bye!',
                 'type' => 'success',
-                'message' => 'Successfully removed: ' . $name
+                'message' => 'Successfully removed: ' . $name,
             ]);
         }
 
@@ -519,8 +527,8 @@
                     'total' => $collection->count(),
                     'url' => [
                         $this->url('admin/config'),
-                        'limit' => $limit
-                    ]
+                        'limit' => $limit,
+                    ],
                 ]);
             }
             if ($message = $app->get('session/admin/config/message')) {
@@ -556,7 +564,7 @@
                     return $this->renderResponse('config', [
                         'title' => 'Not Configured!',
                         'type' => 'warning',
-                        'message' => 'No config found for id: ' . $id
+                        'message' => 'No config found for id: ' . $id,
                     ]);
                 }
             } else {
@@ -569,7 +577,7 @@
             return $this->renderResponse('config', [
                 'title' => 'Configured!',
                 'type' => 'success',
-                'message' => 'Successfully updated: ' . $item->key
+                'message' => 'Successfully updated: ' . $item->key,
             ]);
         }
 
@@ -602,20 +610,20 @@
                     return $this->renderResponse('config', [
                         'title' => 'Wasn\'t me...',
                         'type' => 'warning',
-                        'message' => 'No config found for id: ' . $id
+                        'message' => 'No config found for id: ' . $id,
                     ]);
                 } else if (in_array($item->key, ['address', 'email', 'phone'])) {
                     return $this->renderResponse('config', [
                         'title' => 'Denied!',
                         'type' => 'warning',
-                        'message' => 'Sorry, you cannot delete the config for ' . $item->key . ' since that\'s used in a lot of places.'
+                        'message' => 'Sorry, you cannot delete the config for ' . $item->key . ' since that\'s used in a lot of places.',
                     ]);
                 }
             } else {
                 return $this->renderResponse('config', [
                     'title' => 'Not gonna do it.',
                     'type' => 'warning',
-                    'message' => 'No config id provided.'
+                    'message' => 'No config id provided.',
                 ]);
             }
             $key = $item->key;
@@ -623,7 +631,7 @@
             return $this->renderResponse('config', [
                 'title' => 'Deconfigured!',
                 'type' => 'success',
-                'message' => 'Successfully removed: ' . $key
+                'message' => 'Successfully removed: ' . $key,
             ]);
         }
 
@@ -654,7 +662,7 @@
                     return $this->renderResponse('message', [
                         'title' => 'This message doesn\'t exists',
                         'type' => 'warning',
-                        'message' => 'No message found for id: ' . $id
+                        'message' => 'No message found for id: ' . $id,
                     ]);
                 }
 
@@ -693,8 +701,8 @@
                     'total' => $collection->count(),
                     'url' => [
                         $this->url('admin/message'),
-                        'limit' => $limit
-                    ]
+                        'limit' => $limit,
+                    ],
                 ]);
             }
             if ($message = $app->get('session/admin/message/message')) {
@@ -725,14 +733,14 @@
                     return $this->renderResponse('message', [
                         'title' => 'Not Closed.',
                         'type' => 'warning',
-                        'message' => 'No message found for id: ' . $id
+                        'message' => 'No message found for id: ' . $id,
                     ]);
                 }
             } else {
                 return $this->renderResponse('message', [
                     'title' => 'You must work!',
                     'type' => 'warning',
-                    'message' => 'No message id provided.'
+                    'message' => 'No message id provided.',
                 ]);
             }
             $date = $item->date;
@@ -740,7 +748,7 @@
             return $this->renderResponse('message', [
                 'title' => 'Reopened!',
                 'type' => 'success',
-                'message' => 'Successfully removed: ' . $date
+                'message' => 'Successfully removed: ' . $date,
             ]);
         }
 
@@ -848,8 +856,8 @@
                     'total' => $collection->count(),
                     'url' => [
                         $this->url('admin/blog'),
-                        'limit' => $limit
-                    ]
+                        'limit' => $limit,
+                    ],
                 ]);
             }
             if ($message = $app->get('session/admin/blog/message')) {
@@ -885,7 +893,7 @@
                     return $this->renderResponse('blog', [
                         'title' => 'Lost.',
                         'type' => 'warning',
-                        'message' => 'No article found for id: ' . $id
+                        'message' => 'No article found for id: ' . $id,
                     ]);
                 }
             } else {
@@ -916,7 +924,7 @@
                 $new = new BlogRelation([
                     'slug' => $item->slug,
                     'previous' => $previous->slug,
-                    'next' => ''
+                    'next' => '',
                 ]);
                 $manager->save($new);
             }
@@ -924,7 +932,7 @@
             return $this->renderResponse('blog', [
                 'title' => 'Posted!',
                 'type' => 'success',
-                'message' => 'Successfully updated: ' . $item->title
+                'message' => 'Successfully updated: ' . $item->title,
             ]);
         }
 
@@ -957,14 +965,14 @@
                     return $this->renderResponse('blog', [
                         'title' => 'Telephone.',
                         'type' => 'warning',
-                        'message' => 'No article found for id: ' . $id
+                        'message' => 'No article found for id: ' . $id,
                     ]);
                 }
             } else {
                 return $this->renderResponse('blog', [
                     'title' => 'You must work!',
                     'type' => 'warning',
-                    'message' => 'No article id provided.'
+                    'message' => 'No article id provided.',
                 ]);
             }
             $title = $item->title;
@@ -1026,7 +1034,7 @@
             return $this->renderResponse('blog', [
                 'title' => 'No longer relevant?!',
                 'type' => 'success',
-                'message' => 'Successfully removed: ' . $title
+                'message' => 'Successfully removed: ' . $title,
             ]);
         }
 
@@ -1062,7 +1070,7 @@
                     $manager->save($current);
                 }
                 $current = new BlogRelation([
-                    'slug' => $item->slug
+                    'slug' => $item->slug,
                 ]);
                 $current->previous = $previous;
                 $previous = $item->slug;
