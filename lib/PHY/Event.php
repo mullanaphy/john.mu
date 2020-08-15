@@ -59,7 +59,7 @@
          * Add an event to trigger list.
          *
          * @param string $event
-         * @param IDispatcher $dispatcher\
+         * @param IDispatcher $dispatcher
          * @throws Exception
          */
         public static function on($event, IDispatcher $dispatcher)
@@ -134,35 +134,33 @@
                 foreach ($dispatched as $dispatch) {
                     self::dispatch($dispatch, $event);
                 }
-            } else {
+            } else if ($dispatched instanceof Event\IItem) {
                 /*
                  * Otherwise, if an Event\Item is directly passed, we'll grab its
                  * already set name and pass it along.
                  */
-                if ($dispatched instanceof Event\Item) {
-                    self::dispatch($dispatched->getName(), $dispatched);
-                } else {
-                    /*
-                     * Now we'll actually dispatch our event.
-                     */
-                    if ($event === null) {
-                        $event = new Event\Item;
-                    }
-                    if (array_key_exists($dispatched, self::$_events)) {
-                        $event->setTime(time());
-                        $event->setName($dispatched);
-                        $event->setChildren(array_key_exists($dispatched, self::$_events)
-                            ? count(self::$_events[$dispatched])
-                            : 0);
-                        $event->setApp(self::getApp());
-                        foreach (self::$_events[$dispatched] as $key => $dispatcher) {
-                            /**
-                             * @var $dispatcher IDispatcher
-                             */
-                            $dispatcher->dispatch($event);
-                            if (!$dispatcher->isRecurring()) {
-                                unset(self::$_events[$dispatched][$key]);
-                            }
+                self::dispatch($dispatched->getName(), $dispatched);
+            } else {
+                /*
+                 * Now we'll actually dispatch our event.
+                 */
+                if ($event === null) {
+                    $event = new Event\Item;
+                }
+                if (array_key_exists($dispatched, self::$_events)) {
+                    $event->setTime(time());
+                    $event->setName($dispatched);
+                    $event->setChildren(array_key_exists($dispatched, self::$_events)
+                        ? count(self::$_events[$dispatched])
+                        : 0);
+                    $event->setApp(self::getApp());
+                    foreach (self::$_events[$dispatched] as $key => $dispatcher) {
+                        /**
+                         * @var $dispatcher IDispatcher
+                         */
+                        $dispatcher->dispatch($event);
+                        if (!$dispatcher->isRecurring()) {
+                            unset(self::$_events[$dispatched][$key]);
                         }
                     }
                 }

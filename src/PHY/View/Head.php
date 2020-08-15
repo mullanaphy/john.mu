@@ -141,7 +141,7 @@
 
             if ($googleAnalytics) {
                 $event = new EventItem(self::GOOGLE_ANALYTICS_KEY, [
-                    'value' => $googleAnalytics->value,
+                    'value' => $googleAnalytics,
                 ]);
                 Event::dispatch($event);
                 $this->setVariable('googleAnalytics', $event->value);

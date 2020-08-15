@@ -82,7 +82,7 @@
                 Event::on(Head::GOOGLE_ANALYTICS_KEY, new Event\Dispatcher(function ($event) {
                     $event->value = null;
                     return $event;
-                }));
+                }, [], false));
             } catch (\Exception $e) {
             }
             $layout = $this->getLayout();
