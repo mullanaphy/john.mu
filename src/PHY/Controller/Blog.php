@@ -18,7 +18,7 @@
     namespace PHY\Controller;
 
     use Highlight\Highlighter;
-    use Michelf\Markdown;
+    use Michelf\MarkdownExtra as Markdown;
     use PHY\Model\Blog as Model;
     use PHY\Variable\Str;
 

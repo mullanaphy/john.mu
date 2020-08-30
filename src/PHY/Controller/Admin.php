@@ -16,7 +16,7 @@
 
     namespace PHY\Controller;
 
-    use Michelf\Markdown;
+    use Michelf\MarkdownExtra as Markdown;
     use PHY\App;
     use PHY\Event;
     use PHY\Http\Exception\Forbidden;
