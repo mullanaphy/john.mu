@@ -426,12 +426,12 @@ th {
 
 /* Core */
 body, html {
-    background-color: #073642;
-    background-image: -moz-linear-gradient(top, #09414f, #073642);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#09414f), to(#073642));
-    background-image: -webkit-linear-gradient(top, #09414f, #073642);
-    background-image: -o-linear-gradient(top, #09414f, #073642);
-    background-image: linear-gradient(to bottom, #09414f, #073642);
+    background-color: #002b36;
+    background-image: -moz-linear-gradient(top, #073642, #002b36);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#073642), to(#002b36));
+    background-image: -webkit-linear-gradient(top, #073642, #002b36);
+    background-image: -o-linear-gradient(top, #073642, #002b36);
+    background-image: linear-gradient(to bottom, #073642, #002b36);
     background-repeat: repeat-x;
     font-size: 100%;
     height: 100%;
@@ -1622,7 +1622,7 @@ p aside {
 }
 
 pre {
-    background: #002b36;
+    background: #073642;
     border-radius: 0.5em;
     font-family: Consolas, "Liberation Mono", Courier, monospace;
     margin-bottom: 1.25rem;
@@ -2920,12 +2920,13 @@ label.error {
     }
 
     .panel {
-        background: #073642 !important;
+        background: #002b36 !important;
         border-radius: 10px;
         margin: 0 !important;
     }
 
     pre:hover {
-        width: 1000px;
+        width: calc(100vw - 4em);
+        max-width: 1000px;
     }
 }
