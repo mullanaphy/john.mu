@@ -83,7 +83,7 @@
                 }
 
                 if (!$post = $cache->get('blog/' . $item->id() . '/rendered')) {
-                    $highlightSyntax = function ($code, $language) {
+                    $highlightSyntax = function ($code, $language = 'php') {
                         try {
                             $highlight = new Highlighter;
                             $highlighted = $highlight->highlight($language, $code);
