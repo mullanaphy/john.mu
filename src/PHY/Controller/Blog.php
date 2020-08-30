@@ -17,8 +17,9 @@
 
     namespace PHY\Controller;
 
-    use PHY\Model\Blog as Model;
+    use Highlight\Highlighter;
     use Michelf\Markdown;
+    use PHY\Model\Blog as Model;
     use PHY\Variable\Str;
 
     /**
@@ -82,7 +83,17 @@
                 }
 
                 if (!$post = $cache->get('blog/' . $item->id() . '/rendered')) {
-                    $post = Markdown::defaultTransform($item->content);
+                    $markdown = new Markdown;
+                    $markdown->code_block_content_func = function ($code, $language) {
+                        try {
+                            $highlight = new Highlighter;
+                            $highlighted = $highlight->highlight($language, $code);
+                            return '<div class="syntax ' . $highlighted->language . '">' . $highlighted->value . '</div>';
+                        } catch (\DomainException $exception) {
+                            return '<div class="syntax html">' . htmlspecialchars($code) . '</div>';
+                        }
+                    };
+                    $post = $markdown->transform($item->content);
                     $cache->set('blog/' . $item->id() . '/rendered', $post, 86400 * 31);
                 }
 
