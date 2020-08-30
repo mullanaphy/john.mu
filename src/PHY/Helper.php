@@ -90,11 +90,11 @@
         public static function getRenderedBlogPost($item, $cache)
         {
             if (!$description = $cache->get('blog/' . $item->id() . '/description')) {
-                $description = strip_tags(Helper::renderMarkdown((new Str(ucfirst($item->content)))->toShorten(256)));
+                $description = strip_tags(self::renderMarkdown((new Str(ucfirst($item->content)))->toShorten(256)));
                 $cache->set('blog/' . $item->id() . '/description', $description, 86400 * 31);
             }
             if (!$post = $cache->get('blog/' . $item->id() . '/rendered')) {
-                $post = Helper::renderMarkdown($post);
+                $post = self::renderMarkdown($item->content);
                 $cache->set('blog/' . $item->id() . '/rendered', $post, 86400 * 31);
             }
             $cachedData = new \stdClass;
