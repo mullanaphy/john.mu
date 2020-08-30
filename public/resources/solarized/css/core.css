@@ -1714,7 +1714,7 @@ small {
     line-height: inherit;
 }
 
-code {
+span code {
     font-family: Consolas, "Liberation Mono", Courier, monospace;
     font-weight: normal;
     background: rgba(255, 255, 255, 0.1);

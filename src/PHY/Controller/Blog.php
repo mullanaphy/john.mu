@@ -78,6 +78,7 @@
                 $head->setVariable('description', $description);
                 $head->setVariable('ogTitle', $item->title);
                 $head->setVariable('ogUrl', 'https://john.mu/blog/' . $item->slug);
+                $head->add($this->url('highlight.css', 'css'));
                 if (is_file($app->getPublicDirectory() . DIRECTORY_SEPARATOR . 'media/blog/' . $item->slug . DIRECTORY_SEPARATOR . 'thumbnail.jpg')) {
                     $head->setVariable('ogImage', 'https://john.mu/media/blog/' . $item->slug . '/thumbnail.jpg');
                 }
