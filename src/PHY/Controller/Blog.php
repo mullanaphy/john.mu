@@ -83,16 +83,18 @@
                 }
 
                 if (!$post = $cache->get('blog/' . $item->id() . '/rendered')) {
-                    $markdown = new Markdown;
-                    $markdown->code_block_content_func = function ($code, $language) {
+                    $highlightSyntax = function ($code, $language) {
                         try {
                             $highlight = new Highlighter;
                             $highlighted = $highlight->highlight($language, $code);
                             return '<div class="syntax ' . $highlighted->language . '">' . $highlighted->value . '</div>';
-                        } catch (\DomainException $exception) {
-                            return '<div class="syntax html">' . htmlspecialchars($code) . '</div>';
+                        } catch (\Exception $exception) {
                         }
+                        return '<div class="syntax html">' . htmlspecialchars($code) . '</div>';
                     };
+                    $markdown = new Markdown;
+                    $markdown->code_span_content_func = $highlightSyntax;
+                    $markdown->code_block_content_func = $highlightSyntax;
                     $post = $markdown->transform($item->content);
                     $cache->set('blog/' . $item->id() . '/rendered', $post, 86400 * 31);
                 }
