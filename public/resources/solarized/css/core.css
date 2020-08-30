@@ -1622,7 +1622,7 @@ p aside {
 }
 
 pre {
-    background: rgba(255, 255, 255, 0.1);
+    background: #09414f;
     border-radius: 0.5em;
     font-family: Consolas, "Liberation Mono", Courier, monospace;
     margin-bottom: 1.25rem;
@@ -1717,7 +1717,7 @@ small {
 p code {
     font-family: Consolas, "Liberation Mono", Courier, monospace;
     font-weight: normal;
-    background: rgba(255, 255, 255, 0.1);
+    background: #09414f;
     border: 0;
     border-radius: 0.25rem;
     padding: 0.125rem 0.3125rem;
