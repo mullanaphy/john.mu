@@ -17,10 +17,8 @@
 
     namespace PHY\Controller;
 
-    use Highlight\Highlighter;
-    use Michelf\MarkdownExtra as Markdown;
+    use PHY\Helper;
     use PHY\Model\Blog as Model;
-    use PHY\Variable\Str;
 
     /**
      * Blog page.
@@ -67,15 +65,10 @@
                     return $this->redirect('/');
                 }
 
-                $content->setTemplate('blog/view.phtml');
-                $content->setVariable('item', $item);
-
-                if (!$description = $cache->get('blog/' . $item->id() . '/description')) {
-                    $description = strip_tags(Markdown::defaultTransform((new Str(ucfirst($item->content)))->toShorten(256)));
-                    $cache->set('blog/' . $item->id() . '/description', $description, 86400 * 31);
-                }
+                $cachedData = Helper::getRenderedBlogPost($item, $cache);
+                
                 $head->setVariable('title', $item->title . ' by John Mullanaphy');
-                $head->setVariable('description', $description);
+                $head->setVariable('description', $cachedData->description);
                 $head->setVariable('ogTitle', $item->title);
                 $head->setVariable('ogUrl', 'https://john.mu/blog/' . $item->slug);
                 $head->add($this->url('highlight.css', 'css'));
@@ -83,23 +76,10 @@
                     $head->setVariable('ogImage', 'https://john.mu/media/blog/' . $item->slug . '/thumbnail.jpg');
                 }
 
-                if (!$post = $cache->get('blog/' . $item->id() . '/rendered')) {
-                    $markdown = new Markdown;
-                    $markdown->code_block_content_func = function ($code, $language) {
-                        try {
-                            $highlight = new Highlighter;
-                            $highlighted = $highlight->highlight($language, $code);
-                            return $highlighted->value;
-                        } catch (\Exception $exception) {
-                        }
-                        return htmlspecialchars($code);
-                    };
-                    $post = $markdown->transform($item->content);
-                    $cache->set('blog/' . $item->id() . '/rendered', $post, 86400 * 31);
-                }
-
-                $content->setVariable('content', $post);
-
+                $content->setTemplate('blog/view.phtml');
+                $content->setVariable('item', $item);
+                $content->setVariable('content', $cachedData->post);
+    
                 /** @var Model\Relation $relation */
                 $relation = $manager->load(['slug' => $item->slug], new Model\Relation);
                 if ($relation->previous) {

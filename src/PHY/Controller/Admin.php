@@ -16,9 +16,9 @@
 
     namespace PHY\Controller;
 
-    use Michelf\MarkdownExtra as Markdown;
     use PHY\App;
     use PHY\Event;
+    use PHY\Helper;
     use PHY\Http\Exception\Forbidden;
     use PHY\Http\Exception\ServerError;
     use PHY\Http\Response\Json as JsonResponse;
@@ -29,7 +29,6 @@
     use PHY\Model\Config as ConfigModel;
     use PHY\Model\Message;
     use PHY\Model\User;
-    use PHY\Variable\Str;
     use PHY\View\Block;
     use PHY\View\Head;
 
@@ -910,10 +909,7 @@
              */
             $cache = $app->get('cache/rendered');
             $cache->flush();
-            $post = Markdown::defaultTransform($item->content);
-            $cache->set('blog/' . $item->id() . '/rendered', $post, 86400 * 31);
-            $description = strip_tags(Markdown::defaultTransform((new Str(ucfirst($item->content)))->toShorten(160)));
-            $cache->set('blog/' . $item->id() . '/description', $description, 86400 * 31);
+            Helper::getRenderedBlogPost($item, $cache);
 
             if (!$id) {
                 $previous = $manager->load(['next' => ''], new BlogRelation);
