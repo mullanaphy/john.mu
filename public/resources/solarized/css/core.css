@@ -2880,7 +2880,7 @@ input[type="text"][readonly],
 fieldset[disabled] input[type="text"],
 input[type="password"][disabled],
 input[type="password"][readonly],
-fieldset[disabled]  input[type="password"],
+fieldset[disabled] input[type="password"],
 input[type="date"][disabled],
 input[type="date"][readonly],
 fieldset[disabled] input[type="date"],
@@ -3274,9 +3274,10 @@ label.error {
         border-radius: 10px;
         margin: 0 !important;
     }
+}
 
-    pre:active,
-    pre:hover {
+@media only screen and (min-width: 40.063em) and (hover: hover) and (pointer: fine) {
+    pre {
         width: calc(100vw - 4em);
         max-width: 1000px;
     }
