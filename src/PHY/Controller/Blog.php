@@ -84,7 +84,8 @@
                 }
 
                 if (!$post = $cache->get('blog/' . $item->id() . '/rendered')) {
-                    $highlightSyntax = function ($code, $language = 'php') {
+                    $markdown = new Markdown;
+                    $markdown->code_block_content_func = function ($code, $language) {
                         try {
                             $highlight = new Highlighter;
                             $highlighted = $highlight->highlight($language, $code);
@@ -93,9 +94,6 @@
                         }
                         return htmlspecialchars($code);
                     };
-                    $markdown = new Markdown;
-                    $markdown->code_span_content_func = $highlightSyntax;
-                    $markdown->code_block_content_func = $highlightSyntax;
                     $post = $markdown->transform($item->content);
                     $cache->set('blog/' . $item->id() . '/rendered', $post, 86400 * 31);
                 }
