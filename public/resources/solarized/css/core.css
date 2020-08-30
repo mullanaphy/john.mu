@@ -1622,11 +1622,13 @@ p aside {
 }
 
 pre {
-    background: #09414f;
+    background: #002b36;
     border-radius: 0.5em;
     font-family: Consolas, "Liberation Mono", Courier, monospace;
     margin-bottom: 1.25rem;
     padding: 1rem;
+    font-size: 0.77rem;
+    overflow-x: scroll;
 }
 
 /* Default header styles */
@@ -2921,5 +2923,9 @@ label.error {
         background: #073642 !important;
         border-radius: 10px;
         margin: 0 !important;
+    }
+
+    pre:hover {
+        width: 1000px;
     }
 }
