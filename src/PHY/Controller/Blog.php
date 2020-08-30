@@ -87,10 +87,10 @@
                         try {
                             $highlight = new Highlighter;
                             $highlighted = $highlight->highlight($language, $code);
-                            return '<div class="syntax ' . $highlighted->language . '">' . $highlighted->value . '</div>';
+                            return $highlighted->value;
                         } catch (\Exception $exception) {
                         }
-                        return '<div class="syntax html">' . htmlspecialchars($code) . '</div>';
+                        return htmlspecialchars($code);
                     };
                     $markdown = new Markdown;
                     $markdown->code_span_content_func = $highlightSyntax;
