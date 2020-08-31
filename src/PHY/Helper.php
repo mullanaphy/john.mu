@@ -68,7 +68,7 @@
         {
             if (self::$markdown === null) {
                 self::$markdown = new Markdown;
-                self:: $markdown->code_block_content_func = function ($code, $language) {
+                self::$markdown->code_block_content_func = function ($code, $language) {
                     try {
                         $highlighted = self::getHighlighter()->highlight($language, $code);
                         return $highlighted->value;
