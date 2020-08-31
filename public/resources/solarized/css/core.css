@@ -3274,10 +3274,10 @@ label.error {
         border-radius: 10px;
         margin: 0 !important;
     }
-}
 
-@media only screen and (min-width: 40.063em) and (hover: hover) and (pointer: fine) {
-    pre:hover {
+    pre:hover,
+    pre:focus,
+    pre:active {
         width: calc(100vw - 4em);
         max-width: 1000px;
     }
