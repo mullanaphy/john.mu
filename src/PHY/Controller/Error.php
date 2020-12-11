@@ -165,6 +165,7 @@
             $layout = $this->getLayout();
             $layout->block('layout')->setTemplate('core/layout-error.phtml');
             $layout->block('content')->setVariable('title', 'Sour Hour!');
+            var_dump($this->getException());
             if (!is_file($this->getApp()->getRootDirectory() . DIRECTORY_SEPARATOR . 'hideExceptions')) {
                 $layout->block('error/exception')->setVariable('exception', $this->getException());
             }

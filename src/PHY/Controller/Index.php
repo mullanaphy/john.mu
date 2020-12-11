@@ -16,6 +16,7 @@
 
     namespace PHY\Controller;
 
+    use PHY\Model\Blog as Model;
     use PHY\Model\Config as ConfigModel;
 
     /**
@@ -76,6 +77,7 @@
                 /** @var \PHY\Model\User\Collection $collection */
                 $cached = true;
                 $count = $cache->get($cacheKey . '-count');
+                $cache->flush();
                 if (!$collection = $cache->get($cacheKey . '-inner')) {
                     $cached = false;
                     $collection = $manager->getCollection('Blog');

@@ -30,14 +30,14 @@
 
         protected static $_source = [
             'cacheable' => [
-                'slug'
+                'slug',
             ],
             'schema' => [
                 'primary' => [
                     'table' => 'blog',
                     'columns' => [
                         'type' => 'variable',
-                        'slug' => 'variable',
+                        'slug' => 'slug',
                         'author_id' => 'variable',
                         'title' => 'variable',
                         'content' => 'text',
@@ -50,18 +50,18 @@
                             'super-admin',
                             'admin',
                             'regular',
-                            'anonymous'
+                            'anonymous',
                         ],
-                        'deleted' => 'boolean'
+                        'deleted' => 'boolean',
                     ],
                     'keys' => [
                         'local' => [
                             'slug' => 'unique',
                             'author_id' => 'index',
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ];
 
     }

@@ -17,13 +17,14 @@
     }
   ],
   "require": {
-    "php": ">=5.4.0",
+    "php": ">=7.0",
     "phy/markup": "1.0.2",
     "phy/variable": "1.0.2",
     "michelf/php-markdown": "*",
     "mailgun/mailgun-php": "1.7.1",
     "matthiasmullie/minify": "1.3.8",
-    "scrivo/highlight.php": "v9.18.1.2"
+    "scrivo/highlight.php": "v9.18.1.2",
+    "symfony/yaml": "^5.1"
   },
   "autoload": {
     "psr-0": {
