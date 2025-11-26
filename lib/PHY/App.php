@@ -460,7 +460,7 @@
                 $cookieManager = $this->get('cookie');
                 $this->xsrfId = $cookieManager->get('xsrfId');
                 if ($request->getMethod() !== 'GET') {
-                    if ($this->xsrfId !== $request->get('xsrfId')) {
+                    if ($this->xsrfId !== $request->get('xsrfId') && !($controller instanceof \PHY\Controller\Turkey)) {
                         throw new HttpException\Forbidden('XSRF ID does not match what was supplied. Sorry, but no dice.');
                     } else {
                         $accepts = explode(', ', $request->getEnvironmental('HTTP_ACCEPT', 'text/plain'));

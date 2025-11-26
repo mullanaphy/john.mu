@@ -21,7 +21,17 @@
   },
   "experience": [
     {
-      "company": "Forensiq by Impact",
+      "company": "Impact.com",
+      "title": "Senior Principal Software Engineer",
+      "date": "February 2024 to Present",
+      "url": "impact.com",
+      "description": [
+        "Took on full ownership of the company wide tracking",
+        "Focused on code coverage for our most mission critical code using unit, integration, and end-to-end tests."
+      ]
+    },
+    {
+      "company": "Impact.com",
       "title": "Principal Software Engineer",
       "date": "June 2018 to Present",
       "url": "impact.com",
@@ -52,15 +62,21 @@
     {
       "title": "Buzz Words",
       "items": [
+        "JVM",
+        "Java",
+        "Kotlin",
+        "Scala",
         "Lua",
-        "NodeJS",
+        "Javascript",
+        "TypeScript",
         "PHP",
         "perl",
-        "Backbone",
         "MongoDB",
         "Redis",
         "Aerospike",
-        "MySQL"
+        "MySQL",
+        "GCP",
+        "ReactJS"
       ]
     },
     {
